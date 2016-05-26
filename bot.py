@@ -4,7 +4,7 @@ from functions import *
 client = discord.Client()
 
 print("Starting bot...\n")
-token = 'MTgwMDg4OTk0OTcxOTEwMTQ0.ChVIcg.ItGUEe5bqN6zi6HOOIoyTTmU5Ic'
+token = 'x'
   
 @client.event
 async def on_ready():
