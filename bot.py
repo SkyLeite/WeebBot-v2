@@ -1,10 +1,10 @@
 import discord, asyncio, random, requests, json, re, random
 from functions import *
+from settings import *
 
 client = discord.Client()
 
 print("Starting bot...\n")
-token = 'x'
   
 @client.event
 async def on_ready():
@@ -23,6 +23,14 @@ async def on_message(message):
    
   elif message.content.startswith('!ping'):
     await ping(message, client)
+    
+  elif message.content.startswith('!msg'):
+    if message.author.id == ownerid:
+      message = message.content.split(' ',1)[1]
+      
+      for item in client.servers:
+        channel = discord.Object(item.id)
+        await client.send_message(channel, message)
   
   elif message.content.startswith('!join'):
     await client.send_message(message.channel, 'To get Weeb Bot in your server, simply click the following link: http://bit.ly/1X4p8U3')
