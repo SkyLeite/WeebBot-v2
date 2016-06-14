@@ -15,14 +15,18 @@ async def on_ready():
   
 @client.event
 async def on_message(message):
-  if message.content.startswith('!greet'):
-    await client.send_message(message.channel, 'Ohayo!')
-  
-  elif message.content.startswith('!cat'):
+  if message.content.startswith('!cat'):
     await showCat(message, client)
    
   elif message.content.startswith('!ping'):
     await ping(message, client)
+    
+  elif message.content.startswith('!number'):
+    await showNumberTrivia(message, client)
+    
+  elif message.content.startswith('!pokemon'):
+    pokemon = message.content.split(' ',1)[1]
+    await showPokemon(message, client, pokemon)
     
   elif message.content.startswith('!msg'):
     if message.author.id == ownerid:
@@ -34,6 +38,17 @@ async def on_message(message):
   
   elif message.content.startswith('!join'):
     await client.send_message(message.channel, 'To get Weeb Bot in your server, simply click the following link: http://bit.ly/1X4p8U3')
+    
+  elif message.content.startswith('!servers'):
+    for item in client.servers:
+      print(item)
+      
+  elif message.content.startswith('!game'):
+    if message.author.id == ownerid:
+      game = message.content.split(' ',1)[1]
+      await client.change_status(message.author.game, idle=False)
+    else:
+      await client.send_message(message.channel, 'Your ID:%s \nOwner ID:%s' % (message.author.id, ownerid))
 
   elif message.content.startswith('!eq'):
     message2 = message.content.split(" ")
@@ -55,82 +70,6 @@ async def on_message(message):
         await client.send_message(message.channel, "You need the 'Administrator' role to do that.")
     else:
       await client.send_message(message.channel, "Welcome to Weeb Bot's Emergency Quest Alert! To get started, please type !eq enable on the channel you want EQs to appear. Please keep in mind you need the 'Administrator' role to do that.")
-
-  elif message.content.startswith('!pso2'):
-    type = message.content.split(' ', 1)
-    weapon = type[1].split(' ', 1)
-    name = weapon[1]
-    
-    weaponType = ''.join((weapon[0],'s'))
-    
-    query = requests.get('http://pso2.arks-visiphone.com/api.php?action=query&titles=Simple_%s_List&prop=revisions&rvprop=content&format=json' % weaponType)
-    parsed = json.loads(query.text)
-    
-    if weaponType == 'Swords':
-      pageID = '138'
-    
-    elif weaponType == 'Wired_Lances':
-      pageID = '686'
-    
-    elif weaponType == 'Partizans':
-      pageID = '694'
-    
-    elif weaponType == 'Twin_Daggers':
-      pageID = '729'
-    
-    elif weaponType == 'Double_Sabers':
-      pageID = '730'
-    
-    elif weaponType == 'Knucles':
-      pageID = '737'
-    
-    elif weaponType == 'Katanas':
-      pageID = '738'
-    
-    elif weaponType == 'Dual_Blades':
-      pageID = '739'
-    
-    elif weaponType == 'Gunslashes':
-      pageID = '740'
-    
-    elif weaponType == 'Assault_Rifles':
-      pageID = '731'
-    
-    elif weaponType == 'Launchers':
-      pageID = '734'
-    
-    elif weaponType == 'Twin_Machine_Guns':
-      pageID = '733'
-    
-    elif weaponType == 'Bullet_Bows':
-      pageID = '736'
-
-    elif weaponType == 'Rods':
-      pageID = '735'
-    
-    elif weaponType == 'Talises':
-      pageID = '732'
-    
-    elif weaponType == 'Wands':
-      pageID = '741'
-    
-    elif weaponType == 'Jet_Boots':
-      pageID = '742'
-    
-    str = parsed['query']['pages'][pageID]['revisions'][0]['*']
-    
-    match = re.search(r'\[\[%s\]\]' % name, str)
-    if match:
-      str1 = str.split('-\n')
-
-    for i in range(0, len(str1)):
-      if name in str1[i]:
-        stats = str1[i].split('\n')
-    
-    stats2 = fixFormat(stats, name)
-    if stats2:
-      await client.send_message(message.channel, '**Weapon Name:** %s\n**Rarity:** %s\n**Base Stat:** %s ATK\n**+10 Stat:** %s ATK\n**Potential:** %s' % (stats2[1], stats2[0], stats2[2], stats2[3], stats2[4]))
-
   
 @client.event
 async def on_server_join(server):
