@@ -8,7 +8,7 @@ Just clone this repo, edit the settings.py with your API Token and Owner ID, run
 
 ## Commands
 
-- `!cat`: Replies with a random cat gif.
+- `!cat`: Replies with a random cat gif and a random cat-related fact..
 - `!pokemon name`: Retrives info about the pokemon named `name`.
 - `!number`: Cool little fact about a random number. I was bored.
 - `!msg message`: (Owner only) Sends `message` to every server your bot is in.
