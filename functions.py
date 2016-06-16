@@ -20,7 +20,12 @@ async def showCat(message, client):
   gifid = gif[3]
   gif2 = gifid.replace('c', '', 1)
   
-  await client.send_message(message.channel, 'http://catoverflow.com/cats/%s.gif' % gif2)
+  r = requests.get("http://catfacts-api.appspot.com/api/facts?number=1")
+  response = json.loads(r.text)
+  
+  fact = response['facts'][0]
+  
+  await client.send_message(message.channel, 'http://catoverflow.com/cats/%s.gif \n\nRandom fact: %s' % (gif2, fact))
   
 async def showPokemon(message, client, pokemon):
   api = "http://pokeapi.co/api/v2/pokemon/%s/" % pokemon.lower()
