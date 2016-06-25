@@ -1,7 +1,41 @@
-import discord, asyncio, random, requests, json, re, random
+import discord, asyncio, random, requests, json, re, random, os
+from settings import *
 global loop
 
 loop = asyncio.get_event_loop()
+
+async def playMeme(message, client, meme):
+  if message.author.voice_channel is not None:
+    channel = message.author.voice_channel
+    file = "audio/%s" % meme
+    meme = re.sub('\.mp3$', '', meme)
+    
+    voice = await client.join_voice_channel(channel)
+    player = voice.create_ffmpeg_player(file, after=lambda: disconnect(client, voice))
+
+    player.start()
+    
+    await client.send_message(message.channel, 'Playing ``%s`` in ``%s``' % (meme, message.author.voice_channel.name))
+  else:
+    await client.send_message(message.channel, 'You are not in a voice channel.')
+    
+def disconnect(client, voice):
+  coro = voice.disconnect()
+  fut = asyncio.run_coroutine_threadsafe(coro, client.loop)
+
+  fut.result()
+    
+async def memeList(message, client):
+  indir = 'audio/'
+  memes = []
+    
+  for root, dirs, filenames in os.walk(indir):
+    for f in filenames:
+      j = re.sub('\.mp3$', '', f)
+      memes.append(j)
+  
+  string = ', '.join(memes)
+  await client.send_message(message.channel, 'List of available dank maymays:\n %s' % string)
 
 async def showCat(message, client):
   offset = random.randint(0,348)
@@ -28,41 +62,44 @@ async def showCat(message, client):
   await client.send_message(message.channel, 'http://catoverflow.com/cats/%s.gif \n\nRandom fact: %s' % (gif2, fact))
   
 async def showPokemon(message, client, pokemon):
-  api = "http://pokeapi.co/api/v2/pokemon/%s/" % pokemon.lower()
-  
-  future1 = loop.run_in_executor(None, requests.get, api)
-  r = await future1
-  
-  response = json.loads(r.text)
-  abilities = []
-  types = []
-  
-  #Assings types and abilities to lists
-  for i in response['abilities']:
-    abilities.append(i['ability']['name'])
-  
-  for i in response['types']:
-    types.append(i['type']['name'])
+  try:
+    api = "http://pokeapi.co/api/v2/pokemon/%s/" % pokemon.lower()
     
-  #Converts lists to human readable strings
-  ability = ', '.join(abilities)
-  type = ', '.join(types)
-  
-  #Assigns data to variables for easier reading
-  name = response['name']
-  weight = response['weight']
-  height = response['height']
-  speed = response['stats'][0]['base_stat']
-  spdef = response['stats'][1]['base_stat']
-  spatk = response['stats'][2]['base_stat']
-  defense = response['stats'][3]['base_stat']
-  attack = response['stats'][4]['base_stat']
-  hp = response['stats'][5]['base_stat']
-  sprite = response['sprites']['front_default']
-  shiny = response['sprites']['front_shiny']
-  
-  string = '**Name:** %s\n**Type:** %s\n**Weight:** %s\n**Height:** %s\n**Abilities:** %s\n**Stats:**\n  Speed: %s\n  Special Defense: %s\n  Special Attack: %s\n  Defense: %s\n  Attack: %s\n  HP: %s\n**Sprite (Normal):** %s\n**Sprite (Shiny):** %s' % (name, type, weight, height, ability, speed, spdef, spatk, defense, attack, hp, sprite, shiny)
-  await client.send_message(message.channel, string)
+    future1 = loop.run_in_executor(None, requests.get, api)
+    r = await future1
+    
+    response = json.loads(r.text)
+    abilities = []
+    types = []
+    
+    #Assings types and abilities to lists
+    for i in response['abilities']:
+      abilities.append(i['ability']['name'])
+    
+    for i in response['types']:
+      types.append(i['type']['name'])
+      
+    #Converts lists to human readable strings
+    ability = ', '.join(abilities)
+    type = ', '.join(types)
+    
+    #Assigns data to variables for easier reading
+    name = response['name']
+    weight = response['weight']
+    height = response['height']
+    speed = response['stats'][0]['base_stat']
+    spdef = response['stats'][1]['base_stat']
+    spatk = response['stats'][2]['base_stat']
+    defense = response['stats'][3]['base_stat']
+    attack = response['stats'][4]['base_stat']
+    hp = response['stats'][5]['base_stat']
+    sprite = response['sprites']['front_default']
+    shiny = response['sprites']['front_shiny']
+    
+    string = '**Name:** %s\n**Type:** %s\n**Weight:** %s\n**Height:** %s\n**Abilities:** %s\n**Stats:**\n  Speed: %s\n  Special Defense: %s\n  Special Attack: %s\n  Defense: %s\n  Attack: %s\n  HP: %s\n**Sprite (Normal):** %s\n**Sprite (Shiny):** %s' % (name, type, weight, height, ability, speed, spdef, spatk, defense, attack, hp, sprite, shiny)
+    await client.send_message(message.channel, string)
+  except:
+    await client.send_message(message.channel, 'Could not find a Pokémon with the name ``%s``' % pokemon)
   
 async def showNumberTrivia(message, client):
   r = requests.get("https://numbersapi.p.mashape.com/random/trivia?json=true",

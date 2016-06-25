@@ -20,6 +20,32 @@ async def on_message(message):
    
   elif message.content.startswith('!ping'):
     await ping(message, client)
+  
+  elif message.content.startswith('!id'):
+    await client.send_message(message.channel, message.channel.id)
+    
+  elif message.content.startswith('!send'):
+    print(message.attachments)
+  
+  elif message.content.startswith('!meme'):
+    msg = message.content.split(' ')
+    
+    if msg[1] == "play":
+      meme = msg[2] + '.mp3'
+      await playMeme(message, client, meme)
+    
+    elif msg[1] == "list":
+      await memeList(message, client)
+      
+    elif msg[1] == "add":
+      await addMeme(message, client)
+      
+  elif 'ayy' in message.content:
+    await client.send_message(message.channel, 'lmao')
+    
+  elif message.content.startswith('!recommend'):
+    query = message.content.split(' ',1)[1]
+    await showRecommendation(message, client, query)
     
   elif message.content.startswith('!number'):
     await showNumberTrivia(message, client)
