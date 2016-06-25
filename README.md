@@ -4,7 +4,7 @@ Hey there. This is Weeb Bot. Currently it's core functionality is alerting for E
 
 ## How to install
 
-Just clone this repo, edit the settings.py with your API Token and Owner ID, run the bot.py file, and you should be good to go.
+Just clone this repo, edit the settings.py with your API Token and Owner ID, run the bot.py file, and you should be good to go. Requirements are discord.py, ffmpeg and requests.
 
 ## Commands
 
