@@ -173,7 +173,7 @@ async def showPSO2EQ(client):
             if line == 'All ships are in event preparation.':
                 eqs.append('``' + line + '``')
 
-            if line.startswith('[[In Progress]'):
+            if line.startswith('[In Progress]'):
                 line = line.replace('[In Progress]', '``IN PROGRESS:``')
                 eqs.append(line)
 
@@ -234,7 +234,7 @@ async def showLastEQ(client, message):
         if line == 'All ships are in event preparation.':
             eqs.append('``' + line + '``')
 
-        if line.startswith('[[In Progress]'):
+        if line.startswith('[In Progress]'):
             line = line.replace('[In Progress]', '``IN PROGRESS:``')
             eqs.append(line)
 
