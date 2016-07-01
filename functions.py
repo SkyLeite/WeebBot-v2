@@ -286,3 +286,17 @@ async def removeEQChannel(message, client):
     with open('eq_channels.json', 'w') as outfile:
         json.dump(eq_channels, outfile)
     await client.send_message(message.channel, 'EQ Alerts successfully disabled on this channel.')
+
+async def showHelp(client, message):
+    with open('help.json') as file:
+        help = json.load(file)
+
+    commands = []
+
+    for item in help['commands']:
+        commands.append(item + ": " + help['commands'][item])
+
+    commands = "\n".join(commands)
+    string = ":mega: **These are the current available commands:**\n{}".format(commands)
+
+    await client.send_message(message.channel, string)

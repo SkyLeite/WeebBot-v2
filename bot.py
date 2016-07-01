@@ -19,6 +19,9 @@ async def on_message(message):
     if message.content.startswith('!cat'):
         await showCat(message, client)
 
+    elif message.content.startswith('!help'):
+        await showHelp(client, message)
+
     elif message.content.startswith('!ping'):
         await ping(message, client)
 
@@ -31,20 +34,24 @@ async def on_message(message):
     elif message.content.startswith('!meme'):
         msg = message.content.split(' ')
 
-        if msg[1] == "play":
-            meme = msg[2] + '.mp3'
-            await playMeme(message, client, meme)
+        try:
+            if msg[1] == "play":
+                meme = msg[2] + '.mp3'
+                await playMeme(message, client, meme)
 
-        elif msg[1] == "bye":
-            meme = 'bye'
-            await playMeme(message, client, meme)
+            elif msg[1] == "bye":
+                meme = 'bye'
+                await playMeme(message, client, meme)
 
-        elif msg[1] == "list":
-            await memeList(message, client)
+            elif msg[1] == "list":
+                await memeList(message, client)
 
-        elif msg[1] == "add":
-            if message.author.id == ownerid:
-                await addMeme(message, client)
+            elif msg[1] == "add":
+                if message.author.id == ownerid:
+                    await addMeme(message, client)
+        except:
+            string = ":mega: **Welcome!**\n Type ``!meme list`` to receive a list with every available meme, and ``!meme play memename`` to play the one you want!"
+            await client.send_message(message.channel, string)
 
     elif 'ayy' in message.content and 'lmao' not in message.content:
         await client.send_message(message.channel, 'lmao')
