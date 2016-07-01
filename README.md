@@ -13,6 +13,7 @@ Just clone this repo, edit the settings.py with your API Token and Owner ID, run
 - `!servers`: Prints every server your bot is in.
 - `!eq enable`: Enables EQ Alerts on the channel the message is sent to.
 - `!eq disable`: Disables EQ Alerts on the channel the message is sent to.
+- `!lasteq`: Prints the last EQ sent by the bot.
 - `!meme list`: Lists every meme in the ``audio`` folder.
 - `!meme play name`: Joins sender's voice channel and plays ``name``.
 - `!msg message`: (Owner only) Sends `message` to every server your bot is in.
