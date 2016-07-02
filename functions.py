@@ -6,6 +6,7 @@ import random
 import re
 import requests
 import urllib.request
+from settings import *
 
 global loop
 
@@ -148,7 +149,7 @@ async def showNumberTrivia(message, client):
 
 async def ping(message, client):
     await client.send_message(message.channel, 'Pong!')
-
+      
 
 async def showPSO2EQ(client):
     while not client.is_closed:
@@ -204,15 +205,21 @@ async def showPSO2EQ(client):
                 string = '\n'.join(eqs)
                 message = ':mega: **%s JST Emergency Quest Notice**\n\n%s' % (eqtime, string)
                 for item in eq_channels['channels']:
-                    channel = discord.Object(item)
-                    await client.send_message(channel, message)
-            except:
+                    try:
+                        channel = client.get_channel(item)
+                        
+                        await client.send_message(discord.Object(item), message)
+                        await client.send_message(discord.Object(test_channel), 'EQ Alert sent to: ``%s`` (%s)' % (channel.server.name, channel.server.id))
+                    except:
+                        await client.send_message(discord.Object(test_channel), ':mega: **Alert!**\n Channel named ``%s`` (ID: %s) does not exist.' % (channel.server.name, channel.server.id))
+            except Exception as exception:
+                print(exception)
                 pass
 
             with open('last_eq.json', 'w') as out_f:
                 json.dump(r2[0], out_f)
 
-        await asyncio.sleep(300)  # Task runs every 300 seconds
+        await asyncio.sleep(3)  # Task runs every 300 seconds
 
 
 async def showLastEQ(client, message):
