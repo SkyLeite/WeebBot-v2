@@ -196,11 +196,11 @@ async def showPSO2EQ(client):
             i = i + 1
 
         # Loads last_eq.json
-        with open('last_eq.json', encoding="utf8") as in_f:
+        with open('json/last_eq.json', encoding="utf8") as in_f:
             last_eq = json.load(in_f)
 
         # If current EQ is different than last EQ recorded, send alert and update last_eq file
-        with open('eq_channels.json', encoding="utf8") as eq_channels:
+        with open('json/eq_channels.json', encoding="utf8") as eq_channels:
             eq_channels = json.load(eq_channels)
 
         string = '\n'.join(eqs)
@@ -211,18 +211,18 @@ async def showPSO2EQ(client):
                     channel = client.get_channel(item)
 
                     await client.send_message(discord.Object(item), message)
-                    if test_channel:
+                    if client.get_channel(test_channel):
                         await client.send_message(discord.Object(test_channel), 'EQ Alert sent to: ``%s`` (%s)' % (channel.server.name, channel.server.id))
                 else:
                     msg = ':mega: **Alert!**\n Channel %s does not exist. Removing...' % item
                     print(msg)
-                    if test_channel:
+                    if client.get_channel(test_channel):
                         await client.send_message(discord.Object(test_channel), msg)
                     await removeEQChannel(item)
-            if test_channel:
+            if client.get_channel(test_channel):
                 await client.send_message(discord.Object(test_channel), '-------------------')
 
-            with open('last_eq.json', 'w') as file:
+            with open('json/last_eq.json', 'w') as file:
                 json.dump(r2[0], file)
 
         await asyncio.sleep(30)  # Task runs every 300 seconds
@@ -231,7 +231,7 @@ async def showPSO2EQ(client):
 async def showLastEQ(client, message):
     eqs = []
 
-    with open('last_eq.json', 'r') as file:
+    with open('json/last_eq.json', 'r') as file:
         eq = json.load(file)
 
     eqtime = eq['jst']
@@ -275,12 +275,12 @@ async def showLastEQ(client, message):
 
 async def addEQChannel(message, client):
     # Loads eq_channels.json file
-    with open('eq_channels.json', encoding="utf8") as eq_channels:
+    with open('json/eq_channels.json', encoding="utf8") as eq_channels:
         eq_channels = json.load(eq_channels)
 
     if message.channel.id not in eq_channels['channels']:
         # Writes channel ID to file
-        with open('eq_channels.json', 'w') as outfile:
+        with open('json/eq_channels.json', 'w') as outfile:
             eq_channels['channels'].append(message.channel.id)
             json.dump(eq_channels, outfile)
 
@@ -291,19 +291,19 @@ async def addEQChannel(message, client):
 
 async def removeEQChannel(id):
     # Loads eq_channels.json file
-    with open('eq_channels.json', encoding="utf8") as eq_channels:
+    with open('json/eq_channels.json', encoding="utf8") as eq_channels:
         eq_channels = json.load(eq_channels)
 
     if id in eq_channels['channels']:
         eq_channels['channels'].remove(id)
 
     # Writes channel ID to file
-    with open('eq_channels.json', 'w') as outfile:
+    with open('json/eq_channels.json', 'w') as outfile:
         json.dump(eq_channels, outfile)
 
 
 async def showHelp(client, message):
-    with open('help.json') as file:
+    with open('json/help.json') as file:
         help = json.load(file)
 
     commands = []
