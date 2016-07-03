@@ -118,8 +118,7 @@ async def on_message(message):
         elif message.content == '!eq disable':
             for item in message.author.roles:
                 if item.name == "Administrator":
-                    id = message.channel.id
-                    await removeEQChannel(id, client)
+                    await removeEQChannel(message.channel.id)
                     await client.send_message(message.channel, 'EQ Alerts successfully disabled on this channel.')
                     admin = 'True'
             if admin == 'False':
@@ -132,9 +131,9 @@ async def on_message(message):
 
 @client.event
 async def on_server_join(server):
-    channel = discord.Object(test_channel)
-    await client.send_message(channel, u':mega: **Joined:** {0:s}\n``Member Count:`` {1:s}\n``Icon URL:`` {2:s}'.format(
-      server.name, server.member_count, server.icon_url))
+    if test_channel:
+        await client.send_message(discord.Object(test_channel), u':mega: **Joined:** {0:s}\n``Member Count:`` {1:s}\n``Icon URL:`` {2:s}'.format(
+          server.name, server.member_count, server.icon_url))
 
 
 loop = asyncio.get_event_loop()
