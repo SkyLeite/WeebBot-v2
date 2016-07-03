@@ -93,6 +93,7 @@ async def showCat(message, client):
 
     await client.send_message(message.channel, 'http://catoverflow.com/cats/%s.gif \n\nRandom fact: %s' % (gif2, fact))
 
+
 async def showPokemon(message, client, pokemon):
     try:
         api = "http://pokeapi.co/api/v2/pokemon/%s/" % pokemon.lower()
@@ -129,7 +130,7 @@ async def showPokemon(message, client, pokemon):
         shiny = response['sprites']['front_shiny']
 
         string = '**Name:** %s\n**Type:** %s\n**Weight:** %s\n**Height:** %s\n**Abilities:** %s\n**Stats:**\n  Speed: %s\n  Special Defense: %s\n  Special Attack: %s\n  Defense: %s\n  Attack: %s\n  HP: %s\n**Sprite (Normal):** %s\n**Sprite (Shiny):** %s' % (
-        name, type, weight, height, ability, speed, spdef, spatk, defense, attack, hp, sprite, shiny)
+            name, type, weight, height, ability, speed, spdef, spatk, defense, attack, hp, sprite, shiny)
         await client.send_message(message.channel, string)
     except:
         await client.send_message(message.channel, 'Could not find a Pokémon with the name ``%s``' % pokemon)
@@ -149,11 +150,13 @@ async def showNumberTrivia(message, client):
 
 async def ping(message, client):
     await client.send_message(message.channel, 'Pong!')
-      
+
 
 async def showPSO2EQ(client):
     while not client.is_closed:
-        # Async shit to use requests
+        await client.wait_until_ready()
+
+        # Async shit
         future1 = loop.run_in_executor(None, requests.get, 'http://pso2emq.flyergo.eu/api/v2/')
         r = await future1
 
@@ -208,13 +211,16 @@ async def showPSO2EQ(client):
                     channel = client.get_channel(item)
 
                     await client.send_message(discord.Object(item), message)
-                    await client.send_message(discord.Object(test_channel), 'EQ Alert sent to: ``%s`` (%s)' % (channel.server.name, channel.server.id))
+                    if test_channel:
+                        await client.send_message(discord.Object(test_channel), 'EQ Alert sent to: ``%s`` (%s)' % (channel.server.name, channel.server.id))
                 else:
                     msg = ':mega: **Alert!**\n Channel %s does not exist. Removing...' % item
                     print(msg)
-                    await client.send_message(discord.Object(test_channel), msg)
-                    await removeEQChannel(item, client)
-            await client.send_message(discord.Object(test_channel), '-------------------')
+                    if test_channel:
+                        await client.send_message(discord.Object(test_channel), msg)
+                    await removeEQChannel(item)
+            if test_channel:
+                await client.send_message(discord.Object(test_channel), '-------------------')
 
             with open('last_eq.json', 'w') as file:
                 json.dump(r2[0], file)
@@ -283,16 +289,18 @@ async def addEQChannel(message, client):
         await client.send_message(message.channel, 'EQ Alerts are already enabled on this channel.')
 
 
-async def removeEQChannel(message, client):
+async def removeEQChannel(id):
     # Loads eq_channels.json file
     with open('eq_channels.json', encoding="utf8") as eq_channels:
         eq_channels = json.load(eq_channels)
-        eq_channels['channels'].remove(message.channel.id)
+
+    if id in eq_channels['channels']:
+        eq_channels['channels'].remove(id)
 
     # Writes channel ID to file
     with open('eq_channels.json', 'w') as outfile:
         json.dump(eq_channels, outfile)
-    await client.send_message(message.channel, 'EQ Alerts successfully disabled on this channel.')
+
 
 async def showHelp(client, message):
     with open('help.json') as file:
