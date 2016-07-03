@@ -102,27 +102,33 @@ async def on_message(message):
         else:
             await client.send_message(message.channel, 'Your ID:%s \nOwner ID:%s' % (message.author.id, ownerid))
 
+
     elif message.content.startswith('!eq'):
-      admin = 'False'
-      
-      if message.content == '!eq enable':
-        for item in message.author.roles:
-          if item.name == "Administrator":
-            await addEQChannel(message, client)
-            admin = 'True'
-        if admin == 'False':
-          await client.send_message(message.channel, "You need the 'Administrator' role to do that.")
-      
-      elif message.content == '!eq disable':
-        for item in message.author.roles:
-          if item.name == "Administrator":
-            await removeEQChannel(message, client)
-            admin = 'True'
-        if admin == 'False':
-          await client.send_message(message.channel, "You need the 'Administrator' role to do that.")
-      
-      else:
-        await client.send_message(message.channel, "Welcome to Weeb Bot's Emergency Quest Alert! To get started, please type !eq enable on the channel you want EQs to appear. Please keep in mind you need the 'Administrator' role to do that.")
+        admin = 'False'
+
+        if message.content == '!eq enable':
+            for item in message.author.roles:
+                if item.name == "Administrator":
+                    await addEQChannel(message, client)
+                    admin = 'True'
+            if admin == 'False':
+                await client.send_message(message.channel, "You need the 'Administrator' role to do that.")
+
+
+        elif message.content == '!eq disable':
+            for item in message.author.roles:
+                if item.name == "Administrator":
+                    id = message.channel.id
+                    await removeEQChannel(id, client)
+                    await client.send_message(message.channel, 'EQ Alerts successfully disabled on this channel.')
+                    admin = 'True'
+            if admin == 'False':
+                await client.send_message(message.channel, "You need the 'Administrator' role to do that.")
+
+        else:
+            await client.send_message(message.channel,
+                                      "Welcome to Weeb Bot's Emergency Quest Alert! To get started, please type !eq enable on the channel you want EQs to appear. Please keep in mind you need the 'Administrator' role to do that.")
+
 
 @client.event
 async def on_server_join(server):

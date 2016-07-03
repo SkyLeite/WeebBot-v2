@@ -197,31 +197,29 @@ async def showPSO2EQ(client):
             last_eq = json.load(in_f)
 
         # If current EQ is different than last EQ recorded, send alert and update last_eq file
+        with open('eq_channels.json', encoding="utf8") as eq_channels:
+            eq_channels = json.load(eq_channels)
+
+        string = '\n'.join(eqs)
+        message = ':mega: **%s JST Emergency Quest Notice**\n\n%s' % (eqtime, string)
         if last_eq['jst'] != eqtime:
-            with open('eq_channels.json', encoding="utf8") as eq_channels:
-                eq_channels = json.load(eq_channels)
+            for item in eq_channels['channels']:
+                if client.get_channel(item):
+                    channel = client.get_channel(item)
 
-            try:
-                string = '\n'.join(eqs)
-                message = ':mega: **%s JST Emergency Quest Notice**\n\n%s' % (eqtime, string)
-                for item in eq_channels['channels']:
-                    try:
-                        channel = client.get_channel(item)
-                        
-                        await client.send_message(discord.Object(item), message)
-                        await client.send_message(discord.Object(test_channel), 'EQ Alert sent to: ``%s`` (%s)' % (channel.server.name, channel.server.id))
-                    except:
-                        try:
-                            await client.send_message(discord.Object(test_channel), ':mega: **Alert!**\n Channel %s does not exist.' % (item))
-                await client.send_message(discord.Object(test_channel), '-------------------')
-            except Exception as exception:
-                print(exception)
-                pass
+                    await client.send_message(discord.Object(item), message)
+                    await client.send_message(discord.Object(test_channel), 'EQ Alert sent to: ``%s`` (%s)' % (channel.server.name, channel.server.id))
+                else:
+                    msg = ':mega: **Alert!**\n Channel %s does not exist. Removing...' % item
+                    print(msg)
+                    await client.send_message(discord.Object(test_channel), msg)
+                    await removeEQChannel(item, client)
+            await client.send_message(discord.Object(test_channel), '-------------------')
 
-            with open('last_eq.json', 'w') as out_f:
-                json.dump(r2[0], out_f)
+            with open('last_eq.json', 'w') as file:
+                json.dump(r2[0], file)
 
-        await asyncio.sleep(3)  # Task runs every 300 seconds
+        await asyncio.sleep(30)  # Task runs every 300 seconds
 
 
 async def showLastEQ(client, message):
