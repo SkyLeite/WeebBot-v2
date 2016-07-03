@@ -211,7 +211,9 @@ async def showPSO2EQ(client):
                         await client.send_message(discord.Object(item), message)
                         await client.send_message(discord.Object(test_channel), 'EQ Alert sent to: ``%s`` (%s)' % (channel.server.name, channel.server.id))
                     except:
-                        await client.send_message(discord.Object(test_channel), ':mega: **Alert!**\n Channel named ``%s`` (ID: %s) does not exist.' % (channel.server.name, channel.server.id))
+                        try:
+                            await client.send_message(discord.Object(test_channel), ':mega: **Alert!**\n Channel %s does not exist.' % (item))
+                await client.send_message(discord.Object(test_channel), '-------------------')
             except Exception as exception:
                 print(exception)
                 pass
