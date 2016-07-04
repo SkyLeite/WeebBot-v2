@@ -1,3 +1,3 @@
-token = 'MTk4NDgwMDAxNDgwMzkyNzA0.Clqhag.B0YGUAY_Azf7oDDQFD0Ee9m9dtA'
+token = ''
 ownerid = ''
 test_channel = ''
