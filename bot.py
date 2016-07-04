@@ -128,6 +128,9 @@ async def on_message(message):
             await client.send_message(message.channel,
                                       "Welcome to Weeb Bot's Emergency Quest Alert! To get started, please type !eq enable on the channel you want EQs to appear. Please keep in mind you need the 'Administrator' role to do that.")
 
+    elif message.content.startswith('!leafy'):
+        await leafyTitle(message, client)
+
 
 @client.event
 async def on_server_join(server):

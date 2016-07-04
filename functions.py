@@ -315,3 +315,13 @@ async def showHelp(client, message):
     string = ":mega: **These are the current available commands:**\n{}".format(commands)
 
     await client.send_message(message.channel, string)
+
+async def leafyTitle(message, client):
+    with open('json/leafy.json') as file:
+        leafy = json.load(file)
+
+    first = leafy['first'][random.randint(0, len(leafy['first'])-1)]
+    middle = leafy['middle'][random.randint(0, len(leafy['middle'])-1)]
+    last = leafy['last'][random.randint(0, len(leafy['last'])-1)]
+
+    await client.send_message(message.channel, 'THE %s %s %s' % (first, middle, last))
