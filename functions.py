@@ -263,6 +263,10 @@ async def showLastEQ(client, message):
             line = line.replace('[2 hours later]', '``IN 3 HOURS:``')
             eqs.append(line)
 
+        if line == "1 hour later is maintenance.":
+            line = line.replace('1 hour later is maintenance.', 'NotLikeThis ``M A I N T E N A N C E`` NotLikeThis')
+            eqs.append(line)
+
         i = i + 1
 
     try:
