@@ -8,6 +8,7 @@ Just clone this repo, edit the settings.py with your API Token and Owner ID, run
 
 ## Commands
 
+- `!help`: List of commands.
 - `!cat`: Replies with a random cat gif and a random cat-related fact.
 - `!pokemon name`: Retrives info about the pokemon named `name`.
 - `!servers`: Prints every server your bot is in.
