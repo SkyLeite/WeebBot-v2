@@ -17,5 +17,7 @@ Just clone this repo, edit the settings.py with your API Token and Owner ID, run
 - `!lasteq`: Prints the last EQ sent by the bot.
 - `!meme list`: Lists every meme in the ``audio`` folder.
 - `!meme play name`: Joins sender's voice channel and plays ``name``.
-- `!msg message`: (Owner only) Sends `message` to every server your bot is in.
-- `!game name`: (Owner only) Changes game status to `name`.
+ 
+## Owner only commands
+- `!msg message`: Sends `message` to every server your bot is in.
+- `!game name`: Changes game status to `name`.
