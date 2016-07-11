@@ -6,6 +6,7 @@ import random
 import re
 import requests
 import urllib.request
+import sqlite3
 from settings import *
 
 global loop
@@ -40,6 +41,40 @@ def disconnect(client, voice):
     fut = asyncio.run_coroutine_threadsafe(coro, client.loop)
 
     fut.result()
+
+async def dbQuery(client, message):
+    #Conectando e definindo um cursor
+    conn = sqlite3.connect('weebbot.db')
+    cursor = conn.cursor()
+
+    #Criando a tabela
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS users (
+            id INTEGER NOT NULL PRIMARY KEY,
+            name TEXT NOT NULL,
+            server TEXT NOT NULL,
+            roles TEXT NOT NULL
+    );
+    """)
+    print("Tabela criada.")
+
+    #Inserindo dados na tabela
+    cursor.execute("""
+    INSERT INTO users (id, name, server, roles)
+    VALUES ('91387943679172607', 'Kaze', 'Controlled Chaos', 'Bot commander')
+    """)
+
+    conn.commit()
+    print("Dados inseridos com sucesso.")
+
+    cursor.execute("""
+    SELECT * FROM users;
+    """)
+
+    for line in cursor.fetchall():
+        print(line)
+
+    conn.close()
 
 
 async def addMeme(message, client):
@@ -136,22 +171,6 @@ async def showPokemon(message, client, pokemon):
         await client.send_message(message.channel, 'Could not find a Pokémon with the name ``%s``' % pokemon)
 
 
-async def showNumberTrivia(message, client):
-    r = requests.get("https://numbersapi.p.mashape.com/random/trivia?json=true",
-                     headers={
-                         "X-Mashape-Key": "Q7n8VApOzPmshmeZQNtthye630hmp1LDw0HjsnZIoR8eOu4JX6",
-                         "Accept": "text/plain"
-                     }
-                     )
-
-    response = json.loads(r.text)
-    await client.send_message(message.channel, response['text'])
-
-
-async def ping(message, client):
-    await client.send_message(message.channel, 'Pong!')
-
-
 async def showPSO2EQ(client):
     while not client.is_closed:
         await client.wait_until_ready()
@@ -168,6 +187,7 @@ async def showPSO2EQ(client):
         i = 0
 
         # Adds EQ data to eqs and formats them properly
+        EqAtThisHour = 'true'
         for line in eq:
             if 'Emergency Quest' not in line and line != 'Ship%02d: -' % i and line.startswith('Ship'):
                 line = '``' + line.replace(':', ':``')
@@ -176,6 +196,9 @@ async def showPSO2EQ(client):
 
             if line == 'All ships are in event preparation.':
                 eqs.append('``' + line + '``')
+
+            if 'no emergency quest' in line:
+                EqAtThisHour = 'false'
 
             if line.startswith('[In Progress]'):
                 line = line.replace('[In Progress]', '``IN PROGRESS:``')
@@ -206,24 +229,28 @@ async def showPSO2EQ(client):
         string = '\n'.join(eqs)
         message = ':mega: **%s JST Emergency Quest Notice**\n\n%s' % (eqtime, string)
         if last_eq['jst'] != eqtime:
-            for item in eq_channels['channels']:
-                if client.get_channel(item):
-                    channel = client.get_channel(item)
+            if EqAtThisHour == 'false':
+                pass
+            else:
+                for item in eq_channels['channels']:
+                    if client.get_channel(item):
+                        channel = client.get_channel(item)
 
-                    await client.send_message(discord.Object(item), message)
-                    if client.get_channel(test_channel):
-                        await client.send_message(discord.Object(test_channel), 'EQ Alert sent to: ``%s`` (%s)' % (channel.server.name, channel.server.id))
-                else:
-                    msg = ':mega: **Alert!**\n Channel %s does not exist. Removing...' % item
-                    print(msg)
-                    if client.get_channel(test_channel):
-                        await client.send_message(discord.Object(test_channel), msg)
-                    await removeEQChannel(item)
-            if client.get_channel(test_channel):
-                await client.send_message(discord.Object(test_channel), '-------------------')
+                        await client.send_message(discord.Object(item), message)
+                        if client.get_channel(test_channel):
+                            await client.send_message(discord.Object(test_channel), 'EQ Alert sent to: ``%s`` (%s)' % (
+                            channel.server.name, channel.server.id))
+                    else:
+                        msg = ':mega: **Alert!**\n Channel %s does not exist. Removing...' % item
+                        print(msg)
+                        if client.get_channel(test_channel):
+                            await client.send_message(discord.Object(test_channel), msg)
+                        await removeEQChannel(item)
+                if client.get_channel(test_channel):
+                    await client.send_message(discord.Object(test_channel), '-------------------')
 
-            with open('json/last_eq.json', 'w') as file:
-                json.dump(r2[0], file)
+                with open('json/last_eq.json', 'w') as file:
+                    json.dump(r2[0], file)
 
         await asyncio.sleep(30)  # Task runs every 300 seconds
 
