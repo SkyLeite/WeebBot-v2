@@ -42,40 +42,6 @@ def disconnect(client, voice):
 
     fut.result()
 
-async def dbQuery(client, message):
-    #Conectando e definindo um cursor
-    conn = sqlite3.connect('weebbot.db')
-    cursor = conn.cursor()
-
-    #Criando a tabela
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS users (
-            id INTEGER NOT NULL PRIMARY KEY,
-            name TEXT NOT NULL,
-            server TEXT NOT NULL,
-            roles TEXT NOT NULL
-    );
-    """)
-    print("Tabela criada.")
-
-    #Inserindo dados na tabela
-    cursor.execute("""
-    INSERT INTO users (id, name, server, roles)
-    VALUES ('91387943679172607', 'Kaze', 'Controlled Chaos', 'Bot commander')
-    """)
-
-    conn.commit()
-    print("Dados inseridos com sucesso.")
-
-    cursor.execute("""
-    SELECT * FROM users;
-    """)
-
-    for line in cursor.fetchall():
-        print(line)
-
-    conn.close()
-
 
 async def addMeme(message, client):
     array = message.content.split(' ')
