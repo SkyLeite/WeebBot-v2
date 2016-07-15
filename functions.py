@@ -20,8 +20,6 @@ async def backgroundTask(client):
         await showPSO2EQ(client)
         await showBumpedArticle(client)
 
-        print('bACKGROUND WORKS')
-
         await asyncio.sleep(30)  # Task runs every 30 seconds
 
 
@@ -271,8 +269,6 @@ async def showBumpedArticle(client):
         with open('json/last_article.json', 'w') as file:
             last_article = {"id" : articleId}
             json.dump(last_article, file)
-    else:
-        print('THIS ISNT WORKING')
 
 
 async def showLastEQ(client, message):
