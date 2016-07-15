@@ -6,7 +6,7 @@ If you have any suggestions, or need any help, feel free to open an issue or joi
 
 ## How to install
 
-Just clone this repo, edit the settings.py with your API Token and Owner ID, run the bot.py file, and you should be good to go. Requirements are discord.py, ffmpeg and requests.
+Just clone this repo, edit the settings.py with your API Token and Owner ID, run the bot.py file, and you should be good to go. Requirements are discord.py, ffmpeg, requests and feedparser (for bumped article alerts).
 
 ## Commands
 
