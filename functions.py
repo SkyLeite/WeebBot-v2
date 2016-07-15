@@ -235,7 +235,7 @@ async def showPSO2EQ(client):
                 json.dump(r2[0], file)
 
 async def showBumpedArticle(client):
-    d = feedparser.parse('http://bumped.org/psublog/feed/atom')
+    d = feedparser.parse('http://bumped.org/psublog/feed')
     tags = []
 
     articleTitle = d['entries'][0]['title']
