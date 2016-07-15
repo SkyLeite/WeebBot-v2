@@ -18,10 +18,18 @@ async def backgroundTask(client):
         await client.wait_until_ready()
 
         await showPSO2EQ(client)
-        await showBumpedArticle(client)
+        #await showBumpedArticle(client)
+        await changeGame(client)
 
         await asyncio.sleep(30)  # Task runs every 30 seconds
 
+async def changeGame(client):
+    for game in games:
+        await client.change_status(discord.Game(name=game), idle=False)
+
+        await asyncio.sleep(30)
+
+    changeGame(client)
 
 async def playMeme(message, client, meme):
     if meme == 'bye':
@@ -208,13 +216,15 @@ async def showPSO2EQ(client):
                 if client.get_channel(item):
                     channel = client.get_channel(item)
 
-                    await client.send_message(discord.Object(item), message)
+                    try:
+                        await client.send_message(discord.Object(item), message)
+                    except:
+                        print('Something went wrong when sending a message to "{}"'.format(channel.server.name))
                     if client.get_channel(test_channel):
                         await client.send_message(discord.Object(test_channel), 'EQ Alert sent to: ``%s`` (%s)' % (
                         channel.server.name, channel.server.id))
                 else:
                     msg = ':mega: **Alert!**\n Channel %s does not exist. Removing...' % item
-                    print(msg)
                     if client.get_channel(test_channel):
                         await client.send_message(discord.Object(test_channel), msg)
                     await removeEQChannel(item)
