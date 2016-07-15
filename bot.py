@@ -31,6 +31,9 @@ async def on_message(message):
     elif message.content.startswith('!send'):
         print(message.attachments)
 
+    elif message.content.startswith('!db'):
+        await dbQuery(client, message)
+
     elif message.content.startswith('!meme'):
         msg = message.content.split(' ')
 
@@ -80,6 +83,9 @@ async def on_message(message):
     elif message.content.startswith('!join'):
         await client.send_message(message.channel,
                                   'To get Weeb Bot in your server, simply click the following link: http://bit.ly/1X4p8U3')
+
+    elif message.content.startswith('!test'):
+        await addManga(message, client)
 
     elif message.content.startswith('!servers'):
         servers = []
@@ -142,7 +148,7 @@ async def on_server_join(server):
 loop = asyncio.get_event_loop()
 
 try:
-    loop.create_task(showPSO2EQ(client))
+    loop.create_task(backgroundTask(client))
     loop.run_until_complete(client.login(token))
     loop.run_until_complete(client.connect())
 except Exception:
