@@ -29,8 +29,6 @@ async def changeGame(client):
 
         await asyncio.sleep(30)
 
-    changeGame(client)
-
 async def playMeme(message, client, meme):
     if meme == 'bye':
         channel = message.author.voice_channel
