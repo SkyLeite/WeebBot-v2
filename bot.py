@@ -1,157 +1,39 @@
 from functions import *
 from settings import *
+from discord.ext import commands
 
-client = discord.Client()
+description = '''A test bot for discord.ext'''
 
-print("Starting bot...\n")
+bot = commands.Bot(command_prefix=['!', '`', '_'], description=description,
+                   command_not_found='Command not recognized. Try the ``help`` command.')
+extensions = [
+    'cogs.general',
+    'cogs.eq'
+]
 
 
-@client.event
+@bot.event
 async def on_ready():
-    print("## BOT IS RUNNING ##")
-    print('Username: %s' % client.user.name)
-    print('ID: %s' % client.user.id)
-    print('------')
+    oauthlink = discord.utils.oauth_url(bot.user.id)
+    print('---------')
+    print('Username: {}'.format(bot.user.name))
+    print('ID: {}'.format(bot.user.id))
+    print('Server count: {}'.format(str(len(bot.servers))))
+    print('Member count: {}'.format(str(len(set(bot.get_all_members())))))
+    print('OAuth URL: {}'.format(oauthlink))
+    print('Cogs: {}'.format(bot.cogs))
+    print('---------')
+    print(bot.cogs)
 
 
-@client.event
-async def on_message(message):
-    if message.content.startswith('!cat'):
-        await showCat(message, client)
-
-    elif message.content.startswith('!help'):
-        await showHelp(client, message)
-
-    elif message.content.startswith('!ping'):
-        await ping(message, client)
-
-    elif message.content.startswith('!id'):
-        await client.send_message(message.channel, message.channel.id)
-
-    elif message.content.startswith('!send'):
-        print(message.attachments)
-
-    elif message.content.startswith('!db'):
-        await dbQuery(client, message)
-
-    elif message.content.startswith('!meme'):
-        msg = message.content.split(' ')
-
+if __name__ == '__main__':
+    for extension in extensions:
         try:
-            if msg[1] == "play":
-                meme = msg[2] + '.mp3'
-                await playMeme(message, client, meme)
+            bot.load_extension(extension)
+        except Exception as e:
+            print('Failed to load extension {}\n{}: {}'.format(extension, type(e).__name__, e))
 
-            elif msg[1] == "bye":
-                meme = 'bye'
-                await playMeme(message, client, meme)
+    loop = asyncio.get_event_loop()
 
-            elif msg[1] == "list":
-                await memeList(message, client)
-
-            elif msg[1] == "add":
-                if message.author.id == ownerid:
-                    await addMeme(message, client)
-        except:
-            string = ":mega: **Welcome!**\n Type ``!meme list`` to receive a list with every available meme, and ``!meme play memename`` to play the one you want!"
-            await client.send_message(message.channel, string)
-
-    elif 'ayy' in message.content and 'lmao' not in message.content:
-        await client.send_message(message.channel, 'lmao')
-
-    elif message.content.startswith('!recommend'):
-        query = message.content.split(' ', 1)[1]
-        await showRecommendation(message, client, query)
-
-    elif message.content.startswith('!pokemon'):
-        pokemon = message.content.split(' ', 1)[1]
-        await showPokemon(message, client, pokemon)
-
-    elif message.content.startswith('!lasteq'):
-        await showLastEQ(client, message)
-
-    elif message.content.startswith('!msg'):
-        if message.author.id == ownerid:
-            message = message.content.split(' ', 1)[1]
-
-            try:
-                for item in client.servers:
-                    await client.send_message(client.servers.default_channel, message)
-            except:
-                pass
-
-    elif message.content.startswith('!join'):
-        await client.send_message(message.channel,
-                                  'To get Weeb Bot in your server, simply click the following link: http://bit.ly/1X4p8U3')
-
-    elif message.content.startswith('!test'):
-        await addManga(message, client)
-
-    elif message.content.startswith('!servers'):
-        servers = []
-
-        for item in client.servers:
-            servers.append('%s(%d)' % (item.name, item.member_count))
-
-        string = ', '.join(servers)
-        await client.send_message(message.channel, 'Servers: %s' % string)
-
-    elif message.content.lower() == 'i see what you did there':
-        await client.send_file(message.channel, 'img/isee.jpg')
-
-    elif message.content.startswith('!game'):
-        if message.author.id == ownerid:
-            gamename = message.content.split(' ', 1)[1]
-
-            game = discord.Game(name=gamename)
-            await client.change_status(game, idle=False)
-        else:
-            await client.send_message(message.channel, 'Your ID:%s \nOwner ID:%s' % (message.author.id, ownerid))
-
-
-    elif message.content.startswith('!eq'):
-        admin = 'False'
-
-        if message.content == '!eq enable':
-            for item in message.author.roles:
-                if item.name == "Administrator":
-                    await addEQChannel(message, client)
-                    admin = 'True'
-            if admin == 'False':
-                await client.send_message(message.channel, "You need the 'Administrator' role to do that.")
-
-
-        elif message.content == '!eq disable':
-            for item in message.author.roles:
-                if item.name == "Administrator":
-                    await removeEQChannel(message.channel.id)
-                    await client.send_message(message.channel, 'EQ Alerts successfully disabled on this channel.')
-                    admin = 'True'
-            if admin == 'False':
-                await client.send_message(message.channel, "You need the 'Administrator' role to do that.")
-
-        else:
-            await client.send_message(message.channel,
-                                      "Welcome to Weeb Bot's Emergency Quest Alert! To get started, please type !eq enable on the channel you want EQs to appear. Please keep in mind you need the 'Administrator' role to do that.")
-
-    elif message.content.startswith('!leafy'):
-        await leafyTitle(message, client)
-
-
-@client.event
-async def on_server_join(server):
-    if test_channel:
-        await client.send_message(discord.Object(test_channel), u':mega: **Joined:** {0:s}\n``Member Count:`` {1:s}\n``Icon URL:`` {2:s}'.format(
-          server.name, server.member_count, server.icon_url))
-
-
-loop = asyncio.get_event_loop()
-
-try:
-    loop.create_task(backgroundTask(client))
-    loop.run_until_complete(client.login(token))
-    loop.run_until_complete(client.connect())
-except Exception:
-    loop.run_until_complete(client.close())
-finally:
-    loop.close()
+    bot.loop.create_task(my_background_task(bot))
+    bot.run(token)
