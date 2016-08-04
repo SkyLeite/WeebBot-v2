@@ -2,7 +2,7 @@ from functions import *
 from settings import *
 from discord.ext import commands
 
-description = '''A bot focused on alerting for Emergency Quests on PSO2.'''
+description = '''A bot focused on alerting for Emergency Quests on PSO2.\nSupport: https://discord.gg/0xMXCNAFbH032Ig1'''
 
 bot = commands.Bot(command_prefix=['!', '`', '_'], description=description,
                    command_not_found='Command not recognized. Try the ``help`` command.')
