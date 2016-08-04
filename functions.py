@@ -146,7 +146,7 @@ async def removeEQChannel(chID):
 
 async def changeGame(bot):
     games = ['!help', '!donate']
-    for game in games:
-        await bot.change_status(game=discord.Game(name=game))
+    for gamename in games:
+        await bot.change_status(game=discord.Game(name=gamename))
 
         await asyncio.sleep(120)

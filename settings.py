@@ -1,1 +1,1 @@
-token = 'THISISNOTATOKEN'
+token = 'THIvc xbvxcvbx cv vc ATOKEN'
