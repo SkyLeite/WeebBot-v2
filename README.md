@@ -16,3 +16,7 @@ Just clone this repo, edit the settings.py with your API Token and Owner ID, run
 - `!eq disable`: Disables EQ Alerts on the channel the message is sent to.
 
 And a lot more to come!
+
+## Donations
+
+Please follow [this link](http://kazesenoue.moe/donate.html) if you wish to contribute with server costs. Thanks <3
