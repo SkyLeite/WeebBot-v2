@@ -1,12 +1,13 @@
 import asyncio
 import json
+import feedparser
 
 # External modules
 import aiohttp
 import discord
 
 
-async def background_task(bot):
+async def checkPSO2EQ(bot):
     while not bot.is_closed:
         await bot.wait_until_ready()
 
@@ -82,13 +83,7 @@ async def background_task(bot):
 
                         # Checks if channel exists, and if it does, 
                         # sends an alert to it
-                        for chID in eq_channels['channels']:
-                            if bot.get_channel(chID):
-                                await bot.send_message(discord.Object(chID),
-                                                                       message)
-
-                            else:
-                                await removeEQChannel(chID)
+                        await sendAlert(message, bot)
 
                         # Updates last_eq file
                         with open('cogs/json/last_eq.json', 'w') as file:
@@ -96,6 +91,47 @@ async def background_task(bot):
 
         await asyncio.sleep(5)
 
+async def checkBumpedArticle(bot):
+    while not bot.is_closed:
+        await bot.wait_until_ready()
+        async with aiohttp.get('http://bumped.org/psublog/feed/atom') as r:
+            if r.status == 200:
+                feed = await r.text()
+                d = feedparser.parse(feed)
+
+                articleTitle = d['entries'][0]['title']
+                articleLink = d['entries'][0]['links'][0]['href']
+                articleSummary = d['entries'][0]['summary']
+                articleId = d['entries'][0]['id']
+
+                message = ':mega: **New Bumped article!** \n``TITLE:`` {} \n``LINK:`` {}'.format(
+                    articleTitle, articleLink)
+
+                # Loads last_article.json
+                with open('cogs/json/last_article.json', encoding="utf8") as file:
+                    last_article = json.load(file)
+
+                if articleId != last_article['id']:
+                    await sendAlert(message, bot)
+
+                    with open('cogs/json/last_article.json', 'w') as file:
+                        last_article = {"id": articleId}
+                        json.dump(last_article, file)
+
+                else:
+                    pass
+
+        await asyncio.sleep(5)
+
+
+async def sendAlert(message, bot):
+    # Loads eq_channels.json
+    with open('cogs/json/eq_channels.json', encoding="utf8") as file:
+        eq_channels = json.load(file)
+
+    for item in eq_channels['channels']:
+        if bot.get_channel(item):
+            await bot.send_message(discord.Object(item), message)
 
 async def removeEQChannel(chID):
     # Loads eq_channels.json file
