@@ -39,4 +39,5 @@ if __name__ == '__main__':
 
     bot.loop.create_task(checkPSO2EQ(bot))
     bot.loop.create_task(checkBumpedArticle(bot))
+    bot.loop.create_task(changeGame(bot))
     bot.run(token)

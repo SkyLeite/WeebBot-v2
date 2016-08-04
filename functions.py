@@ -123,7 +123,6 @@ async def checkBumpedArticle(bot):
 
         await asyncio.sleep(5)
 
-
 async def sendAlert(message, bot):
     # Loads eq_channels.json
     with open('cogs/json/eq_channels.json', encoding="utf8") as file:
@@ -144,3 +143,10 @@ async def removeEQChannel(chID):
     # Writes channel ID to file
     with open('cogs/json/eq_channels.json', 'w') as outfile:
         json.dump(eq_channels, outfile)
+
+async def changeGame(bot):
+    games = ['!help', '!donate']
+    for game in games:
+        await bot.change_status(game=discord.Game(name=game))
+
+        await asyncio.sleep(120)
