@@ -4,7 +4,7 @@ import aiohttp
 import json
 
 
-async def my_background_task(bot):
+async def background_task(bot):
     while not bot.is_closed:
         await bot.wait_until_ready()
 

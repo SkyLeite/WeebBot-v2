@@ -1,4 +1,5 @@
 from discord.ext import commands
+from bs4 import BeautifulSoup
 import discord
 import aiohttp
 
@@ -34,7 +35,8 @@ class General:
     async def join(self):
         """Returns information on how to add the bot to your server."""
 
-        oauthlink = discord.utils.oauth_url(self.bot.user.id)
+        botInfo = await self.bot.application_info()
+        oauthlink = discord.utils.oauth_url(botInfo.id)
         await self.bot.say('To invite Weeb Bot to your server, simply click the following link: {}'.format(oauthlink))
 
 

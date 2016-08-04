@@ -2,7 +2,7 @@ from functions import *
 from settings import *
 from discord.ext import commands
 
-description = '''A test bot for discord.ext'''
+description = '''A bot focused on alerting for Emergency Quests on PSO2.'''
 
 bot = commands.Bot(command_prefix=['!', '`', '_'], description=description,
                    command_not_found='Command not recognized. Try the ``help`` command.')
@@ -14,7 +14,9 @@ extensions = [
 
 @bot.event
 async def on_ready():
-    oauthlink = discord.utils.oauth_url(bot.user.id)
+    botInfo = await bot.application_info()
+    oauthlink = discord.utils.oauth_url(botInfo.id)
+
     print('---------')
     print('Username: {}'.format(bot.user.name))
     print('ID: {}'.format(bot.user.id))
@@ -23,7 +25,6 @@ async def on_ready():
     print('OAuth URL: {}'.format(oauthlink))
     print('Cogs: {}'.format(bot.cogs))
     print('---------')
-    print(bot.cogs)
 
 
 if __name__ == '__main__':
@@ -35,5 +36,5 @@ if __name__ == '__main__':
 
     loop = asyncio.get_event_loop()
 
-    bot.loop.create_task(my_background_task(bot))
+    bot.loop.create_task(background_task(bot))
     bot.run(token)
