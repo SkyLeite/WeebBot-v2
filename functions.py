@@ -47,6 +47,10 @@ async def background_task(bot):
                         line = line.replace('[2 hours later]', '``IN 3 HOURS:``')
                         eqs.append(line)
 
+                    if 'is maintenance' in line:
+                        line = line.replace(line, '``Later: M A I N T E N A N C E``')
+                        eqs.append(line)
+
                     i += 1
 
                 # Loads last_eq.json
