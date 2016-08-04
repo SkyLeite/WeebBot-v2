@@ -1,7 +1,9 @@
 import asyncio
-import discord
-import aiohttp
 import json
+
+# External modules
+import aiohttp
+import discord
 
 
 async def background_task(bot):
@@ -20,7 +22,9 @@ async def background_task(bot):
                 # Adds EQ data to eqs and formats them properly
                 eqatthishour = True
                 for line in eq:
-                    if 'Emergency Quest' not in line and line != 'Ship%02d: -' % i and line.startswith('Ship'):
+                    if 'Emergency Quest' not in line and \
+                            line != 'Ship%02d: -' % i and \
+                            line.startswith('Ship'):
                         line = '``' + line.replace(':', ':``')
                         line = line.replace('Ship', 'SHIP ')
                         eqs.append(line)
@@ -32,7 +36,8 @@ async def background_task(bot):
                         eqatthishour = False
 
                     if line.startswith('[In Progress]'):
-                        line = line.replace('[In Progress]', '``IN PROGRESS:``')
+                        line = line.replace('[In Progress]',
+                                                           '``IN PROGRESS:``')
                         eqs.append(line)
 
                     if line.startswith('[In Preparation]'):
@@ -48,7 +53,8 @@ async def background_task(bot):
                         eqs.append(line)
 
                     if 'is maintenance' in line:
-                        line = line.replace(line, '``Later: M A I N T E N A N C E``')
+                        line = line.replace(line,
+                                            '``Later: M A I N T E N A N C E``')
                         eqs.append(line)
 
                     i += 1
@@ -57,23 +63,29 @@ async def background_task(bot):
                 with open('cogs/json/last_eq.json', encoding="utf8") as in_f:
                     last_eq = json.load(in_f)
 
-                # If current EQ is different than last EQ recorded, send alert and update last_eq file
-                with open('cogs/json/eq_channels.json', encoding="utf8") as eq_channels:
+                # If current EQ is different than last EQ recorded,
+                # send alert and update last_eq file
+                with open('cogs/json/eq_channels.json',
+                                        encoding="utf8") as eq_channels:
                     eq_channels = json.load(eq_channels)
 
                 string = '\n'.join(eqs)
-                message = ':mega: **%s JST Emergency Quest Notice**\n\n%s' % (eqtime, string)
+                message = (':mega: **{} JST Emergency Quest '
+                           'Notice**\n\n{}'.format(eqtime, string))
 
-                # Checks if current EQ is different from the last one recorded AND if there is an EQ
+                # Checks if current EQ is different from the last one 
+                # recorded AND if there is an EQ
                 if last_eq['jst'] != eqtime:
                     if not eqatthishour:
                         pass
                     else:
 
-                        # Checks if channel exists, and if it does, sends an alert to it
+                        # Checks if channel exists, and if it does, 
+                        # sends an alert to it
                         for chID in eq_channels['channels']:
                             if bot.get_channel(chID):
-                                await bot.send_message(discord.Object(chID), message)
+                                await bot.send_message(discord.Object(chID),
+                                                                       message)
 
                             else:
                                 await removeEQChannel(chID)
