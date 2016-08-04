@@ -8,7 +8,8 @@ bot = commands.Bot(command_prefix=['!', '`', '_'], description=description,
                    command_not_found='Command not recognized. Try the ``help`` command.')
 extensions = [
     'cogs.general',
-    'cogs.eq'
+    'cogs.eq',
+    'cogs.macro'
 ]
 
 
