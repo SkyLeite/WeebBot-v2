@@ -1,8 +1,5 @@
 from discord.ext import commands
 import os
-import re
-import discord
-import aiohttp
 
 
 class Macro:
