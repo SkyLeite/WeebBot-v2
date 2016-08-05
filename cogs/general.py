@@ -24,6 +24,13 @@ class General:
                 js = await r.text()
                 await self.bot.say(js)
 
+    @commands.group()
+    async def donate(self):
+        """Server costs are a thing. Help me out fam!"""
+
+        await self.bot.say('Thanks for considering contributing to my project! If you wish to proceed with the donation,'
+                           'go to http://kazesenoue.moe/donate.html .')
+
     @commands.group(pass_context=True)
     async def ping(self, ctx):
         """Pong!"""

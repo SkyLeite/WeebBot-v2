@@ -24,7 +24,7 @@ async def checkPSO2EQ(bot):
                 eqatthishour = True
                 for line in eq:
                     if 'Emergency Quest' not in line and \
-                            line != 'Ship%02d: -' % i and \
+                                    line != 'Ship%02d: -' % i and \
                             line.startswith('Ship'):
                         line = '``' + line.replace(':', ':``')
                         line = line.replace('Ship', 'SHIP ')
@@ -38,7 +38,7 @@ async def checkPSO2EQ(bot):
 
                     if line.startswith('[In Progress]'):
                         line = line.replace('[In Progress]',
-                                                           '``IN PROGRESS:``')
+                                            '``IN PROGRESS:``')
                         eqs.append(line)
 
                     if line.startswith('[In Preparation]'):
@@ -66,9 +66,6 @@ async def checkPSO2EQ(bot):
 
                 # If current EQ is different than last EQ recorded,
                 # send alert and update last_eq file
-                with open('cogs/json/eq_channels.json',
-                                        encoding="utf8") as eq_channels:
-                    eq_channels = json.load(eq_channels)
 
                 string = '\n'.join(eqs)
                 message = (':mega: **{} JST Emergency Quest '
@@ -90,6 +87,7 @@ async def checkPSO2EQ(bot):
                             json.dump(js[0], file)
 
         await asyncio.sleep(5)
+
 
 async def checkBumpedArticle(bot):
     while not bot.is_closed:
@@ -123,6 +121,7 @@ async def checkBumpedArticle(bot):
 
         await asyncio.sleep(5)
 
+
 async def sendAlert(message, bot):
     # Loads eq_channels.json
     with open('cogs/json/eq_channels.json', encoding="utf8") as file:
@@ -131,6 +130,7 @@ async def sendAlert(message, bot):
     for item in eq_channels['channels']:
         if bot.get_channel(item):
             await bot.send_message(discord.Object(item), message)
+
 
 async def removeEQChannel(chID):
     # Loads eq_channels.json file
@@ -143,6 +143,7 @@ async def removeEQChannel(chID):
     # Writes channel ID to file
     with open('cogs/json/eq_channels.json', 'w') as outfile:
         json.dump(eq_channels, outfile)
+
 
 async def changeGame(bot):
     while not bot.is_closed:
