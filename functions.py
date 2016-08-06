@@ -1,10 +1,10 @@
 import asyncio
 import json
-import feedparser
 
 # External modules
 import aiohttp
 import discord
+import feedparser
 
 
 async def checkPSO2EQ(bot):
