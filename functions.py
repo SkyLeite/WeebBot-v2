@@ -72,8 +72,8 @@ async def checkPSO2EQ(bot):
 
                 string = '\n'.join(eqs)
                 message = (':arrow_right: **Emergency Quest '
-                           'Notice ({:02d} JST / {:02d} UTC /'
-                           ' {:02d} PST / {:02d} EST)**\n\n{}'.format(eqtime, equtc, eqpst, eqest, string))
+                           'Notice\n:watch:{:02d} JST / {:02d} UTC /'
+                           ' {:02d} PST / {:02d} EST**\n\n{}'.format(eqtime, equtc, eqpst, eqest, string))
 
                 # Checks if current EQ is different from the last one 
                 # recorded AND if there is an EQ
