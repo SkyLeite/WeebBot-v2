@@ -17,6 +17,7 @@ async def checkPSO2EQ(bot):
 
                 eq = js[0]['text'].splitlines()
                 eqtime = js[0]['jst']
+                equtc = (eqtime - 9)%24
                 eqs = []
                 i = 0
 
@@ -68,8 +69,8 @@ async def checkPSO2EQ(bot):
                 # send alert and update last_eq file
 
                 string = '\n'.join(eqs)
-                message = (':mega: **{} JST Emergency Quest '
-                           'Notice**\n\n{}'.format(eqtime, string))
+                message = (':arrow_right: **{:02d} JST / {:02d} UTC Emergency Quest '
+                           'Notice**\n\n{}'.format(eqtime, equtc, string))
 
                 # Checks if current EQ is different from the last one 
                 # recorded AND if there is an EQ
