@@ -27,6 +27,10 @@ async def on_ready():
     print('Cogs: {}'.format(bot.cogs))
     print('---------')
 
+@bot.event
+async def on_command_error(exception, context):
+    pass
+
 
 if __name__ == '__main__':
     for extension in extensions:
