@@ -1,6 +1,7 @@
 from discord.ext import commands
 import discord
 import aiohttp
+import dataset
 
 
 class General:
@@ -19,7 +20,8 @@ class General:
     async def cat(self):
         """Shows random cat gif"""
 
-        async with aiohttp.get('http://edgecats.net/random') as r:
+        async with aiohttp.ClientSession() as session:
+            r = await session.get("http://edgecats.net/random")
             if r.status == 200:
                 js = await r.text()
                 await self.bot.say(js)
@@ -44,6 +46,13 @@ class General:
         botInfo = await self.bot.application_info()
         oauthlink = discord.utils.oauth_url(botInfo.id)
         await self.bot.say('To invite Weeb Bot to your server, simply click the following link: {}'.format(oauthlink))
+
+    @commands.group()
+    async def test(self):
+        """Test stuff"""
+
+        for server in self.bot.db['servers']:
+            print(server['name'])
 
 
 def setup(bot):

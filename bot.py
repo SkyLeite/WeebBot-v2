@@ -1,15 +1,19 @@
 from functions import *
 from settings import *
 from discord.ext import commands
+import dataset
 
 description = '''A bot focused on alerting for Emergency Quests on PSO2.\nSupport: https://discord.gg/0xMXCNAFbH032Ig1'''
 
-bot = commands.Bot(command_prefix=['!', '`', '_'], description=description,
+bot = commands.Bot(command_prefix=['!', '_'], description=description,
                    command_not_found='Command not recognized. Try the ``help`` command.')
+bot.db = dataset.connect('sqlite:///weebbot.db')
+
 extensions = [
     'cogs.general',
     'cogs.eq',
-    'cogs.macro'
+    'cogs.macro',
+    'cogs.lastfm'
 ]
 
 
@@ -26,10 +30,6 @@ async def on_ready():
     print('OAuth URL: {}'.format(oauthlink))
     print('Cogs: {}'.format(bot.cogs))
     print('---------')
-
-@bot.event
-async def on_command_error(exception, context):
-    pass
 
 
 if __name__ == '__main__':

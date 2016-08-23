@@ -1,5 +1,6 @@
 import asyncio
 import json
+import re
 
 # External modules
 import aiohttp
@@ -92,11 +93,33 @@ async def checkPSO2EQ(bot):
 
         await asyncio.sleep(5)
 
+async def eqdb(bot):
+    while not bot.is_closed:
+        await bot.wait_until_ready()
+
+        async with aiohttp.ClientSession() as session:
+            r = await session.get("http://pso2emq.flyergo.eu/api/v2/")
+            if r.status == 200:
+                js = await r.json()
+
+                eq = js[0]['text'].splitlines()
+                eqtime = js[0]['jst']
+
+                noeq = re.compile('Ship\d\d: -')
+
+                for line in eq:
+                    if line.startswith('['):
+                        pass
+                    elif line.startswith('Ship'):
+                        if
+
 
 async def checkBumpedArticle(bot):
     while not bot.is_closed:
         await bot.wait_until_ready()
-        async with aiohttp.get('http://bumped.org/psublog/feed/atom') as r:
+
+        async with aiohttp.ClientSession() as session:
+            r = await session.get("http://bumped.org/psublog/feed/atom")
             if r.status == 200:
                 feed = await r.text()
                 d = feedparser.parse(feed)

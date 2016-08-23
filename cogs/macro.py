@@ -8,16 +8,15 @@ class Macro:
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.group(pass_context=True)
+    @commands.group(pass_context=True, invoke_without_command=True)
     async def macro(self, ctx):
         """Displays a macro."""
 
-        if (ctx.subcommand_passed != 'add') and (ctx.subcommand_passed != 'remove') and (ctx.subcommand_passed != 'remove'):
-            for root, dirs, filenames in os.walk('cogs/macro/'):
-                for f in filenames:
-                    filename = os.path.splitext(f)[0]
-                    if ctx.subcommand_passed == filename:
-                        await self.bot.send_file(ctx.message.channel, 'cogs/macro/{}'.format(f))
+        for root, dirs, filenames in os.walk('cogs/macro/'):
+            for f in filenames:
+                filename = os.path.splitext(f)[0]
+                if ctx.subcommand_passed == filename:
+                    await self.bot.send_file(ctx.message.channel, 'cogs/macro/{}'.format(f))
 
     @macro.command()
     async def list(self):
