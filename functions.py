@@ -1,6 +1,5 @@
 import asyncio
 import json
-import re
 
 # External modules
 import aiohttp
@@ -12,7 +11,8 @@ async def checkPSO2EQ(bot):
     while not bot.is_closed:
         await bot.wait_until_ready()
 
-        async with aiohttp.get('http://pso2emq.flyergo.eu/api/v2/') as r:
+        async with aiohttp.ClientSession() as session:
+            r = await session.get("http://pso2emq.flyergo.eu/api/v2/")
             if r.status == 200:
                 js = await r.json()
 
@@ -88,16 +88,14 @@ async def checkPSO2EQ(bot):
                         # Updates last_eq file
                         with open('cogs/json/last_eq.json', 'w') as file:
                             json.dump(js[0], file)
-
+            
         await asyncio.sleep(5)
 
 
 async def checkBumpedArticle(bot):
     while not bot.is_closed:
         await bot.wait_until_ready()
-
-        async with aiohttp.ClientSession() as session:
-            r = await session.get("http://bumped.org/psublog/feed/atom")
+        async with aiohttp.get('http://bumped.org/psublog/feed/atom') as r:
             if r.status == 200:
                 feed = await r.text()
                 d = feedparser.parse(feed)
@@ -134,7 +132,10 @@ async def sendAlert(message, bot):
 
     for item in eq_channels['channels']:
         if bot.get_channel(item):
-            await bot.send_message(discord.Object(item), message)
+            try:
+              await bot.send_message(discord.Object(item), message)
+            except:
+              pass
 
 
 async def removeEQChannel(chID):
@@ -153,7 +154,7 @@ async def removeEQChannel(chID):
 async def changeGame(bot):
     while not bot.is_closed:
         await bot.wait_until_ready()
-        games = ['!help', '!donate']
+        games = ['+help', '+donate', 'Prefix is +']
         for gamename in games:
             await bot.change_status(game=discord.Game(name=gamename))
 
