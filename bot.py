@@ -10,8 +10,7 @@ bot = commands.Bot(command_prefix=['!', '_'], description=description,
 extensions = [
     'cogs.general',
     'cogs.eq',
-    'cogs.macro',
-    'cogs.lastfm'
+    'cogs.macro'
 ]
 
 
