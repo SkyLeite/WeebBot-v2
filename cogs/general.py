@@ -47,13 +47,6 @@ class General:
         oauthlink = discord.utils.oauth_url(botInfo.id)
         await self.bot.say('To invite Weeb Bot to your server, simply click the following link: {}'.format(oauthlink))
 
-    @commands.group()
-    async def test(self):
-        """Test stuff"""
-
-        for server in self.bot.db['servers']:
-            print(server['name'])
-
 
 def setup(bot):
     bot.add_cog(General(bot))
