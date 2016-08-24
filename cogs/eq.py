@@ -1,7 +1,5 @@
 from discord.ext import commands
 import json
-import pytz
-import datetime
 
 
 class EmergencyQuest:
@@ -99,10 +97,6 @@ class EmergencyQuest:
         else:
             await self.bot.say("EQ alerts are not enabled on this channel.")
 
-
-    async def addLFP(self, shipnumber, user):
-        with open('cogs/json/lfp.json') as file:
-            lfp = json.load(file)
 
 def setup(bot):
     bot.add_cog(EmergencyQuest(bot))
