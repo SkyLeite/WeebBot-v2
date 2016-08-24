@@ -1,7 +1,6 @@
 from discord.ext import commands
 import discord
 import aiohttp
-import dataset
 
 
 class General:
