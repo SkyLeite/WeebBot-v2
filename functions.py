@@ -13,78 +13,76 @@ async def checkPSO2EQ(bot):
 
         async with aiohttp.ClientSession() as session:
             try:
-              r = await session.get("http://pso2emq.flyergo.eu/api/v2/")
-              if r.status == 200:
-                  js = await r.json()
-  
-                  eq = js[0]['text'].splitlines()
-                  eqtime = js[0]['jst']
-                  equtc = (eqtime - 9)%24
-                  eqpst = (eqtime - 16)%24
-                  eqest = (eqtime - 13)%24
-                  eqs = []
-                  i = 0
-  
-                  # Adds EQ data to eqs and formats them properly
-                  eqatthishour = True
-                  for line in eq:
-                      if 'Emergency Quest' not in line and \
-                                      line != '%02d: -' % i:
-                          line = '``' + line.replace(':', ':``')
-                          eqs.append(line)
-  
-                      if line == 'All ships are in event preparation.':
-                          eqs.append('``' + line + '``')
-  
-                      if 'no report at all ships' in line:
-                          eqatthishour = False
-  
-                      if '[In Preparation]' in line:
-                          line = line.replace('[In Preparation]', '``IN PREPARATION:``')
-                          eqs.append(line)
-                          
-                      if '[In Progress]' in line:
-                          line = line.replace('[In Preparation]', '``IN PROGRESS:``')
-                          eqs.append(line)
-  
-                      if 'maintenance' in line:
-                          line = line.replace(line,
-                                              '``Later: M A I N T E N A N C E``')
-                          eqs.append(line)
-  
-                      i += 1
-  
-                  # Loads last_eq.json
-                  with open('cogs/json/last_eq.json', encoding="utf8") as in_f:
-                      last_eq = json.load(in_f)
-  
-                  # If current EQ is different than last EQ recorded,
-                  # send alert and update last_eq file
-  
-                  string = '\n'.join(eqs)
-                  message = (':arrow_right: **Emergency Quest '
-                             'Notice\n:watch:{:02d} JST / {:02d} UTC /'
-                             ' {:02d} PST / {:02d} EST**\n\n{}'.format(eqtime, equtc, eqpst, eqest, string))
-  
-                  # Checks if current EQ is different from the last one 
-                  # recorded AND if there is an EQ
-                  if last_eq['jst'] != eqtime:
-                      if not eqatthishour:
-                          pass
-                      else:
-  
-                          # Checks if channel exists, and if it does, 
-                          # sends an alert to it
-                          await sendAlert(message, bot)
-  
-                          # Updates last_eq file
-                          with open('cogs/json/last_eq.json', 'w') as file:
-                              json.dump(js[0], file)
+                r = await session.get("http://pso2emq.flyergo.eu/api/v2/")
+                if r.status == 200:
+                    js = await r.json()
+
+                    eq = js[0]['text'].splitlines()
+                    eqtime = js[0]['jst']
+                    equtc = (eqtime - 9) % 24
+                    eqpst = (eqtime - 16) % 24
+                    eqest = (eqtime - 13) % 24
+                    eqs = []
+                    i = 0
+
+                    # Adds EQ data to eqs and formats them properly
+                    eqatthishour = True
+                    for line in eq:
+                        if line.startswith('{0:02d}:'.format(i)):
+                            line = '``SHIP ' + line.replace(':', ':``')
+                            eqs.append(line)
+
+                        elif 'Emergency Quest' not in line and line != '%02d: -' % i:
+                            line = '``' + line.replace(':', ':``')
+                            eqs.append(line)
+
+                        elif line == 'All ships are in event preparation.':
+                            eqs.append('``' + line + '``')
+
+                        elif 'no report at all ships' in line:
+                            eqatthishour = False
+
+                        elif '[In Preparation]' in line:
+                            line = line.replace('[In Preparation]', '``IN PREPARATION:``')
+                            eqs.append(line)
+
+                        elif '[In Progress]' in line:
+                            line = line.replace('[In Progress]', '``IN PROGRESS:``')
+                            eqs.append(line)
+
+                        i += 1
+
+                    # Loads last_eq.json
+                    with open('cogs/json/last_eq.json', encoding="utf8") as in_f:
+                        last_eq = json.load(in_f)
+
+                    # If current EQ is different than last EQ recorded,
+                    # send alert and update last_eq file
+
+                    string = '\n'.join(eqs)
+                    message = (':arrow_right: **Emergency Quest '
+                               'Notice\n:watch:{:02d} JST / {:02d} UTC /'
+                               ' {:02d} PST / {:02d} EST**\n\n{}'.format(eqtime, equtc, eqpst, eqest, string))
+
+                    # Checks if current EQ is different from the last one
+                    # recorded AND if there is an EQ
+                    if last_eq['jst'] != eqtime:
+                        if not eqatthishour:
+                            pass
+                        else:
+
+                            # Checks if channel exists, and if it does,
+                            # sends an alert to it
+                            await sendAlert(message, bot)
+
+                            # Updates last_eq file
+                            with open('cogs/json/last_eq.json', 'w') as file:
+                                json.dump(js[0], file)
 
             except Exception as e:
                 await bot.send_message(discord.Object("198483667289374720"), repr(e))
                 continue
-            
+
         await asyncio.sleep(5)
 
 
@@ -129,9 +127,9 @@ async def sendAlert(message, bot):
     for item in eq_channels['channels']:
         if bot.get_channel(item):
             try:
-              await bot.send_message(discord.Object(item), message)
+                await bot.send_message(discord.Object(item), message)
             except:
-              pass
+                pass
 
 
 async def removeEQChannel(chID):
