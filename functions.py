@@ -32,7 +32,7 @@ async def checkPSO2EQ(bot):
                             line = '``SHIP ' + line.replace(':', ':`` ')
                             eqs.append(line)
 
-                        elif 'Emergency Quest' not in line and line != '%02d: -' % i:
+                        elif 'Emergency Quest' not in line and not line.endswith("-"):
                             eqs.append(line)
 
                         elif line == 'All ships are in event preparation.':
