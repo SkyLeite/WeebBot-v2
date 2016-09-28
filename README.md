@@ -19,4 +19,4 @@ And a lot more to come!
 
 ## Donations
 
-Please follow [this link](http://kazesenoue.moe/donate.html) if you wish to contribute with server costs. Thanks <3
+Please follow [this link](https://www.patreon.com/user?u=4126244) if you wish to contribute with server costs. Thanks <3
