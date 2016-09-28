@@ -29,12 +29,12 @@ async def checkPSO2EQ(bot):
                     eqatthishour = True
                     for line in eq:
                         if line.startswith('{0:02d}:'.format(i)):
-                            line = '``SHIP ' + line.replace(':', ':``')
+                            line = '``SHIP ' + line.replace(':', ':`` ')
                             eqs.append(line)
 
-                        elif 'Emergency Quest' not in line and line != '%02d: -' % i:
-                            line = '``' + line.replace(':', ':`` ')
-                            eqs.append(line)
+                        #elif 'Emergency Quest' not in line and line != '%02d: -' % i:
+                        #    line = '``' + line.replace(':', ':`` ')
+                        #    eqs.append(line)
 
                         elif line == 'All ships are in event preparation.':
                             eqs.append('``' + line + '``')
