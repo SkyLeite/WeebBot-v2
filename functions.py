@@ -56,13 +56,14 @@ async def checkPSO2EQ(bot):
                     with open('cogs/json/last_eq.json', encoding="utf8") as in_f:
                         last_eq = json.load(in_f)
 
-                    # If current EQ is different than last EQ recorded,
-                    # send alert and update last_eq file
-
+                    #Builds string
                     string = '\n'.join(eqs)
+
+                    donation = ':love_letter: Support me on Patreon! <http://patreon.kazesenoue.moe>'
+
                     message = (':arrow_right: **Emergency Quest '
                                'Notice\n:watch:{:02d} JST / {:02d} UTC /'
-                               ' {:02d} PST / {:02d} EST**\n\n{}'.format(eqtime, equtc, eqpst, eqest, string))
+                               ' {:02d} PST / {:02d} EST**\n\n{}\n\n{}'.format(eqtime, equtc, eqpst, eqest, string, donation))
 
                     # Checks if current EQ is different from the last one
                     # recorded AND if there is an EQ
@@ -70,6 +71,7 @@ async def checkPSO2EQ(bot):
                         if not eqatthishour:
                             pass
                         else:
+
 
                             # Checks if channel exists, and if it does,
                             # sends an alert to it

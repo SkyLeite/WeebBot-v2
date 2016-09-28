@@ -30,7 +30,7 @@ class General:
         """Server costs are a thing. Help me out fam!"""
 
         await self.bot.say('Thanks for considering contributing to my project! If you wish to proceed with the donation,'
-                           'go to http://kazesenoue.moe/donate.html .')
+                           'go to <http://patreon.kazesenoue.moe>.')
 
     @commands.group(pass_context=True)
     async def ping(self, ctx):
