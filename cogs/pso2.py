@@ -121,6 +121,7 @@ class PSO2:
                     elif len(js) > 11:
                         i = 0
                         for result in js:
+                            i+= 1
                             if result["EnName"] and i < 11:
                                 iteminfo.append("``EN Name:`` {}".format(result["EnName"]))
 
