@@ -1,8 +1,8 @@
 from discord.ext import commands
-import json
+import json, aiohttp
 
 
-class EmergencyQuest:
+class PSO2:
     """Commands related to the Emergency Quest alerts"""
 
     def __init__(self, bot):
@@ -97,6 +97,53 @@ class EmergencyQuest:
         else:
             await self.bot.say("EQ alerts are not enabled on this channel.")
 
+    @commands.command(pass_context=True)
+    async def item(self, ctx, *, itemname : str):
+        """Looks up JP name of an item."""
+
+        async with aiohttp.ClientSession() as session:
+            url = "http://db.kakia.org/item/search?name={0}".format(itemname.replace(" ", "%20"))
+            r = await session.get(url)
+            if r.status == 200:
+                js = await r.json()
+                iteminfo = []
+
+                if js:
+                    if len(js) > 1 and len(js) <= 11:
+                        for result in js:
+                            if result["EnName"]:
+                                iteminfo.append("``EN Name:`` {}".format(result["EnName"]))
+
+                        string = "\n".join(iteminfo)
+                        message = "{} Found multiple items matching ``{}``. Try again with one of these names:\n{}".format(ctx.message.author.mention, itemname, string)
+                        await self.bot.say(message)
+
+                    elif len(js) > 11:
+                        i = 0
+                        for result in js:
+                            if result["EnName"] and i < 11:
+                                iteminfo.append("``EN Name:`` {}".format(result["EnName"]))
+
+                        string = "\n".join(iteminfo)
+                        message = "{} Too many items matching ``{}``. Here are the first 11 results:\n{}".format(
+                            ctx.message.author.mention, itemname, string)
+                        await self.bot.say(message)
+
+                    else:
+                        if js[0]["Img"]:
+                            iteminfo.append({"``IMG:`` http://db.kakia.org/{}".format(js[0]["Img"])})
+                        if js[0]["JpName"]:
+                            iteminfo.append("``JP Name:`` {}".format(js[0]["JpName"]))
+                        if js[0]["EnName"]:
+                            iteminfo.append("``EN Name:`` {}".format(js[0]["EnName"]))
+                        if js[0]["EnDesc"]:
+                            iteminfo.append("``EN Description:`` {}".format(js[0]["EnDesc"].replace("\\n", " ")))
+
+                        string = "\n".join(iteminfo)
+                        await self.bot.say("{}\n{}".format(ctx.message.author.mention, string))
+
+                else:
+                    await self.bot.say("{} Could not find that item :(".format(ctx.message.author.mention))
 
 def setup(bot):
-    bot.add_cog(EmergencyQuest(bot))
+    bot.add_cog(PSO2(bot))

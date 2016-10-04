@@ -9,7 +9,7 @@ bot = commands.Bot(command_prefix=['+'], description=description,
 
 extensions = [
     'cogs.general',
-    'cogs.eq',
+    'cogs.pso2',
     'cogs.macro'
 ]
 
