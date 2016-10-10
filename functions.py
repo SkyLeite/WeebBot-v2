@@ -152,6 +152,6 @@ async def changeGame(bot):
         await bot.wait_until_ready()
         games = ['+help', '+donate', 'Prefix is +']
         for gamename in games:
-            await bot.change_status(game=discord.Game(name=gamename))
+            await bot.change_presence(game=discord.Game(name=gamename))
 
             await asyncio.sleep(120)
