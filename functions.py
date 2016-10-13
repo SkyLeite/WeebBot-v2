@@ -67,7 +67,7 @@ async def checkPSO2EQ(bot):
                             pass
                         else:
                             await sendAlert(message, bot)
-                            await generateHTML(eqs)
+                            generateHTML(eqs)
 
                         # Updates last_eq file
                         with open('cogs/json/last_eq.json', 'w') as file:
