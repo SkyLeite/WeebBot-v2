@@ -67,6 +67,7 @@ async def checkPSO2EQ(bot):
                             pass
                         else:
                             await sendAlert(message, bot)
+                            await generateHTML(eqs)
 
                         # Updates last_eq file
                         with open('cogs/json/last_eq.json', 'w') as file:
@@ -77,6 +78,29 @@ async def checkPSO2EQ(bot):
                 continue
 
         await asyncio.sleep(5)
+
+
+def generateHTML(eqs):
+    eqHTML = []
+
+    for eq in eqs:
+        eqHTML.append("<p>" + eq.replace("``", "") + "</p>")
+
+    f = open('helloworld.html', 'w')
+
+    html = """<!DOCTYPE HTML>
+    <html>
+        <head>
+            <title>PSO2 Memes</title>
+        </head>
+        <body>
+            {}
+        </body>
+    </html>
+    """.format("\n".join(eqHTML))
+
+    f.write(html)
+    f.close()
 
 
 async def checkBumpedArticle(bot):
