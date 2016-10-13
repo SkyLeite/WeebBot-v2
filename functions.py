@@ -1,5 +1,6 @@
 import asyncio
 import json
+import re
 
 # External modules
 import aiohttp
@@ -27,30 +28,24 @@ async def checkPSO2EQ(bot):
                     i = 0
 
                     # Adds EQ data to eqs and formats them properly
-                    eqatthishour = True
-                    for line in eq:
-                        if line.startswith('{0:02d}:'.format(i)):
-                            line = '``SHIP ' + line.replace(':', ':`` ')
-                            eqs.append(line)
+                    shipEQ = re.compile(r'(\d*:[^0-9-]+)')
+                    announcement = re.compile(r'(\[\D*\].*)')
+                    allShipsEQ = re.compile(r'(^\d+:\d+.*)')
 
-                        elif 'Emergency Quest' not in line and not line.endswith("-"):
-                            eqs.append(line)
-
-                        elif line == 'All ships are in event preparation.':
-                            eqs.append('``' + line + '``')
-
-                        elif 'no report at all ships' in line:
-                            eqatthishour = False
-
-                        elif '[In Preparation]' in line:
-                            line = line.replace('[In Preparation]', '``IN PREPARATION:``')
-                            eqs.append(line)
-
-                        elif '[In Progress]' in line:
-                            line = line.replace('[In Progress]', '``IN PROGRESS:``')
-                            eqs.append(line)
-
-                        i += 1
+                    for line in js[0]['text'].splitlines():
+                        try:
+                            if shipEQ.match(line):
+                                string = shipEQ.match(line).group(0)
+                                eqs.append('``SHIP ' + string.replace(':', ':`` '))
+                            elif announcement.match(line):
+                                string = announcement.match(line).group(0)
+                                eqs.append(string.replace("[", "``").replace("]", "``"))
+                            elif allShipsEQ.match(line):
+                                string = allShipsEQ.match(line).group(0)
+                                eqs.append("``ALL SHIPS:`` " + string)
+                        except Exception as e:
+                            print(e)
+                            pass
 
                     # Loads last_eq.json
                     with open('cogs/json/last_eq.json', encoding="utf8") as in_f:
@@ -68,18 +63,14 @@ async def checkPSO2EQ(bot):
                     # Checks if current EQ is different from the last one
                     # recorded AND if there is an EQ
                     if last_eq['jst'] != eqtime:
-                        if not eqatthishour:
+                        if not eqs:
                             pass
                         else:
-
-
-                            # Checks if channel exists, and if it does,
-                            # sends an alert to it
                             await sendAlert(message, bot)
 
-                            # Updates last_eq file
-                            with open('cogs/json/last_eq.json', 'w') as file:
-                                json.dump(js[0], file)
+                        # Updates last_eq file
+                        with open('cogs/json/last_eq.json', 'w') as file:
+                            json.dump(js[0], file)
 
             except Exception as e:
                 await bot.send_message(discord.Object("198483667289374720"), repr(e))
