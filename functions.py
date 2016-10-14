@@ -1,6 +1,8 @@
 import asyncio
 import json
 import re
+import pytz
+from datetime import datetime, timedelta
 
 # External modules
 import aiohttp
@@ -18,14 +20,13 @@ async def checkPSO2EQ(bot):
                 if r.status == 200:
                     js = await r.json()
 
-                    eq = js[0]['text'].splitlines()
                     eqtime = js[0]['jst']
                     equtc = (eqtime - 9) % 24
                     eqpst = (eqtime - 16) % 24
                     eqest = (eqtime - 13) % 24
                     eqgmt = (eqtime - 6) % 24
                     eqs = []
-                    i = 0
+                    rodos = []
 
                     # Adds EQ data to eqs and formats them properly
                     shipEQ = re.compile(r'(\d*:[^0-9-]+)')
@@ -47,18 +48,35 @@ async def checkPSO2EQ(bot):
                             print(e)
                             pass
 
+                    #Checks if there's a rodos daily going on
+                    order = ["Defeat: Bal Rodos(VH)", "2016-08-03", [3, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6]]
+                    orderDate = datetime.strptime(order[1], "%Y-%m-%d")
+                    jstNow = datetime.utcnow().replace(tzinfo=pytz.timezone('Asia/Tokyo')).date()
+
+                    for i in range(0, 50):
+                        for interval in order[2]:
+                            orderDate = orderDate + timedelta(days=interval)
+                            if orderDate.date() == jstNow:
+                                rodos.append(":fishing_pole_and_fish: Today is VH Bal Rodos day!")
+                            else:
+                                if (orderDate.date() > jstNow):
+                                    rodos.append(":fishing_pole_and_fish: ``Next VH Rodos:`` {}".format(orderDate.date()))
+                                    break
+                        break
+
                     # Loads last_eq.json
                     with open('cogs/json/last_eq.json', encoding="utf8") as in_f:
                         last_eq = json.load(in_f)
 
                     #Builds string
                     string = '\n'.join(eqs)
+                    rodos2 = '\n'.join(rodos)
 
                     donation = ':love_letter: Support me on Patreon! <http://patreon.kazesenoue.moe>'
 
                     message = (':arrow_right: **Emergency Quest '
                                'Notice\n:watch:{:02d} JST / {:02d} UTC /'
-                               ' {:02d} PST / {:02d} EST / {:02d} GMT +3**\n\n{}\n\n{}'.format(eqtime, equtc, eqpst, eqest, eqgmt, string, donation))
+                               ' {:02d} PST / {:02d} EST / {:02d} GMT +3**\n\n{}\n\n{}\n\n{}'.format(eqtime, equtc, eqpst, eqest, eqgmt, string, rodos2, donation))
 
                     # Checks if current EQ is different from the last one
                     # recorded AND if there is an EQ
