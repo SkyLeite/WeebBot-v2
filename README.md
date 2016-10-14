@@ -10,10 +10,13 @@ Just clone this repo, edit the settings.py with your API Token and Owner ID, run
 
 ## Commands
 
-- `!help`: List of commands.
-- `!cat`: Replies with a random cat gif and a random cat-related fact.
-- `!eq enable`: Enables EQ Alerts on the channel the message is sent to.
-- `!eq disable`: Disables EQ Alerts on the channel the message is sent to.
+- `+help`: List of commands.
+- `+cat`: Replies with a random cat gif and a random cat-related fact.
+- `+eq enable`: Enables EQ Alerts on the channel the message is sent to.
+- `+eq disable`: Disables EQ Alerts on the channel the message is sent to.
+- `+item itemname`: Looks up japanese name of an item.
+- `+donate`: Returns a donation link.
+- `+join`: Returns instructions on how to get the bot in your server.
 
 And a lot more to come!
 
