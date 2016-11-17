@@ -1,5 +1,5 @@
 from discord.ext import commands
-import json, aiohttp
+import json, aiohttp, discord
 
 
 class PSO2:
@@ -8,12 +8,30 @@ class PSO2:
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.command()
+    async def pso2(self):
+        data = discord.Embed(colour=discord.Colour.red())
+        data.set_author(name="Phantasy Star Online 2", icon_url="http://img.informer.com/icons/png/48/3365/3365560.png")
+
+        info="[News](http://bumped.org/psublog)\n[Reddit](http://reddit.com/r/pso2)\n[Guides](http://fulldive.nu)\n[Forums](http://pso-world.com)\n[Wiki](https://pso2.arks-visiphone.com)"
+        data.add_field(name="Information", value=info)
+
+        downloads="[Launcher](http://arks-layer.com)\n[Mods](https://goo.gl/M8PpWh)"
+        data.add_field(name="Downloads", value=downloads)
+
+        translations="English Patch: :ballot_box_with_check:\nStory Patch: :ballot_box_with_check:\nItem Patch: :ballot_box_with_check:"
+        data.add_field(name="Translations", value=translations)
+
+        data.set_footer(text="Those are hypelinks. Give them a click.")
+
+        await self.bot.say(embed=data)
+
     @commands.group(pass_context=True)
     async def eq(self, ctx):
         """EQ-related commands"""
 
         if ctx.invoked_subcommand is None:
-            await self.bot.say('Incorrect subcommand passed. Do ``!help eq`` for the available subcommands.')
+            await self.bot.say('Incorrect subcommand passed. Do ``+help eq`` for the available subcommands.')
 
     @eq.command()
     async def last(self):
