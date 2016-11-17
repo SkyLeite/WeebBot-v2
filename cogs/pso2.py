@@ -22,7 +22,7 @@ class PSO2:
         translations="English Patch: :ballot_box_with_check:\nStory Patch: :ballot_box_with_check:\nItem Patch: :ballot_box_with_check:"
         data.add_field(name="Translations", value=translations)
 
-        data.set_footer(text="Those are hypelinks. Give them a click.")
+        data.set_footer(text="Those are hyperlinks. Give them a click.")
 
         await self.bot.say(embed=data)
 
