@@ -13,16 +13,44 @@ class PSO2:
         data = discord.Embed(colour=discord.Colour.red())
         data.set_author(name="Phantasy Star Online 2", icon_url="http://img.informer.com/icons/png/48/3365/3365560.png")
 
-        info="[News](http://bumped.org/psublog)\n[Reddit](http://reddit.com/r/pso2)\n[Guides](http://fulldive.nu)\n[Forums](http://pso-world.com)\n[Wiki](https://pso2.arks-visiphone.com)"
+        info = "[News](http://bumped.org/psublog)\n[Reddit](http://reddit.com/r/pso2)\n[Guides](http://fulldive.nu)\n[Forums](http://pso-world.com)\n[Wiki](https://pso2.arks-visiphone.com)"
         data.add_field(name="Information", value=info)
 
-        downloads="[Launcher](http://arks-layer.com)\n[Mods](https://goo.gl/M8PpWh)"
+        downloads = "[Launcher](http://arks-layer.com)\n[Mods](https://goo.gl/M8PpWh)"
         data.add_field(name="Downloads", value=downloads)
 
-        translations="English Patch: :ballot_box_with_check:\nStory Patch: :ballot_box_with_check:\nItem Patch: :ballot_box_with_check:"
+        translations = "English Patch: :ballot_box_with_check:\nStory Patch: :ballot_box_with_check:\nItem Patch: :ballot_box_with_check:"
         data.add_field(name="Translations", value=translations)
 
         data.set_footer(text="Those are hyperlinks. Give them a click.")
+
+        await self.bot.say(embed=data)
+
+    @commands.command()
+    async def builds(self):
+        data = discord.Embed(colour=discord.Colour.red())
+        data.set_author(name="Meta Builds", icon_url="http://img.informer.com/icons/png/48/3365/3365560.png")
+
+        hunter = "[Hu/Fi](https://goo.gl/CA7Eos)\n[Hu/Br (Dragonslayer)](https://goo.gl/3SkU17)"
+        data.add_field(name="Hunter", value=hunter)
+
+        ranger = "[Ra/Hu](https://goo.gl/86sIbw)\n[Ra/Br](https://goo.gl/6vgczQ)"
+        data.add_field(name="Ranger", value=ranger)
+
+        force = "[Fo/Te (Fire/Dark)](https://goo.gl/98Sed0)\n[Fo/Te (Ice/Light)](https://goo.gl/VLz3nA)"
+        data.add_field(name="Force", value=force)
+
+        fighter = "[Fi/Hu](https://goo.gl/7sdiyQ)"
+        data.add_field(name="Fighter", value=fighter)
+
+        gunner = "[Gu/Hu](https://goo.gl/TZf5Hk)\n[Gu/Ra](https://goo.gl/JNz9tM)"
+        data.add_field(name="Gunner", value=gunner)
+
+        techer = "[Te/Br](https://goo.gl/miAabv)\n[Te/Hu](https://goo.gl/ggHROJ)"
+        data.add_field(name="Techer", value=techer)
+
+        bouncer = "[Bo/Hu (Dual Blades)](https://goo.gl/pexGnC)\n[Bo/Hu (Jet Boots)](https://goo.gl/b3lmg6)\n[Bo/Hu (Hybrid)](https://goo.gl/IcWGLM)"
+        data.add_field(name="Bouncer", value=bouncer)
 
         await self.bot.say(embed=data)
 
