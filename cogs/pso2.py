@@ -37,7 +37,7 @@ class PSO2:
         ranger = "[Ra/Hu](https://goo.gl/86sIbw)\n[Ra/Br](https://goo.gl/6vgczQ)"
         data.add_field(name="Ranger", value=ranger)
 
-        force = "[Fo/Te (Fire/Dark)](https://goo.gl/98Sed0)\n[Fo/Te (Ice/Light)](https://goo.gl/VLz3nA)"
+        force = "[Fo/Te (Fire/Dark)](https://goo.gl/aoGhhw)\n[Fo/Te (Ice/Light)](https://goo.gl/XMNgpr)"
         data.add_field(name="Force", value=force)
 
         fighter = "[Fi/Hu](https://goo.gl/7sdiyQ)"
@@ -46,7 +46,7 @@ class PSO2:
         gunner = "[Gu/Hu](https://goo.gl/TZf5Hk)\n[Gu/Ra](https://goo.gl/JNz9tM)"
         data.add_field(name="Gunner", value=gunner)
 
-        techer = "[Te/Br](https://goo.gl/miAabv)\n[Te/Hu](https://goo.gl/ggHROJ)"
+        techer = "[Te/Br](https://goo.gl/byxDgK)\n[Te/Hu](https://goo.gl/ggHROJ)"
         data.add_field(name="Techer", value=techer)
 
         bouncer = "[Bo/Hu (Dual Blades)](https://goo.gl/pexGnC)\n[Bo/Hu (Jet Boots)](https://goo.gl/b3lmg6)\n[Bo/Hu (Hybrid)](https://goo.gl/IcWGLM)"
@@ -155,42 +155,20 @@ class PSO2:
                 iteminfo = []
 
                 if js:
-                    if len(js) > 1 and len(js) <= 11:
+                    if len(js) >= 1 and len(js) <= 10:
                         for result in js:
                             if result["EnName"]:
-                                iteminfo.append("``EN Name:`` {}".format(result["EnName"]))
+                                iteminfo.append("``EN Name:`` {} // ``JP Name:`` {}".format(result["EnName"], result["JpName"]))
 
                         string = "\n".join(iteminfo)
-                        message = "{} Found multiple items matching ``{}``. Try again with one of these names:\n{}".format(ctx.message.author.mention, itemname, string)
+                        message = "{}\n{}".format(string, ctx.message.author.mention)
                         await self.bot.say(message)
 
-                    elif len(js) > 11:
-                        i = 0
-                        for result in js:
-                            i+= 1
-                            if result["EnName"] and i < 11:
-                                iteminfo.append("``EN Name:`` {}".format(result["EnName"]))
-
-                        string = "\n".join(iteminfo)
-                        message = "{} Too many items matching ``{}``. Here are the first 11 results:\n{}".format(
-                            ctx.message.author.mention, itemname, string)
-                        await self.bot.say(message)
-
-                    else:
-                        if js[0]["Img"]:
-                            iteminfo.append({"``IMG:`` http://db.kakia.org/{}".format(js[0]["Img"])})
-                        if js[0]["JpName"]:
-                            iteminfo.append("``JP Name:`` {}".format(js[0]["JpName"]))
-                        if js[0]["EnName"]:
-                            iteminfo.append("``EN Name:`` {}".format(js[0]["EnName"]))
-                        if js[0]["EnDesc"]:
-                            iteminfo.append("``EN Description:`` {}".format(js[0]["EnDesc"].replace("\\n", " ")))
-
-                        string = "\n".join(iteminfo)
-                        await self.bot.say("{}\n{}".format(ctx.message.author.mention, string))
+                    elif len(js) > 10:
+                        await self.bot.say("{} Found too many items matching {}. Please try a more specific search.".format(ctx.message.author.mention, itemname))
 
                 else:
-                    await self.bot.say("{} Could not find that item :(".format(ctx.message.author.mention))
+                    await self.bot.say("{} Could not find ``{}``.".format(ctx.message.author.mention, itemname))
 
 def setup(bot):
     bot.add_cog(PSO2(bot))
