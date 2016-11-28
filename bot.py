@@ -33,7 +33,7 @@ async def on_ready():
 @bot.event
 async def on_member_join(member):
     if member.server.id == '80900839538962432':
-        role = discord.utils.get(member.server.roles, name='Member')
+        role = discord.utils.get(member.server.roles, name='Members')
         await bot.add_roles(member, role)
         await bot.say('{}, welcome to the PSO2 Discord. Type `+pso2` if you need information regarding the game, and read the #rules.'.format(member.mention))
 
