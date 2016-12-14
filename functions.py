@@ -85,7 +85,6 @@ async def checkPSO2EQ(bot):
                             pass
                         else:
                             await sendAlert(message, bot)
-                            generateHTML(eqs)
 
                         # Updates last_eq file
                         with open('cogs/json/last_eq.json', 'w') as file:
@@ -96,30 +95,6 @@ async def checkPSO2EQ(bot):
                 continue
 
         await asyncio.sleep(5)
-
-
-def generateHTML(eqs):
-    eqHTML = []
-
-    for eq in eqs:
-        eqHTML.append("<p>" + eq.replace("``", "") + "</p>")
-
-    f = open('helloworld.html', 'w')
-
-    html = """<!DOCTYPE HTML>
-    <html>
-        <head>
-            <title>PSO2 Memes</title>
-        </head>
-        <body>
-            {}
-        </body>
-    </html>
-    """.format("\n".join(eqHTML))
-
-    f.write(html)
-    f.close()
-
 
 async def checkBumpedArticle(bot):
     while not bot.is_closed:
@@ -188,3 +163,54 @@ async def changeGame(bot):
             await bot.change_presence(game=discord.Game(name=gamename))
 
             await asyncio.sleep(120)
+
+
+async def monitorEQs(bot):
+    while not bot.is_closed:
+        await bot.wait_until_ready()
+
+        async with aiohttp.ClientSession() as session:
+            r = await session.get("http://pso2.kazesenoue.moe/eq/")
+            if r.status == 200:
+                js = await r.json()
+
+                with open('cogs/json/last_eq_lfp.json', 'r') as file:
+                    last_eq = json.load(file)
+
+                if last_eq != js[0]:
+                    with open('cogs/json/groups.json', 'r') as file:
+                        groups = json.load(file)
+
+                    for eq in js[0]['eqs']:
+                        groups.append({"eq" : eq['name'], "group" : [], "ship" : int(eq['ship'])})
+
+                    with open('cogs/json/groups.json', 'w+') as file:
+                        json.dump(groups, file, sort_keys=True, indent=4)
+
+                    with open('cogs/json/last_eq_lfp.json', 'w+') as file:
+                        json.dump(js[0], file, sort_keys=True, indent=4)
+
+                    await asyncio.sleep(30)
+
+                    #Terminates every group
+                    server = bot.get_server("171412745302835201")
+                    for i in range(1, 4):
+                        #Deletes channels and roles
+                        role = discord.utils.get(server.roles, name='Ship {}'.format(i))
+                        await bot.delete_role(server, role)
+
+                        channel = discord.utils.get(server.channels, name='ship-{}'.format(i))
+                        await bot.delete_channel(channel)
+
+                        #Creates them back
+                        role = await bot.create_role(server, name='Ship {}'.format(i))
+
+                        everyone = discord.PermissionOverwrite(read_messages=False)
+                        rolePerms = discord.PermissionOverwrite(read_messages=True)
+                        await bot.create_channel(server, 'ship-{}'.format(i), (server.default_role, everyone), (role, rolePerms))
+
+                    #Wipes groups.json
+                    with open('cogs/json/groups.json', 'w+') as file:
+                        json.dump([], file)
+
+        await asyncio.sleep(10)

@@ -58,6 +58,5 @@ if __name__ == '__main__':
     loop = asyncio.get_event_loop()
 
     bot.loop.create_task(checkPSO2EQ(bot))
-    bot.loop.create_task(monitorEQs(bot))
     bot.loop.create_task(changeGame(bot))
     bot.run(token)
