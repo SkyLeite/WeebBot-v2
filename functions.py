@@ -2,12 +2,12 @@ import asyncio
 import json
 import re
 import pytz
+from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 
 # External modules
 import aiohttp
 import discord
-import feedparser
 
 
 async def checkPSO2EQ(bot):
@@ -96,37 +96,54 @@ async def checkPSO2EQ(bot):
 
         await asyncio.sleep(5)
 
-async def checkBumpedArticle(bot):
+async def gdqTopic(bot):
     while not bot.is_closed:
         await bot.wait_until_ready()
-        async with aiohttp.get('http://bumped.org/psublog/feed/atom') as r:
-            if r.status == 200:
-                feed = await r.text()
-                d = feedparser.parse(feed)
 
-                articleTitle = d['entries'][0]['title']
-                articleLink = d['entries'][0]['links'][0]['href']
-                articleSummary = d['entries'][0]['summary']
-                articleId = d['entries'][0]['id']
+        async with aiohttp.ClientSession() as session:
+            try:
+                r = await session.get("https://gamesdonequick.com/tracker/runs/agdq2017")
+                if r.status == 200:
+                    js = await r.text()
+                    soup = BeautifulSoup(js, 'html.parser')
 
-                message = ':mega: **New Bumped article!** \n``TITLE:`` {} \n``LINK:`` {}'.format(
-                    articleTitle, articleLink)
+                    games = soup.find_all("tr", class_="small")
 
-                # Loads last_article.json
-                with open('cogs/json/last_article.json', encoding="utf8") as file:
-                    last_article = json.load(file)
+                    for game in games:
+                        info = game.find_all("td")
 
-                if articleId != last_article['id']:
-                    await sendAlert(message, bot)
+                        name = info[0].a.text
+                        runner = info[1].text.replace("\n", "")
+                        start = datetime.strptime(info[3].span.text, "%m/%d/%Y %H:%M:%S %z").replace(tzinfo=pytz.timezone('US/Eastern'))
+                        finish = datetime.strptime(info[4].span.text, "%m/%d/%Y %H:%M:%S %z").replace(tzinfo=pytz.timezone('US/Eastern'))
+                        now = datetime.utcnow().replace(tzinfo=pytz.timezone('US/Eastern'))
 
-                    with open('cogs/json/last_article.json', 'w') as file:
-                        last_article = {"id": articleId}
-                        json.dump(last_article, file)
+                        if start <= now <= finish:
+                            nextGame = games[games.index(game) + 1]
+                            nextInfo = nextGame.find_all("td")
+                            nextName = nextInfo[0].a.text
+                            nextRunner = nextInfo[1].text.replace("\n", "")
 
-                else:
-                    pass
+                            server = bot.get_server("80919069628313600")
+                            channel = server.get_channel("267215903660310528")
 
-        await asyncio.sleep(5)
+                            string = """**Current:** {} by {} | \n**Next:** {} by {} **!!CLICK FOR INFORMATION!!**
+**Stream:** http://twitch.tv/gamesdonequick
+**Schedule:** https://gamesdonequick.com/schedule
+**Drinking game (YOU'LL FUCKING DIE):** https://i.redd.it/5zagmf8cs38y.png
+
+Twitch player eating dicks?
+**mpv + youtube-dl**: https://mpv.srsfckn.biz/
+**Streamlink:** https://github.com/streamlink/streamlink
+**Streamlink Twitch GUI:** https://github.com/streamlink/streamlink-twitch-gui/releases
+**Chatty:** http://chatty.github.io/""".format(name, runner, nextName, nextRunner)
+
+                            await bot.edit_channel(channel, topic=string)
+
+            except Exception as e:
+                pass
+
+        await asyncio.sleep(10)
 
 
 async def sendAlert(message, bot):

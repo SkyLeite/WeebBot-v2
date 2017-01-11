@@ -1,12 +1,9 @@
 from functions import *
 from settings import *
 from discord.ext import commands
-from flask import Flask, render_template
-import os
 
 description = '''A bot focused on alerting for Emergency Quests on PSO2.\nSupport: https://discord.gg/0xMXCNAFbH032Ig1'''
 
-app = Flask(__name__)
 bot = commands.Bot(command_prefix=['+'], description=description)
 
 extensions = [
@@ -14,7 +11,7 @@ extensions = [
     'cogs.pso2',
     'cogs.macro',
     'cogs.quotes',
-    'cogs.lfp'
+    'cogs.gdq'
 ]
 
 
@@ -31,7 +28,7 @@ async def on_ready():
     print('OAuth URL: {}'.format(oauthlink))
     print('Cogs: {}'.format(bot.cogs))
     print('---------')
-    app.run('localhost', port=5001)
+    #app.run('localhost', port=5001)
 
 
 @bot.event
@@ -40,12 +37,6 @@ async def on_member_join(member):
         role = discord.utils.get(member.server.roles, name='Members')
         await bot.add_roles(member, role)
         await bot.send_message(discord.Object("80900839538962432"), '{}, welcome to the PSO2 Discord. Type `+pso2` if you need information regarding the game, and read the #rules.'.format(member.mention))
-
-
-@app.route('/')
-def stats():
-    return render_template('stats.html', username=bot.user.name, id=bot.user.id, servercount=len(bot.servers), usercount=len(set(bot.get_all_members())), cogs=len(bot.cogs))
-    #return '<html><body><h1>Hello World < / h1 > < / body > < / html > '
 
 
 if __name__ == '__main__':
@@ -59,4 +50,5 @@ if __name__ == '__main__':
 
     bot.loop.create_task(checkPSO2EQ(bot))
     bot.loop.create_task(changeGame(bot))
+    bot.loop.create_task(gdqTopic(bot))
     bot.run(token)
