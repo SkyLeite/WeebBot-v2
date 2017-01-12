@@ -28,6 +28,7 @@ class GDQ:
                     js = await r.text()
                     soup = BeautifulSoup(js, 'html.parser')
 
+                    return soup
 
             except:
                 print('noo')

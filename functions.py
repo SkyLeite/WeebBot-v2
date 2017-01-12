@@ -127,7 +127,7 @@ async def gdqTopic(bot):
                             server = bot.get_server("80919069628313600")
                             channel = server.get_channel("267215903660310528")
 
-                            string = """**Current:** {} by {} | \n**Next:** {} by {} **!!CLICK FOR INFORMATION!!**
+                            string = """**Now:** {} ({}) - \n**Next:** {} ({})
 **Stream:** http://twitch.tv/gamesdonequick
 **Schedule:** https://gamesdonequick.com/schedule
 **Drinking game (YOU'LL FUCKING DIE):** https://i.redd.it/5zagmf8cs38y.png
@@ -141,7 +141,7 @@ Twitch player eating dicks?
                             await bot.edit_channel(channel, topic=string)
 
             except Exception as e:
-                pass
+                print(e)
 
         await asyncio.sleep(10)
 
