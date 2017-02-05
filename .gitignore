@@ -1,6 +1,1 @@
-settings.py
-cogs/json/eq_channels.json
-cogs/json/last_eq.json
-__pycache__
-cogs/__pycache__
-.idea
+/node_modules
