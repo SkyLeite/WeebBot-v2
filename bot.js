@@ -65,7 +65,7 @@ client.setInterval(function() {
                                 format.push(`\`\`SHIP ${eq['ship']}:\`\` ${eq['name']}`);
                             });
 
-                            let string = `:arrow_right: **Emergency Quest Notice**\n\n${format.join('\n')}\n\n:love_letter: Support the bot! http://kaze.rip/donate`
+                            let string = `:arrow_right: **Emergency Quest Notice**\n\n:watch:**IN 40 MINUTES:**\n${format.join('\n')}\n\n:love_letter: Support the bot! http://kaze.rip/donate`
                             client.channels.get(settings['channel']).sendMessage(string);
                         }
                     }

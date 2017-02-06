@@ -1,5 +1,4 @@
 const Commando = require('discord.js-commando');
-const Discord = require('discord.js')
 
 module.exports = class PSO2Commands extends Commando.Command {
     constructor(client) {
@@ -8,19 +7,19 @@ module.exports = class PSO2Commands extends Commando.Command {
             group: "pso2",
             memberName: "alerts",
             description: "Enables EQ alerts",
-            examples: ["enable #general 5, 7, 9"],
+            examples: ["alerts #general 5, 7, 9"],
 
             args: [
                 {
                     key: 'channel',
                     label: 'channel',
-                    prompt: 'on what channel?',
+                    prompt: 'on what channel do you want the alerts to be displayed on?',
                     type: 'channel'
                 },
                 {
                     key: 'ships',
                     label: 'ship',
-                    prompt: 'what ships do you want to be alerted for?',
+                    prompt: 'for what ship(s)? Each following message will be treated as a different ship.',
                     validate: (args) => {
                         if (args >= 1 && args <= 10){
                             return true;
@@ -28,7 +27,7 @@ module.exports = class PSO2Commands extends Commando.Command {
                     },
                     type: 'integer',
                     infinite: true
-                }
+                },
             ]
         })
     }
@@ -44,6 +43,6 @@ module.exports = class PSO2Commands extends Commando.Command {
         dict["channel"] = channel.id;
 
         this.client.provider.set(msg.guild, "alerts", dict);
-        return channel.sendMessage(`${msg.author} Alerts successfully enabled for ships ${args.ships.join(', ')} on channel #${args.channel.name}`);
+        return msg.reply(`${msg.author} Alerts successfully enabled for ships ${args.ships.join(', ')} on channel #${args.channel.name}`);
     }
 }
