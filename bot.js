@@ -50,8 +50,8 @@ client.setInterval(function() {
             let cached = JSON.parse(fs.readFileSync("cache.json"));
 
             if (response[0]['time'] != cached["time"]){
-                try{
-                    client.guilds.forEach(function(guild) {
+                client.guilds.forEach(function(guild) {
+                    if (client.provider.get(guild, "alerts")){
                         let eqs = []
                         let format = []
                         let settings = client.provider.get(guild, "alerts");
@@ -72,11 +72,8 @@ client.setInterval(function() {
                                 client.channels.get(settings['channel']).sendMessage(string);
                             }
                         }
-                    })
-                
-                }catch(e){
-                    console.log(e)
-                }
+                    }
+                })
 
                 fs.writeFileSync('cache.json', `{ "time" : "${response[0]['time']}" }`, function(err) {
                     if (err) return console.log(err);
