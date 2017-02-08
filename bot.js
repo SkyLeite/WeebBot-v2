@@ -69,7 +69,9 @@ client.setInterval(function() {
                                 });
 
                                 let string = `:arrow_right: **Emergency Quest Notice**\n\n:watch:**IN 40 MINUTES:**\n${format.join('\n')}\n\n:love_letter: Support the bot! http://kaze.rip/donate`
-                                client.channels.get(settings['channel']).sendMessage(string);
+                                if (client.channels.get(settings['channel'])){
+                                    client.channels.get(settings['channel']).sendMessage(string);
+                                }
                             }
                         }
                     }
