@@ -50,28 +50,33 @@ client.setInterval(function() {
             let cached = JSON.parse(fs.readFileSync("cache.json"));
 
             if (response[0]['time'] != cached["time"]){
-                client.guilds.forEach(function(guild) {
-                    let eqs = []
-                    let format = []
-                    let settings = client.provider.get(guild, "alerts");
+                try{
+                    client.guilds.forEach(function(guild) {
+                        let eqs = []
+                        let format = []
+                        let settings = client.provider.get(guild, "alerts");
 
-                    if (client.channels.get(settings['channel'])){
-                        response[0]['eqs'].forEach(function(item) {
-                            if (settings['ships'].includes(item['ship'])){
-                                eqs.push(item);
+                        if (client.channels.get(settings['channel'])){
+                            response[0]['eqs'].forEach(function(item) {
+                                if (settings['ships'].includes(item['ship'])){
+                                    eqs.push(item);
+                                }
+                            })
+
+                            if (eqs.length > 0){
+                                eqs.forEach(function(eq) {
+                                    format.push(`\`\`SHIP ${eq['ship']}:\`\` ${eq['name']}`);
+                                });
+
+                                let string = `:arrow_right: **Emergency Quest Notice**\n\n:watch:**IN 40 MINUTES:**\n${format.join('\n')}\n\n:love_letter: Support the bot! http://kaze.rip/donate`
+                                client.channels.get(settings['channel']).sendMessage(string);
                             }
-                        })
-
-                        if (eqs.length > 0){
-                            eqs.forEach(function(eq) {
-                                format.push(`\`\`SHIP ${eq['ship']}:\`\` ${eq['name']}`);
-                            });
-
-                            let string = `:arrow_right: **Emergency Quest Notice**\n\n:watch:**IN 40 MINUTES:**\n${format.join('\n')}\n\n:love_letter: Support the bot! http://kaze.rip/donate`
-                            client.channels.get(settings['channel']).sendMessage(string);
                         }
-                    }
-                })
+                    })
+                
+                }catch(e){
+                    console.log(e)
+                }
 
                 fs.writeFileSync('cache.json', `{ "time" : "${response[0]['time']}" }`, function(err) {
                     if (err) return console.log(err);
