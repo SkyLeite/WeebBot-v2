@@ -17,12 +17,12 @@ If you want to re-host the bot, you'll need to edit the `config.json` file with 
 
 ## Commands
 
-### General
+#### General
 
 - `ping`: Pong!
 - `cat`: Displays a random cat gif.
 
-### Phantasy Star Online 2
+#### Phantasy Star Online 2
 
 - `pso2`: General information regarding the game.
 - `item <itemname>`: Looks up the japanese name of `<itemname>`.
@@ -30,7 +30,7 @@ If you want to re-host the bot, you'll need to edit the `config.json` file with 
 - `dalerts`: Disables EQ alerts.
 - `builds`: Displays current meta builds.
 
-### Settings 
+#### Settings 
 
 All the following commands can be run by mentioning the bot and only work for server admins.
 
