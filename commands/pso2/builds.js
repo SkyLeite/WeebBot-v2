@@ -6,8 +6,8 @@ module.exports = class PSO2Commands extends Commando.Command {
         super(client, {
             name: "builds",
             group: "pso2",
-            memberName: 'builds',
-            description: "Shows meta PSO2 builds."
+            memberName: "builds",
+            description: "PSO2 meta builds."
         })
     }
 
@@ -16,14 +16,17 @@ module.exports = class PSO2Commands extends Commando.Command {
             color: 3447003,
             title: "Phantasy Star Online 2",
             url: "http://pso2.jp",
-            description: "General information about PSO2.",
             fields: [{
-                name: "Information",
-                value: "[News](http://bumped.org/psublog)\n[Reddit](http://reddit.com/r/pso2)\n[Guides](http://fulldive.nu/)\n[PSO-World](http://pso-world.com)\n[Wiki](http://pso2.swiki.jp)"
+                name: "Striking",
+                value: "[Hu/Fi](https://goo.gl/DZQb73)\n[Fi/Hu](https://goo.gl/fcJZpV)\n[Br/Hu](https://goo.gl/dZyF9X)\n[Bo/Hu](https://goo.gl/OZOMN7)"
             },
             {
-                name: "Downloads",
-                value: "[English Launcher](http://arks-layer.com/)\n[Mods](https://goo.gl/M8PpWh)"
+                name: "Ranged",
+                value: "[Ra/Hu](https://goo.gl/8O7Wms)\n[Br/Ra](https://goo.gl/SAaSA6)\n[Gu/Ra](https://goo.gl/mdNFR2)"
+            },
+            {
+                name: "Tech",
+                value: "[Fo/Te](https://goo.gl/hQthMq)\n[Te/Br](https://goo.gl/bqpYJN)\n[Su/XX](https://goo.gl/AEIBzm)"
             }]
         }});
     }

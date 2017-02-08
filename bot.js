@@ -16,7 +16,8 @@ client
     .on('warn', console.warn)
     //.on('debug', console.log)
     .on('ready', () => {
-        console.log(`-> Client ready! \nLogged in as ${client.user.username}#${client.user.discriminator} (${client.user.id})`)
+        console.log(`-> Client ready! \n-> Logged in as ${client.user.username}#${client.user.discriminator} (${client.user.id})`)
+        console.log(`-> Servers: ${client.guilds.array().length}`)
     })
     .on('disconnect', () => { console.warn('Disconnected!'); })
     .on('commandError', (cmd, err) => {
@@ -41,6 +42,7 @@ client.setProvider(
     sqlite.open(path.join(__dirname, 'settings.sqlite3')).then(db => new Commando.SQLiteProvider(db))
 ).catch(console.error);
 
+// EQ alerts system
 client.setInterval(function() {
     request('http://pso2.kaze.rip/eq/', function (error, response, body) {
         if (!error && response.statusCode == 200) {
