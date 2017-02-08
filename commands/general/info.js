@@ -15,11 +15,15 @@ module.exports = class GeneralCommands extends Commando.Command {
     async run(msg, client){
         return msg.reply("", {embed: {
             color: 3447003,
-            title: this.client.user.username,
+            title: `${this.client.user.username}#${this.client.user.discriminator}`,
             url: "http://kaze.rip",
+            thumbnail: {
+                url: this.client.user.avatarURL
+            },
             fields: [{
                 name: "Information",
-                value: `Servers: ${this.client.guilds.array().length}`
+                value: `**Servers:** ${this.client.guilds.array().length}\n**Since:** ${this.client.user.createdAt.toDateString()}`,
+                inline: true
             }]
         }});
     }
