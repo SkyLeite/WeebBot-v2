@@ -7,7 +7,8 @@ module.exports = class PSO2Commands extends Commando.Command {
             group: "pso2",
             memberName: "disablealerts",
             description: "Disables EQ alerts on the current server.",
-            examples: ["dalerts"]
+            examples: ["dalerts"],
+            guildOnly: true
         })
     }
 

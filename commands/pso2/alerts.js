@@ -8,6 +8,7 @@ module.exports = class PSO2Commands extends Commando.Command {
             memberName: "alerts",
             description: "Enables EQ alerts",
             examples: ["alerts #general 5, 7, 9"],
+            guildOnly: true,
 
             args: [
                 {
