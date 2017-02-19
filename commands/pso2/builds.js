@@ -21,12 +21,12 @@ module.exports = class PSO2Commands extends Commando.Command {
             },
             fields: [{
                 name: "Striking",
-                value: "[Hu/Fi](https://goo.gl/DZQb73)\n[Fi/Hu](https://goo.gl/fcJZpV)\n[Br/Hu](https://goo.gl/dZyF9X)\n[Bo/Hu](https://goo.gl/OZOMN7)",
+                value: "[Hu/Fi](https://goo.gl/hPUQmb)\n[Fi/Hu](https://goo.gl/fcJZpV)\n[Br/Hu](https://goo.gl/MEaMaI)\n[Bo/Hu](https://goo.gl/YVABvW)",
                 inline: true
             },
             {
                 name: "Ranged",
-                value: "[Ra/Hu](https://goo.gl/8O7Wms)\n[Br/Ra](https://goo.gl/SAaSA6)\n[Gu/Ra](https://goo.gl/mdNFR2)",
+                value: "[Ra/Hu](https://goo.gl/dVZhs6)\n[Br/Ra](https://goo.gl/SAaSA6)\n[Gu/Ra](https://goo.gl/mdNFR2)\n[Gu/Hu](https://goo.gl/9P0Wfx)",
                 inline: true
             },
             {
