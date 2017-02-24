@@ -60,7 +60,7 @@ module.exports = class SVCommands extends Commando.Command {
                         },
                         {
                             name: "Art",
-                            value: `**Classic:** https://shadowverse-portal.com/image/card/en/C_${cardInfo['card_id']}.png\n**Evo:** https://shadowverse-portal.com/image/card/en/E_${cardInfo['card_id']}.png`
+                            value: `[Classic](https://shadowverse-portal.com/image/card/en/C_${cardInfo['card_id']}.png) - [Evolved](https://shadowverse-portal.com/image/card/en/E_${cardInfo['card_id']}.png)`
                         }]
                     }});
                 }
