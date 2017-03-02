@@ -32,7 +32,6 @@ module.exports = class SVCommands extends Commando.Command {
                 for (let i = 0; i < data['data']['cards'].length; i++){
                     if (data['data']['cards'][i]['card_name'] == card){
                         var cardInfo = data['data']['cards'][i];
-                        console.log(cardInfo)
                         break;
                     }
                 }
