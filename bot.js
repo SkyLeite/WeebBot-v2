@@ -69,7 +69,7 @@ client.setInterval(function() {
                                     format.push(`\`\`SHIP ${eq['ship']}:\`\` ${eq['name']}`);
                                 });
 
-                                let string = `:arrow_right: **Emergency Quest Notice**\n\n:watch:**IN 40 MINUTES:**\n${format.join('\n')}\n\n:love_letter: Support the bot! http://kaze.rip/donate`
+                                let string = `:arrow_right: **Emergency Quest Notice**\n\n:watch:**IN 40 MINUTES:**\n${format.join('\n')}`
                                 if (client.channels.get(settings['channel']).type == "text" && client.channels.get(settings['channel']).permissionsFor(client.user).hasPermission("SEND_MESSAGES")){
                                     client.channels.get(settings['channel']).sendMessage(string).catch(function(err) { console.log(err) });
                                 }
