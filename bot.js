@@ -19,7 +19,6 @@ client
         console.log(`-> Client ready! \n-> Logged in as ${client.user.username}#${client.user.discriminator} (${client.user.id})`)
         console.log(`-> Servers: ${client.guilds.array().length}`)
     })
-    .on('disconnect', () => { console.warn('Disconnected!'); })
     .on('commandError', (cmd, err) => {
         if(err instanceof Commando.FriendlyError) return;
         console.error('Error in command ${cmd.groupID}:${cmd.memberName}', err)
