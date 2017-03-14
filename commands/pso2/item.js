@@ -28,27 +28,32 @@ module.exports = class PSO2Commands extends Commando.Command {
             if (!error && response.statusCode == 200) {
                 let js = JSON.parse(body);
 
-                if (js.length > 0){
-                    let embed = { embed: {
-                        color: 3447003,
-                        title: "Results",
-                        url: "http://arks-layer.com",
-                        fields: []
-                    }}
+                try{
+                    if (js.length > 0){
+                        let embed = { embed: {
+                            color: 3447003,
+                            title: "Results",
+                            url: "http://kaze.rip",
+                            fields: []
+                        }}
 
-                    js.slice(0, 4).forEach(function (item) {
-                        if (item['PriceInfo'].length > 0){
-                            embed['embed']['fields'].push({name: item['EnName'], value: `**Price:** ${item['PriceInfo'].find(x => x['Ship'] === 2)['Price'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}\n**JP:** ${item['JpName']}`})
-                        }
-                        else{
-                            embed['embed']['fields'].push({name: item['EnName'], value: `**Price:** Undefined\n**JP:** ${item['JpName']}`})
-                        }
-                    })
+                        js.slice(0, 4).forEach(function (item) {
+                            if (item['PriceInfo'].length > 0){
+                                embed['embed']['fields'].push({name: item['EnName'], value: `**Price:** ${item['PriceInfo'].find(x => x['Ship'] === 2)['Price'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}\n**JP:** ${item['JpName']}`})
+                            }
+                            else{
+                                embed['embed']['fields'].push({name: item['EnName'], value: `**Price:** Undefined\n**JP:** ${item['JpName']}`})
+                            }
+                        })
 
-                    msg.reply("", embed)
+                        msg.reply("", embed)
+                    }
+                    else{
+                        msg.reply("could not find that item. Please try again with a different query.")
+                    }
                 }
-                else{
-                    msg.reply("could not find that item. Please try again with a different query.")
+                catch(err){
+                    console.log(err);
                 }
             }
         });
