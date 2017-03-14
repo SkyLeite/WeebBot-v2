@@ -24,22 +24,31 @@ module.exports = class PSO2Commands extends Commando.Command {
     async run(msg, args, client){
         let item = args.item;
 
-        request(`http://db.kakia.org/item/search?name=${item.replace(" ", "%20")}`, function (error, response, body) {
+        request(`http://db.kakia.org/item/search?name=${encodeURIComponent(item)}`, function (error, response, body) {
             if (!error && response.statusCode == 200) {
-                let resp = []
-                JSON.parse(body).forEach(function (item) {
-                    resp.push(`\`\`ENGLISH:\`\` ${item['EnName']} \\ \`\`JP:\`\` ${item['JpName']}`)
-                })
+                let js = JSON.parse(body);
 
-                if (resp.length > 0)
-                    if (resp.length > 6){
-                        return msg.reply(resp.slice(0, 6).join("\n"))
-                    }
-                    else{
-                        return msg.reply(resp.join("\n"))
-                    }
+                if (js.length > 0){
+                    let embed = { embed: {
+                        color: 3447003,
+                        title: "Results",
+                        url: "http://arks-layer.com",
+                        fields: []
+                    }}
+
+                    js.slice(0, 4).forEach(function (item) {
+                        if (item['PriceInfo'].length > 0){
+                            embed['embed']['fields'].push({name: item['EnName'], value: `**Price:** ${item['PriceInfo'].find(x => x['Ship'] === 2)['Price'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}\n**JP:** ${item['JpName']}`})
+                        }
+                        else{
+                            embed['embed']['fields'].push({name: item['EnName'], value: `**Price:** Undefined\n**JP:** ${item['JpName']}`})
+                        }
+                    })
+
+                    msg.reply("", embed)
+                }
                 else{
-                    return msg.reply(`could not find ${args.item}`)
+                    msg.reply("could not find that item. Please try again with a different query.")
                 }
             }
         });
