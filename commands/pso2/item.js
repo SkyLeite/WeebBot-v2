@@ -38,7 +38,7 @@ module.exports = class PSO2Commands extends Commando.Command {
                         }}
 
                         js.slice(0, 4).forEach(function (item) {
-                            if (item['PriceInfo'].length > 0){
+                            if (item['PriceInfo'].length > 0 && item['PriceInfo'].find(x => x['Ship'] === 2)){
                                 embed['embed']['fields'].push({name: item['EnName'], value: `**Price:** ${item['PriceInfo'].find(x => x['Ship'] === 2)['Price'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}\n**JP:** ${item['JpName']}`})
                             }
                             else{

@@ -1,6 +1,5 @@
 {
   "name": "weebbot",
-  "version": "3",
   "description": "Discord bot for PSO2.",
   "dependencies": {
     "async-request": "^1.2.0",
