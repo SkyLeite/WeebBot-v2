@@ -1,9 +1,20 @@
 const Commando = require('discord.js-commando');
-const config = require('./config.json')
 const path = require('path');
 const sqlite = require('sqlite')
 const request = require('request');
 const fs = require('fs');
+
+if (!fs.existsSync('./config.json')) {
+    fs.writeFileSync('./config.json', '{"token" : "", "prefix" : "!"}')
+    console.log('WARNING: Config file is missing. Please edit "config.json" and re-run the script.')
+    process.exit()
+}
+
+if (!fs.existsSync('./cache.json')){
+    fs.writeFileSync('./cache.json', '{ "time" : "02-19-2017 19:05:04 +0000" }')
+}
+
+const config = require('./config.json')
 
 const client = new Commando.Client({
     owner: '91387943679172608',
@@ -84,5 +95,7 @@ client.setInterval(function() {
         }
     })
 }, 10000, client)
+
+
 
 client.login(config.token);
