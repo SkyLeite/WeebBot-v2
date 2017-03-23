@@ -94,7 +94,7 @@ client.setInterval(function() {
             }
         }
     })
-}, 10000, client)
+}, 50000, client)
 
 
 
