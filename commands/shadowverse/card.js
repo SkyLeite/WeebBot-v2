@@ -62,6 +62,9 @@ module.exports = class SVCommands extends Commando.Command {
                         }]
                     }});
                 }
+                else {
+                    return msg.reply(`\`${card}\` did not match any cards. Please try again.`)
+                }
             }
         })
     }
