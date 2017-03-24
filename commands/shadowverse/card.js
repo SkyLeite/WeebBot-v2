@@ -27,10 +27,9 @@ module.exports = class SVCommands extends Commando.Command {
         request('https://shadowverse-portal.com/api/v1/cards?format=json&lang=en', function(error, response, body) {
             if (!error && response.statusCode == 200) { 
                 let data = JSON.parse(body);
-                console.log(data['data']['cards'].length)
                 
                 for (let i = 0; i < data['data']['cards'].length; i++){
-                    if (data['data']['cards'][i]['card_name'] == card){
+                    if (data['data']['cards'][i]['card_name'].toLowerCase() == card.toLowerCase()){
                         var cardInfo = data['data']['cards'][i];
                         break;
                     }
