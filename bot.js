@@ -40,7 +40,7 @@ client.registry
     .registerGroups([
         ['pso2', 'Phantasy Star Online 2 commmands'],
         ['general', 'General commands'],
-        ['shadowverse', "Shadowverse commands"]
+        ['card_games', "Games games commands"]
     ])
 
     // Register default groups, commands and argument types

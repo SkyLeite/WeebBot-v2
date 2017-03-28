@@ -4,11 +4,11 @@ const request = require('request');
 module.exports = class SVCommands extends Commando.Command {
     constructor(client) {
         super(client, {
-            name: "card",
-            group: "shadowverse",
-            memberName: "card",
-            description: "Looks up card information.",
-            examples: ["card Water Fairy"],
+            name: "sv",
+            group: "card_games",
+            memberName: "sv",
+            description: "Looks up Shadowverse card information.",
+            examples: ["sv Water Fairy"],
 
             args: [
                 {
