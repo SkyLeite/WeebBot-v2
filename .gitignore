@@ -1,3 +1,4 @@
 /node_modules
 config.json
 cache\.json
+settings.sqlite3
