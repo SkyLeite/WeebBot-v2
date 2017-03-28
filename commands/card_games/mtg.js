@@ -29,7 +29,28 @@ module.exports = class SVCommands extends Commando.Command {
                 let data = JSON.parse(body);
 
                 if (data['cards'].length > 0) {
-                    let cardInfo = data['cards'][0]
+                    for (let i = 0; i < data['cards'].length; i++){
+                        if (data['cards'][i]['name'].toLowerCase() == card.toLowerCase()){
+                            var cardInfo = data['cards'][i];
+                            break;
+                        }
+                    }
+
+                    if (typeof cardInfo == 'undefined'){
+                        var cardInfo = data['cards'][0];
+                    }
+
+                    if (!cardInfo['power'] && !cardInfo['toughness']){
+                            cardInfo['power'] = 0;
+                            cardInfo['toughness'] = 0;
+                    }
+
+                    if (!cardInfo['manaCost']){
+                        cardInfo['manaCost'] = 0;
+                    }
+                    else{
+                        cardInfo['manaCost'] = cardInfo['manaCost'].replace(/{/g, '').replace(/}/g, '');
+                    }
 
                     let embed = { embed: {
                         color: 3447003,
@@ -37,7 +58,7 @@ module.exports = class SVCommands extends Commando.Command {
                         url: "http://magicthegathering.io",
                         fields: [{
                             name: "Stats",
-                            value: `**Name:** ${cardInfo['name']}\n**Cost:** ${cardInfo['manaCost'].replace(/{/g, '').replace(/}/g, '')}\n**Power / Toughness:** ${cardInfo['power']}/${cardInfo['toughness']}\n**Type:** ${cardInfo['type']}`,
+                            value: `**Name:** ${cardInfo['name']}\n**Cost:** ${cardInfo['manaCost']}\n**Power / Toughness:** ${cardInfo['power']}/${cardInfo['toughness']}\n**Type:** ${cardInfo['type']}`,
                             inline: true
                         },
                         {
@@ -54,10 +75,13 @@ module.exports = class SVCommands extends Commando.Command {
 
                     msg.reply("", embed)
                 }
+
+                   
+                }
                 else {
                     return msg.reply(`\`${card}\` did not match any cards. Please try again.`)
                 }
             }
-        })
+        )
     }
 }
