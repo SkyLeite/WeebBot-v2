@@ -40,7 +40,7 @@ client.registry
     .registerGroups([
         ['pso2', 'Phantasy Star Online 2 commmands'],
         ['general', 'General commands'],
-        ['card_games', "Games games commands"]
+        ['card_games', "Card games commands"]
     ])
 
     // Register default groups, commands and argument types
@@ -95,7 +95,5 @@ client.setInterval(function() {
         }
     })
 }, 50000, client)
-
-
 
 client.login(config.token);
