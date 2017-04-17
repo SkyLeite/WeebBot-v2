@@ -40,7 +40,7 @@ module.exports = class SVCommands extends Commando.Command {
                 }
                 if (matches.length > 1) { //i.e. more than 1 match.
                     let max = 10;
-                    var answer = `\`card\` matched ${matches.length} cards : \n\`\`\``
+                    var answer = `\`${card}\` matched ${matches.length} cards : \n\`\`\``
                     for(let i = 0; i < max && i < matches.length; i++) {
                         answer += matches[i]['card_name'] + `\n`;
                     }
