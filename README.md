@@ -15,6 +15,8 @@ If you want to re-host the bot, you'll need to edit the `config.json` file with 
 - (npm install) `discord.js`
 - (npm install) `discord.js-commando`
 
+Alternatively, you can `cd` to the bot's directory and run `npm install` to let npm take care of that for you.
+
 ## Commands
 
 #### General
@@ -30,10 +32,15 @@ If you want to re-host the bot, you'll need to edit the `config.json` file with 
 - `dalerts`: Disables EQ alerts.
 - `builds`: Displays current meta builds.
 
+#### Shadowverse
+
+- `card <cardname>`: Returns information about `<cardname>`
+
 #### Settings 
 
 All the following commands can be run by mentioning the bot and only work for server admins.
 
+- `groups`: Lists all command groups.
 - `prefix <prefix>`: Changes the bot's prefix to `<prefix>`. (Example: `@Weeb Bot prefix -` changes the prefix to `-`)
 - `enable <group or command>`: Enables `<group or command>` to be used in this server.
 - `disable <group or command>`: Disables `<group or command>` to be used in this server.
@@ -44,4 +51,4 @@ If you have any questions or something went wrong, please contact me at `Kaze âš
 
 ## Donations
 
-If you wish to support the creation of this bot, please [click here](http://kaze.rip/donate.html). Thanks a lot <3
+If you wish to support the creation of this bot, just say thanks :p

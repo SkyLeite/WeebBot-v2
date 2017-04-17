@@ -19,11 +19,13 @@ module.exports = class PSO2Commands extends Commando.Command {
             description: "General information about PSO2.",
             fields: [{
                 name: "Information",
-                value: "[News](http://bumped.org/psublog)\n[Reddit](http://reddit.com/r/pso2)\n[Guides](http://fulldive.nu/)\n[PSO-World](http://pso-world.com)\n[Wiki](http://pso2.swiki.jp)"
+                value: "[News](http://bumped.org/psublog)\n[Reddit](http://reddit.com/r/pso2)\n[Guides](http://fulldive.nu/)\n[PSO-World](http://pso-world.com)\n[Wiki](http://pso2.swiki.jp)",
+                inline: true
             },
             {
                 name: "Downloads",
-                value: "[English Launcher](http://arks-layer.com/)\n[Mods](https://goo.gl/M8PpWh)"
+                value: "[English Launcher](http://arks-layer.com/)\n[Mods](https://goo.gl/M8PpWh)",
+                inline: true
             }]
         }});
     }

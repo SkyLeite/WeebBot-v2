@@ -4,11 +4,11 @@ const request = require('request');
 module.exports = class SVCommands extends Commando.Command {
     constructor(client) {
         super(client, {
-            name: "card",
-            group: "shadowverse",
-            memberName: "card",
-            description: "Looks up card information.",
-            examples: ["card Water Fairy"],
+            name: "sv",
+            group: "card_games",
+            memberName: "sv",
+            description: "Looks up Shadowverse card information.",
+            examples: ["sv Water Fairy"],
 
             args: [
                 {
@@ -27,10 +27,9 @@ module.exports = class SVCommands extends Commando.Command {
         request('https://shadowverse-portal.com/api/v1/cards?format=json&lang=en', function(error, response, body) {
             if (!error && response.statusCode == 200) { 
                 let data = JSON.parse(body);
-                console.log(data['data']['cards'].length)
                 
                 for (let i = 0; i < data['data']['cards'].length; i++){
-                    if (data['data']['cards'][i]['card_name'] == card){
+                    if (data['data']['cards'][i]['card_name'].toLowerCase() == card.toLowerCase()){
                         var cardInfo = data['data']['cards'][i];
                         break;
                     }
@@ -62,6 +61,9 @@ module.exports = class SVCommands extends Commando.Command {
                             value: `[Classic](https://shadowverse-portal.com/image/card/en/C_${cardInfo['card_id']}.png) - [Evolved](https://shadowverse-portal.com/image/card/en/E_${cardInfo['card_id']}.png)`
                         }]
                     }});
+                }
+                else {
+                    return msg.reply(`\`${card}\` did not match any cards. Please try again.`)
                 }
             }
         })

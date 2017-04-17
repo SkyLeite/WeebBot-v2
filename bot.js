@@ -1,9 +1,20 @@
 const Commando = require('discord.js-commando');
-const config = require('./config.json')
 const path = require('path');
 const sqlite = require('sqlite')
 const request = require('request');
 const fs = require('fs');
+
+if (!fs.existsSync('./config.json')) {
+    fs.writeFileSync('./config.json', '{"token" : "", "prefix" : "!"}')
+    console.log('WARNING: Config file is missing. Please edit "config.json" and re-run the script.')
+    process.exit()
+}
+
+if (!fs.existsSync('./cache.json')){
+    fs.writeFileSync('./cache.json', '{ "time" : "02-19-2017 19:05:04 +0000" }')
+}
+
+const config = require('./config.json')
 
 const client = new Commando.Client({
     owner: '91387943679172608',
@@ -19,7 +30,6 @@ client
         console.log(`-> Client ready! \n-> Logged in as ${client.user.username}#${client.user.discriminator} (${client.user.id})`)
         console.log(`-> Servers: ${client.guilds.array().length}`)
     })
-    .on('disconnect', () => { console.warn('Disconnected!'); })
     .on('commandError', (cmd, err) => {
         if(err instanceof Commando.FriendlyError) return;
         console.error('Error in command ${cmd.groupID}:${cmd.memberName}', err)
@@ -30,7 +40,7 @@ client.registry
     .registerGroups([
         ['pso2', 'Phantasy Star Online 2 commmands'],
         ['general', 'General commands'],
-        ['shadowverse', "Shadowverse commands"]
+        ['card_games', "Card games commands"]
     ])
 
     // Register default groups, commands and argument types
@@ -84,6 +94,6 @@ client.setInterval(function() {
             }
         }
     })
-}, 10000, client)
+}, 50000, client)
 
 client.login(config.token);
