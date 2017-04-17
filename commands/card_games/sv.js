@@ -27,14 +27,30 @@ module.exports = class SVCommands extends Commando.Command {
         request('https://shadowverse-portal.com/api/v1/cards?format=json&lang=en', function(error, response, body) {
             if (!error && response.statusCode == 200) { 
                 let data = JSON.parse(body);
-                
+                var indice = 0;
+                var matches = [];
                 for (let i = 0; i < data['data']['cards'].length; i++){
-                    if (data['data']['cards'][i]['card_name'].toLowerCase() == card.toLowerCase()){
-                        var cardInfo = data['data']['cards'][i];
-                        break;
+                    if (data['data']['cards'][i]['card_name'].toLowerCase().trim().includes(card.toLowerCase().trim())){
+                        if (data['data']['cards'][i]['card_name'].toLowerCase().trim() == card.toLowerCase().trim()) {
+                            matches = [data['data']['cards'][i]]; //Found an exact match.
+                            break;
+                        }
+                        matches[indice++] = data['data']['cards'][i]; //Found a "close enough" match.
                     }
                 }
-
+                if (matches.length > 1) { //i.e. more than 1 match.
+                    let max = 10;
+                    var answer = `\`${card}\` matched ${matches.length} cards : \n\`\`\``
+                    for(let i = 0; i < max && i < matches.length; i++) {
+                        answer += matches[i]['card_name'] + `\n`;
+                    }
+                    if(matches.length > max) {
+                        answer += `...and ${matches.length - max} more`
+                    }
+                    answer += `\`\`\``;
+                    return msg.reply(answer);
+                }
+                var cardInfo = matches[0]; //i.e. only 1 "close enough" match OR an exact match.
                 if (typeof cardInfo != 'undefined') {
                     return msg.reply("", {embed: {
                         color: 3447003,
