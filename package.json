@@ -3,7 +3,7 @@
   "description": "Discord bot for PSO2.",
   "dependencies": {
     "async-request": "^1.2.0",
-    "discord.js": "^11.0.0",
+    "discord.js": "^11.1.0",
     "discord.js-commando": "^0.8.5",
     "request": "^2.79.0",
     "sqlite": "^2.3.0"

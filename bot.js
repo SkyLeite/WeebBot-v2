@@ -54,14 +54,14 @@ client.setProvider(
 ).catch(console.error);
 
 // EQ alerts system
-client.setInterval(function() {
-    request('http://pso2.kaze.rip/eq/', function (error, response, body) {
-        if (!error && response.statusCode == 200) {
+client.setInterval(() => {
+    request('http://pso2.kaze.rip/eq/', async (error, response, body) => {
+        if (!error && response.statusCode === 200) {
             let response = JSON.parse(body);
-            let cached = JSON.parse(fs.readFileSync("cache.json"));
+            let cached = JSON.parse(await fs.readFile("cache.json"));
 
             if (response[0]['time'] != cached["time"]){
-                client.guilds.forEach(function(guild) {
+                client.guilds.forEach((guild) => {
                     if (client.provider.get(guild, "alerts")){
                         let eqs = []
                         let format = []
@@ -88,9 +88,11 @@ client.setInterval(function() {
                     }
                 })
 
-                fs.writeFileSync('cache.json', `{ "time" : "${response[0]['time']}" }`, function(err) {
-                    if (err) return console.log(err);
-                })
+                try {
+                    await fs.writeFile('cache.json', `{ "time" : "${response[0]['time']}" }`)
+                } catch (err) {
+                    return console.log(err);
+                }
             }
         }
     })
