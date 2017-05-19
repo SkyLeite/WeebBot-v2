@@ -24,7 +24,7 @@ module.exports = class PSO2Commands extends Commando.Command {
     async run(msg, args, client){
         let item = args.item;
 
-        request(`http://db.kakia.org/item/search?name=${encodeURIComponent(item)}`, function (error, response, body) {
+        request(`http://db.kakia.org/item/search?name=${encodeURIComponent(item)}`, (error, response, body) => {
             if (!error && response.statusCode == 200) {
                 let js = JSON.parse(body);
 
@@ -37,7 +37,7 @@ module.exports = class PSO2Commands extends Commando.Command {
                             fields: []
                         }}
 
-                        js.slice(0, 4).forEach(function (item) {
+                        js.slice(0, 4).forEach((item) => {
                             if (item['PriceInfo'].length > 0 && item['PriceInfo'].find(x => x['Ship'] === 2)){
                                 embed['embed']['fields'].push({name: item['EnName'], value: `**Price:** ${item['PriceInfo'].find(x => x['Ship'] === 2)['Price'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}\n**JP:** ${item['JpName']}`})
                             }

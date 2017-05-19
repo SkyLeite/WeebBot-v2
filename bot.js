@@ -60,7 +60,7 @@ client.setInterval(() => {
             let response = JSON.parse(body);
             let cached = JSON.parse(await fs.readFile("cache.json"));
 
-            if (response[0]['time'] != cached["time"]){
+            if (response[0]['time'] !== cached["time"]){
                 client.guilds.forEach((guild) => {
                     if (client.provider.get(guild, "alerts")){
                         let eqs = []
@@ -75,12 +75,12 @@ client.setInterval(() => {
                             })
 
                             if (eqs.length > 0){
-                                eqs.forEach(function(eq) {
+                                eqs.forEach((eq) => {
                                     format.push(`\`\`SHIP ${eq['ship']}:\`\` ${eq['name']}`);
                                 });
 
                                 let string = `:arrow_right: **Emergency Quest Notice**\n\n:watch:**IN 40 MINUTES:**\n${format.join('\n')}`
-                                if (client.channels.get(settings['channel']).type == "text" && client.channels.get(settings['channel']).permissionsFor(client.user).hasPermission("SEND_MESSAGES")){
+                                if (client.channels.get(settings['channel']).type === "text" && client.channels.get(settings['channel']).permissionsFor(client.user).hasPermission("SEND_MESSAGES")){
                                     client.channels.get(settings['channel']).sendMessage(string).catch(function(err) { console.log(err) });
                                 }
                             }
@@ -89,7 +89,7 @@ client.setInterval(() => {
                 })
 
                 try {
-                    await fs.writeFile('cache.json', `{ "time" : "${response[0]['time']}" }`)
+                    await fs.writeFile('cache.json', JSON.stringify({ time: response[0]['time'] }, null, 2), 'utf-8') // `{ "time" : "${response[0]['time']}" }`
                 } catch (err) {
                     return console.log(err);
                 }

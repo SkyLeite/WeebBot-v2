@@ -13,7 +13,7 @@ module.exports = class GeneralCommands extends Commando.Command {
     }
 
     async run(msg, args, client){
-        request('http://edgecats.net/random', function (error, response, body) {
+        request('http://edgecats.net/random', (error, response, body) => {
             if (!error && response.statusCode == 200) {
                 return msg.reply(body);
             }
