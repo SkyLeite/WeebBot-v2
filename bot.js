@@ -4,8 +4,6 @@ const sqlite = require('sqlite')
 const request = require('request');
 const fs = require('fs');
 
-// I really need to rewrite this holy shit
-
 if (!fs.existsSync('./config.json')) {
     fs.writeFileSync('./config.json', '{"token" : "", "prefix" : "!"}')
     console.log('WARNING: Config file is missing. Please edit "config.json" and re-run the script.')
