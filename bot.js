@@ -4,6 +4,8 @@ const sqlite = require('sqlite')
 const request = require('request');
 const fs = require('fs');
 
+// This code is terrible wtf
+
 if (!fs.existsSync('./config.json')) {
     fs.writeFileSync('./config.json', '{"token" : "", "prefix" : "!"}')
     console.log('WARNING: Config file is missing. Please edit "config.json" and re-run the script.')
