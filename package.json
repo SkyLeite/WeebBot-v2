@@ -5,7 +5,12 @@
     "async-request": "^1.2.0",
     "discord.js": "^11.1.0",
     "discord.js-commando": "^0.8.5",
+    "node-fetch": "^1.7.1",
     "request": "^2.79.0",
-    "sqlite": "^2.3.0"
+    "sqlite": "^2.3.0",
+    "sqlite3": "^3.1.8"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
   }
 }
