@@ -1,5 +1,5 @@
 const Commando = require('discord.js-commando');
-const request = require('request');
+const fetch = require('node-fetch');
 
 module.exports = class SVCommands extends Commando.Command {
     constructor(client) {
@@ -19,69 +19,69 @@ module.exports = class SVCommands extends Commando.Command {
                 }
             ]
         })
+        this.buildCard = (card) => {
+            let obj = {
+                embed: {
+                    color: 3447003,
+                    title: `Shadowverse`,
+                    url: "https://shadowverse.com",
+                    thumbnail: {
+                        url: `https://shadowverse-portal.com/image/card/en/C_${card['card_id']}.png`
+                    },
+                    fields: [{
+                        name: "Info",
+                        value: `**Name:** ${card['card_name']}\n**Cost:** ${card['cost']} PP\n**Attack / Defense:** ${card['atk']}/${card['life']}\n**Evo Attack / Defense:** ${card['evo_atk']}/${card['evo_life']}`
+                    },
+                    {
+                        name: "Art",
+                        value: `[Classic](https://shadowverse-portal.com/image/card/en/C_${card['card_id']}.png) - [Evolved](https://shadowverse-portal.com/image/card/en/E_${card['card_id']}.png)`
+                    }]
+                }
+            };
+            if (card['skill_disc'] || card['evo_skill_disc']) {
+                obj.embed.fields.push({
+                    name: "Skills",
+                    value: `${card['skill_disc'] ? `**Skill:** ${card['skill_disc']}\n`: ''}${card['evo_skill_disc'] ? `**Evo Skill:** ${card['evo_skill_disc']}` : null}`
+                });
+            }
+
+            return obj;
+        }
     }
 
-    async run(msg, args, client){
+    async run(msg, args, client) {
         let card = args.card;
 
-        request('https://shadowverse-portal.com/api/v1/cards?format=json&lang=en', function(error, response, body) {
-            if (!error && response.statusCode == 200) { 
-                let data = JSON.parse(body);
-                var indice = 0;
-                var matches = [];
-                for (let i = 0; i < data['data']['cards'].length; i++){
-                    if (data['data']['cards'][i]['card_name'].toLowerCase().trim().includes(card.toLowerCase().trim())){
-                        if (data['data']['cards'][i]['card_name'].toLowerCase().trim() == card.toLowerCase().trim()) {
-                            matches = [data['data']['cards'][i]]; //Found an exact match.
-                            break;
-                        }
-                        matches[indice++] = data['data']['cards'][i]; //Found a "close enough" match.
-                    }
-                }
-                if (matches.length > 1) { //i.e. more than 1 match.
-                    let max = 10;
-                    var answer = `\`${card}\` matched ${matches.length} cards : \n\`\`\``
-                    for(let i = 0; i < max && i < matches.length; i++) {
-                        answer += matches[i]['card_name'] + `\n`;
-                    }
-                    if(matches.length > max) {
-                        answer += `...and ${matches.length - max} more`
-                    }
-                    answer += `\`\`\``;
-                    return msg.reply(answer);
-                }
-                var cardInfo = matches[0]; //i.e. only 1 "close enough" match OR an exact match.
-                if (typeof cardInfo != 'undefined') {
-                    return msg.reply("", {embed: {
-                        color: 3447003,
-                        title: `Shadowverse`,
-                        url: "https://shadowverse.com",
-                        thumbnail: {
-                            url: `https://shadowverse-portal.com/image/card/en/C_${cardInfo['card_id']}.png`
-                        },
-                        fields: [{
-                            name: "Stats",
-                            value: `**Name:** ${cardInfo['card_name']}\n**Cost:** ${cardInfo['cost']} PP\n**Attack / Defense:** ${cardInfo['atk']}/${cardInfo['life']}\n**Evo Attack / Defense:** ${cardInfo['evo_atk']}/${cardInfo['evo_life']}`,
-                            inline: true
-                        },
-                        {
-                            name: "Skills",
-                            value: `**Skill:** ${cardInfo['skill_disc']}\n**Evo Skill:** ${cardInfo['evo_skill_disc']}`
-                        },
-                        {
-                            name: "Lore",
-                            value: `**Description:** ${cardInfo['description']}\n**Evo Description:** ${cardInfo['evo_description']}\n**Tribe:** ${cardInfo['tribe_name']}`
-                        },
-                        {
-                            name: "Art",
-                            value: `[Classic](https://shadowverse-portal.com/image/card/en/C_${cardInfo['card_id']}.png) - [Evolved](https://shadowverse-portal.com/image/card/en/E_${cardInfo['card_id']}.png)`
-                        }]
-                    }});
-                }
-                else {
-                    return msg.reply(`\`${card}\` did not match any cards. Please try again.`)
-                }
+        let data = await (await fetch(`http://sv.kaze.rip/cards/${card}`)).json();
+        if (data.length === 0) {
+            return msg.reply("No matches found. Please try again with a different query.");
+        }
+        else if (data.length === 1) {
+            return msg.reply("", this.buildCard(data[0]));
+        }
+        else if (data.length > 1) {
+            let emojilist = ["1⃣", "2⃣", "3⃣", "4⃣", "5⃣", "6⃣", "7⃣", "8⃣", "9⃣"];
+            let emojis = emojilist.map((obj, i) => {
+                return {emoji: obj, num: i+1}
+            });
+
+            let cards = data.slice(0, 9).map((i, index) => {
+                return `${index + 1}. ${i.card_name} - ${i.cost}PP - ${i.atk}/${i.life} - ${i.evo_atk}/${i.evo_life}`
+            });
+
+            let newMsg = await msg.reply(`Found the following matches:\n\`\`\`${cards.join('\n')}\`\`\``);
+            for (let e of emojis) {
+                await newMsg.react(e.emoji);
             }
-        })
+
+            const collector = newMsg.createReactionCollector(
+                (reaction, user) => user.id === msg.author.id && emojilist.includes(reaction.emoji.name),
+                { time: 15000 }
+            );
+            collector.on('collect', async r => {
+                await newMsg.edit('', this.buildCard(data[(emojis.filter(i => i.emoji === r.emoji.name))[0].num - 1]));
+                newMsg.clearReactions().catch();
+            });
+        }
     }
 }
