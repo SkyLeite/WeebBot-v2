@@ -5,7 +5,12 @@
     "async-request": "^1.2.0",
     "discord.js": "^11.0.0",
     "discord.js-commando": "^0.8.5",
+    "moment": "^2.18.1",
+    "mz": "^2.6.0",
     "node-fetch": "^1.7.1",
-    "sqlite": "^2.3.0"
+    "node-pre-gyp": "^0.6.36",
+    "nopt": "^4.0.1",
+    "sqlite": "^2.3.0",
+    "wide-align": "^1.1.2"
   }
 }

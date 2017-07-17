@@ -80,7 +80,10 @@ module.exports = class SVCommands extends Commando.Command {
             );
             collector.on('collect', async r => {
                 await newMsg.edit('', this.buildCard(data[(emojis.filter(i => i.emoji === r.emoji.name))[0].num - 1]));
-                newMsg.clearReactions().catch();
+                try {
+                    await newMsg.clearReactions();
+                }
+                catch (err) {}
             });
         }
     }

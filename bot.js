@@ -2,7 +2,9 @@ const Commando = require('discord.js-commando');
 const path = require('path');
 const sqlite = require('sqlite')
 const request = require('request');
-const fs = require('fs');
+const fetch = require('node-fetch');
+const fs = require('mz/fs');
+const moment = require('moment');
 
 if (!fs.existsSync('./config.json')) {
     fs.writeFileSync('./config.json', '{"token" : "", "prefix" : "!"}')
@@ -10,7 +12,7 @@ if (!fs.existsSync('./config.json')) {
     process.exit()
 }
 
-if (!fs.existsSync('./cache.json')){
+if (!fs.existsSync('./cache.json')) {
     fs.writeFileSync('./cache.json', '{ "time" : "02-19-2017 19:05:04 +0000" }')
 }
 
@@ -31,7 +33,7 @@ client
         console.log(`-> Servers: ${client.guilds.array().length}`)
     })
     .on('commandError', (cmd, err) => {
-        if(err instanceof Commando.FriendlyError) return;
+        if (err instanceof Commando.FriendlyError) return;
         console.error('Error in command ${cmd.groupID}:${cmd.memberName}', err)
     })
 
@@ -53,47 +55,39 @@ client.setProvider(
     sqlite.open(path.join(__dirname, 'settings.sqlite3')).then(db => new Commando.SQLiteProvider(db))
 ).catch(console.error);
 
-// EQ alerts system
-client.setInterval(function() {
-    request('http://pso2.kaze.rip/eq/', function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-            let response = JSON.parse(body);
-            let cached = JSON.parse(fs.readFileSync("cache.json"));
+// EQ alerts
+client.setInterval(async () => {
+    const response = await fetch('http://pso2.kaze.rip/eq/');
+    if (response.status !== 200) console.log('rip');
 
-            if (response[0]['time'] != cached["time"]){
-                client.guilds.forEach(function(guild) {
-                    if (client.provider.get(guild, "alerts")){
-                        let eqs = []
-                        let format = []
-                        let settings = client.provider.get(guild, "alerts");
+    const data = await response.json();
+    const cache = JSON.parse(await fs.readFile("./cache.json"));
 
-                        if (client.channels.get(settings['channel'])){
-                            response[0]['eqs'].forEach(function(item) {
-                                if (settings['ships'].includes(item['ship'])){
-                                    eqs.push(item);
-                                }
-                            })
+    if (data[0]["time"] !== cache["time"]) {
+        const guilds = await client.guilds.filter(guild => { return client.provider.get(guild, "alerts") });
 
-                            if (eqs.length > 0){
-                                eqs.forEach(function(eq) {
-                                    format.push(`\`\`SHIP ${eq['ship']}:\`\` ${eq['name']}`);
-                                });
+        for (let guild of guilds) {
+            let settings = await client.provider.get(guild[1], "alerts");
+            let eqs = data[0]["eqs"].filter(item => { return settings["ships"].includes(item["ship"]) });
+            let format = [];
 
-                                let string = `:arrow_right: **Emergency Quest Notice**\n\n:watch:**IN 40 MINUTES:**\n${format.join('\n')}`
-                                if (client.channels.get(settings['channel']).type == "text" && client.channels.get(settings['channel']).permissionsFor(client.user).hasPermission("SEND_MESSAGES")){
-                                    client.channels.get(settings['channel']).sendMessage(string).catch(function(err) { console.log(err) });
-                                }
-                            }
-                        }
-                    }
-                })
-
-                fs.writeFileSync('cache.json', `{ "time" : "${response[0]['time']}" }`, function(err) {
-                    if (err) return console.log(err);
-                })
+            if (eqs.length <= 0) return;
+            if (eqs.length !== 10) {
+                for (let eq of eqs) {
+                    format.push(`\`SHIP ${eq['ship']}:\` ${eq['name']} (${eq['jpName']})`);
+                }
             }
+            else {
+                format.push(`\`ALL SHIPS:\` ${eq['name']} (${eq['jpName']})`);
+            }
+
+            let time = moment(data[0]["when"]);
+            let string = `:watch:**IN 40 MINUTES:** (${time.format("HH:mm")} JST)\n${format.join('\n')}`;
+            await client.channels.get(settings['channel']).send(string);
         }
-    })
-}, 50000, client)
+
+        await fs.writeFile("./cache.json", `{ "time" : "${data[0]["time"]}" }`);
+    }
+}, 50000, client);
 
 client.login(config.token);
