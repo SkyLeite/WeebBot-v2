@@ -65,7 +65,7 @@ client.setInterval(async () => {
         const cache = JSON.parse(await fs.readFile("./cache.json"));
 
         if (data[0]["time"] !== cache["time"]) {
-            const guilds = client.guilds.filter(guild => { return client.provider.get(guild[1], "alerts") });
+            const guilds = client.guilds.filter(guild => { return client.provider.get(guild, "alerts") });
             
             for (let guild of guilds) {
                 let settings = await client.provider.get(guild[1], "alerts");
@@ -88,8 +88,12 @@ client.setInterval(async () => {
                 let time = moment(data[0]["when"]);
                 let string = `:watch:**IN 40 MINUTES:** (${time.format("HH:mm")} JST)\n${format.join('\n')}`;
                 
-                if (channel.type == "text" && channel.permissionsFor(client.user).has("SEND_MESSAGES")) {
-                    await client.channels.get(settings['channel']).send(string);
+                if (channel.type == "text" && channel.permissionsFor(client.user).has("SEND_MESSAGES") && channel.permissionsFor(client.user).has("READ_MESSAGES") && guild[1].available) {
+                    try {
+                        await client.channels.get(settings['channel']).send(string);
+                    } catch (err) {
+                        continue;
+                    }
                 }
             }
 
