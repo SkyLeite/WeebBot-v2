@@ -57,36 +57,40 @@ client.setProvider(
 
 // EQ alerts
 client.setInterval(async () => {
-    const response = await fetch('http://pso2.kaze.rip/eq/');
-    if (response.status !== 200) console.log('rip');
+    try {
+        const response = await fetch('http://pso2.kaze.rip/eq/');
+        if (response.status !== 200) return;
 
-    const data = await response.json();
-    const cache = JSON.parse(await fs.readFile("./cache.json"));
+        const data = await response.json();
+        const cache = JSON.parse(await fs.readFile("./cache.json"));
 
-    if (data[0]["time"] !== cache["time"]) {
-        const guilds = await client.guilds.filter(guild => { return client.provider.get(guild, "alerts") });
+        if (data[0]["time"] !== cache["time"]) {
+            const guilds = await client.guilds.filter(guild => { return client.provider.get(guild, "alerts") });
 
-        for (let guild of guilds) {
-            let settings = await client.provider.get(guild[1], "alerts");
-            let eqs = data[0]["eqs"].filter(item => { return settings["ships"].includes(item["ship"]) });
-            let format = [];
+            for (let guild of guilds) {
+                let settings = await client.provider.get(guild[1], "alerts");
+                let eqs = data[0]["eqs"].filter(item => { return settings["ships"].includes(item["ship"]) });
+                let format = [];
 
-            if (eqs.length <= 0) return;
-            if (eqs.length !== 10) {
-                for (let eq of eqs) {
-                    format.push(`\`SHIP ${eq['ship']}:\` ${eq['name']} (${eq['jpName']})`);
+                if (eqs.length <= 0) return;
+                if (eqs.length !== 10) {
+                    for (let eq of eqs) {
+                        format.push(`\`SHIP ${eq['ship']}:\` ${eq['name']} (${eq['jpName']})`);
+                    }
                 }
-            }
-            else {
-                format.push(`\`ALL SHIPS:\` ${eq['name']} (${eq['jpName']})`);
+                else {
+                    format.push(`\`ALL SHIPS:\` ${eq['name']} (${eq['jpName']})`);
+                }
+
+                let time = moment(data[0]["when"]);
+                let string = `:watch:**IN 40 MINUTES:** (${time.format("HH:mm")} JST)\n${format.join('\n')}`;
+                await client.channels.get(settings['channel']).send(string);
             }
 
-            let time = moment(data[0]["when"]);
-            let string = `:watch:**IN 40 MINUTES:** (${time.format("HH:mm")} JST)\n${format.join('\n')}`;
-            await client.channels.get(settings['channel']).send(string);
+            await fs.writeFile("./cache.json", `{ "time" : "${data[0]["time"]}" }`);
         }
-
-        await fs.writeFile("./cache.json", `{ "time" : "${data[0]["time"]}" }`);
+    } catch (err) {
+        console.error(err);
     }
 }, 50000, client);
 
