@@ -66,11 +66,13 @@ client.setInterval(async () => {
 
         if (data[0]["time"] !== cache["time"]) {
             const guilds = await client.guilds.filter(guild => { return client.provider.get(guild, "alerts") });
-
+            console.log('guilds_ok');
             for (let guild of guilds) {
                 let settings = await client.provider.get(guild[1], "alerts");
                 let eqs = data[0]["eqs"].filter(item => { return settings["ships"].includes(item["ship"]) });
                 let format = [];
+
+                console.log('getting settings for a guild...');
 
                 if (eqs.length <= 0) return;
                 if (eqs.length !== 10) {
@@ -84,7 +86,12 @@ client.setInterval(async () => {
 
                 let time = moment(data[0]["when"]);
                 let string = `:watch:**IN 40 MINUTES:** (${time.format("HH:mm")} JST)\n${format.join('\n')}`;
-                await client.channels.get(settings['channel']).send(string);
+
+                console.log('string built successfully')
+
+                if (client.channels.get(settings['channel']).type == "text" && client.channels.get(settings['channel']).permissionsFor(client.user).hasPermission("SEND_MESSAGES")) {
+                    await client.channels.get(settings['channel']).send(string);
+                }
             }
 
             await fs.writeFile("./cache.json", `{ "time" : "${data[0]["time"]}" }`);
