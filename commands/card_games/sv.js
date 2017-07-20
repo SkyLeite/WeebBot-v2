@@ -53,13 +53,14 @@ module.exports = class SVCommands extends Commando.Command {
         let card = args.card;
 
         let data = await (await fetch(`http://sv.kaze.rip/cards/${card}`)).json();
+
         if (data.length === 0) {
             return msg.reply("No matches found. Please try again with a different query.");
         }
         else if (data.length === 1) {
             return msg.reply("", this.buildCard(data[0]));
         }
-        else if (data.length > 1) {
+        else if (data.length >= 1 && data.length <= 9) {
             let emojilist = ["1⃣", "2⃣", "3⃣", "4⃣", "5⃣", "6⃣", "7⃣", "8⃣", "9⃣"];
             let emojis = emojilist.map((obj, i) => {
                 return {emoji: obj, num: i+1}
