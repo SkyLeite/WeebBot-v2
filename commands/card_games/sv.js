@@ -80,11 +80,11 @@ module.exports = class SVCommands extends Commando.Command {
             );
             collector.on('collect', async r => {
                 await newMsg.edit('', this.buildCard(data[(emojis.filter(i => i.emoji === r.emoji.name))[0].num - 1]));
-                try {
-                    await newMsg.clearReactions();
-                }
-                catch (err) {}
+                newMsg.clearReactions().catch();
             });
+        }
+        else if (data.length > 9) {
+            await msg.reply("Found too many matches. Please try again with a more specific query.");
         }
     }
 }
