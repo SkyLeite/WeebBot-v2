@@ -86,7 +86,7 @@ client.setInterval(async () => {
                 }
 
                 let time = moment(data[0]["when"]);
-                let string = `:watch:**IN 40 MINUTES:** (${time.format("HH:mm")} JST)\n${format.join('\n')}`;
+                let string = `:watch:**IN 40 MINUTES:**\n${format.join('\n')}`;
                 
                 if (channel.type == "text" && channel.permissionsFor(client.user).has("SEND_MESSAGES") && channel.permissionsFor(client.user).has("READ_MESSAGES") && guild[1].available) {
                     try {
@@ -102,6 +102,6 @@ client.setInterval(async () => {
     } catch (err) {
         console.error(err);
     }
-}, 50000, client);
+}, 5000, client);
 
 client.login(config.token);
