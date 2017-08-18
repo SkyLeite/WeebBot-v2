@@ -12,18 +12,25 @@
  */
 
 import React from 'react';
+import Layout from '../../components/Layout';
 
 export default class App extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
-
   static propTypes = {
     children: React.PropTypes.node,
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: ''
+    };
+  }
+
   render() {
     return (
-      <div>
+      <Layout>
         {React.Children.toArray(this.props.children)}
-      </div>
+      </Layout>
     );
   }
 }

@@ -35,7 +35,7 @@ module.exports = (app) => {
                 headers: { Authorization: 'Bearer ' + accessToken }
             })).json();
 
-            return cb(null, { user, guilds });
+            return cb(null, { user, guilds, accessToken });
         }
     ));
 
@@ -51,12 +51,11 @@ module.exports = (app) => {
 
     app.get('/auth/discord/callback',
         passport.authenticate('oauth2', { failureRedirect: '/login' }), (req, res) => {
-            // Successful authentication, redirect home.
-            res.redirect('/api/settings');
+            res.redirect('/');
         });
 
     app.get('/api', async (req, res) => {
-        res.send(req.session);
+        res.send({ version: '1.0.0' });
     });
 
     app.get('/api/logout', async (req, res) => {
@@ -65,8 +64,18 @@ module.exports = (app) => {
     })
 
     app.get('/api/me', async (req, res) => {
-        if (!req.isAuthenticated()) res.redirect('/auth/discord');
+        if (!req.isAuthenticated()) res.status(401).send({ STATUS_CODE: 401 });
         res.send(req.user);
+    });
+
+    app.get('/api/guild/:id/channels', async (req, res) => {
+        if (!req.isAuthenticated()) res.status(401).send({ STATUS_CODE: 401 });
+
+        let channels = await (await fetch('https://discordapp.com/api/guilds/' + req.query.id + '/channels', {
+            method: 'GET',
+            headers: { Authorization: 'Bearer ' + req.user.accessToken }
+        })).json();
+        res.send(channels)
     });
 
     app.get('/api/settings', async (req, res) => {

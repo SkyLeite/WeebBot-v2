@@ -1,12 +1,8 @@
 .content {
     position: fixed;  
     left: 50%;
+    margin-top: 50px;
     transform: translate(-50%);
-}
-
-.row [class*='col-'] {
-  border-style: solid;
-  background-color: #ffeeee;
-  background-clip: content-box;
-  min-height: 20px;
+    border: 1px solid;
+    border-radius: 2px;
 }

@@ -1,15 +1,46 @@
 import React from 'react';
 import cx from 'classnames';
 import s from '!!style-loader!css-loader!./layout.css';
-import { Grid, Row, Col, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Grid, Row, Col, ListGroup, ListGroupItem, Image, Button } from 'react-bootstrap';
+
+class User extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    componentWillMount() {
+        console.log(this.props);
+    }
+
+    render() {
+        return (
+            <Grid>
+                <Row>
+                    <Col md={1}>
+                        <Image thumbnail src={`https://cdn.discordapp.com/avatars/${this.props.user.id}/${this.props.user.avatar}.gif`} />
+                    </Col>
+                    <Col md={0}>
+                        {`${this.props.user.username}#${this.props.user.discriminator}`}
+                    </Col>
+                </Row>
+            </Grid>
+        )
+    }
+}
 
 class Layout extends React.Component {
     constructor(props) {
         super(props);
     }
 
-    componentWillMount() {
-        console.log(this.props.children)
+    async componentWillMount() {
+        fetch('/api/me', { method: 'GET', credentials: 'same-origin' })
+            .then(r => r.json())
+            .then(data => {
+                if (!data.STATUS_CODE) {
+                    this.setState({ user: data.user });
+                }
+            })
     }
 
     render() {
@@ -18,7 +49,10 @@ class Layout extends React.Component {
                 <Grid>
                     <Row>
                         <Col md={2}>
-                            <ListGroup>
+                            <div style={{ marginTop: '20px' }}>
+                                {this.state ? <User user={this.state.user} /> : <Button href="/auth/discord/">Login with Discord</Button>}
+                            </div>
+                            <ListGroup style={{ marginTop: '20px' }}>
                                 <ListGroupItem>Home</ListGroupItem>
                                 <ListGroupItem>Admin</ListGroupItem>
                             </ListGroup>
