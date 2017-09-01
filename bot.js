@@ -65,6 +65,8 @@ client.setInterval(async () => {
         const cache = JSON.parse(await fs.readFile("./cache.json"));
 
         if (data[0]["time"] !== cache["time"]) {
+            console.log(data[0]["time"] + " // " + cache["time"]) 
+            await fs.writeFile("cache.json", `{ "time" : "${data[0]["time"]}" }`);
             const guilds = client.guilds.filter(guild => { return client.provider.get(guild, "alerts") });
             
             for (let guild of guilds) {
@@ -96,8 +98,6 @@ client.setInterval(async () => {
                     }
                 }
             }
-
-            await fs.writeFile("cache.json", `{ "time" : "${data[0]["time"]}" }`);
         }
     } catch (err) {
         console.error(err);
