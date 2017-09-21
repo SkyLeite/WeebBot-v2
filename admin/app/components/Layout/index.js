@@ -8,10 +8,6 @@ class User extends React.Component {
         super(props);
     }
 
-    componentWillMount() {
-        console.log(this.props);
-    }
-
     render() {
         return (
             <Grid>
@@ -53,8 +49,12 @@ class Layout extends React.Component {
                                 {this.state ? <User user={this.state.user} /> : <Button href="/auth/discord/">Login with Discord</Button>}
                             </div>
                             <ListGroup style={{ marginTop: '20px' }}>
-                                <ListGroupItem>Home</ListGroupItem>
-                                <ListGroupItem>Admin</ListGroupItem>
+                                <ListGroupItem href="/">Home</ListGroupItem>
+                                {this.state ?
+                                    <div>
+                                        <ListGroupItem href="/admin">Admin</ListGroupItem>
+                                        <ListGroupItem href="/api/logout">Logout</ListGroupItem>
+                                    </div> : null}
                             </ListGroup>
                         </Col>
                         <Col md={10} className={"main"}>{this.props.children}</Col>
