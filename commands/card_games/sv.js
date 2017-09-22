@@ -19,6 +19,39 @@ module.exports = class SVCommands extends Commando.Command {
                 }
             ]
         })
+
+
+        this.getCraft = (id) => {
+            switch (parseInt(id)) {
+                case 0:
+                    return 'Neutral';
+                    break;
+                case 1:
+                    return 'Forest';
+                    break;
+                case 2:
+                    return 'Sword';
+                    break;
+                case 3:
+                    return 'Rune';
+                    break;
+                case 4:
+                    return 'Dragon';
+                    break;
+                case 5:
+                    return 'Shadow';
+                    break;
+                case 6:
+                    return 'Blood';
+                    break;
+                case 7:
+                    return 'Haven';
+                    break;
+                default:
+                    return 'Neutral';
+            }
+        }
+
         this.buildCard = (card) => {
             let obj = {
                 embed: {
@@ -30,7 +63,7 @@ module.exports = class SVCommands extends Commando.Command {
                     },
                     fields: [{
                         name: "Info",
-                        value: `**Name:** ${card['card_name']}\n**Cost:** ${card['cost']} PP\n**Attack / Defense:** ${card['atk']}/${card['life']}\n**Evo Attack / Defense:** ${card['evo_atk']}/${card['evo_life']}`
+                        value: `**Name:** ${card['card_name']}\n**Cost:** ${card['cost']} PP\n**Attack / Defense:** ${card['atk']}/${card['life']}\n**Evo Attack / Defense:** ${card['evo_atk']}/${card['evo_life']}\n**Craft:** ${this.getCraft(card['card_id'].toString()[4])}`
                     },
                     {
                         name: "Art",
