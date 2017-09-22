@@ -19,6 +19,38 @@ module.exports = class SVCommands extends Commando.Command {
                 }
             ]
         })
+
+        this.getCraft = (id) => {
+            switch (parseInt(id)) {
+                case 0:
+                    return 'Neutral';
+                    break;
+                case 1:
+                    return 'Forest';
+                    break;
+                case 2:
+                    return 'Sword';
+                    break;
+                case 3:
+                    return 'Rune';
+                    break;
+                case 4:
+                    return 'Dragon';
+                    break;
+                case 5:
+                    return 'Shadow';
+                    break;
+                case 6:
+                    return 'Blood';
+                    break;
+                case 7:
+                    return 'Haven';
+                    break;
+                default:
+                    return 'Neutral';
+            }
+        }
+
         this.buildCard = (card) => {
             let obj = {
                 embed: {
@@ -30,7 +62,7 @@ module.exports = class SVCommands extends Commando.Command {
                     },
                     fields: [{
                         name: "Info",
-                        value: `**Name:** ${card['card_name']}\n**Cost:** ${card['cost']} PP\n**Attack / Defense:** ${card['atk']}/${card['life']}\n**Evo Attack / Defense:** ${card['evo_atk']}/${card['evo_life']}`
+                        value: `**Name:** ${card['card_name']}\n**Cost:** ${card['cost']} PP\n**Attack / Defense:** ${card['atk']}/${card['life']}\n**Evo Attack / Defense:** ${card['evo_atk']}/${card['evo_life']}\n**Craft:** ${this.getCraft(card['card_id'].toString()[4])}`
                     },
                     {
                         name: "Art",
@@ -53,14 +85,13 @@ module.exports = class SVCommands extends Commando.Command {
         let card = args.card;
 
         let data = await (await fetch(`http://sv.kaze.rip/cards/${card}`)).json();
-
         if (data.length === 0) {
             return msg.reply("No matches found. Please try again with a different query.");
         }
         else if (data.length === 1) {
             return msg.reply("", this.buildCard(data[0]));
         }
-        else if (data.length >= 1 && data.length <= 9) {
+        else if (data.length > 1) {
             let emojilist = ["1⃣", "2⃣", "3⃣", "4⃣", "5⃣", "6⃣", "7⃣", "8⃣", "9⃣"];
             let emojis = emojilist.map((obj, i) => {
                 return {emoji: obj, num: i+1}
@@ -83,9 +114,6 @@ module.exports = class SVCommands extends Commando.Command {
                 await newMsg.edit('', this.buildCard(data[(emojis.filter(i => i.emoji === r.emoji.name))[0].num - 1]));
                 newMsg.clearReactions().catch();
             });
-        }
-        else if (data.length > 9) {
-            await msg.reply("Found too many matches. Please try again with a more specific query.");
         }
     }
 }
