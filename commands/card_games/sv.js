@@ -62,7 +62,7 @@ module.exports = class SVCommands extends Commando.Command {
                     },
                     fields: [{
                         name: "Info",
-                        value: `**Name:** ${card['card_name']}\n**Cost:** ${card['cost']} PP\n**Attack / Defense:** ${card['atk']}/${card['life']}\n**Evo Attack / Defense:** ${card['evo_atk']}/${card['evo_life']}\n**Craft:** ${this.getCraft(card['card_id'].toString()[4])}`
+                        value: `**Name:** ${card['card_name']}\n**Cost:** ${card['cost']} PP${card['atk'] !== 0 && card['life'] !== 0 ? `\n**Attack / Defense:** ${card['atk']}/${card['life']}` : ''}${card['evo_atk'] !== 0 && card['evo_life'] !== 0 ? `\n**Evo Attack / Defense:** ${card['evo_atk']}/${card['evo_life']}` : ''}\n**Craft:** ${this.getCraft(card['card_id'].toString()[4])}`
                     },
                     {
                         name: "Art",
@@ -73,7 +73,7 @@ module.exports = class SVCommands extends Commando.Command {
             if (card['skill_disc'] || card['evo_skill_disc']) {
                 obj.embed.fields.push({
                     name: "Skills",
-                    value: `${card['skill_disc'] ? `**Skill:** ${card['skill_disc']}\n`: ''}${card['evo_skill_disc'] ? `**Evo Skill:** ${card['evo_skill_disc']}` : null}`
+                    value: `${card['skill_disc'] ? `**Skill:** ${card['skill_disc']}\n`: ''}${card['evo_skill_disc'] ? `**Evo Skill:** ${card['evo_skill_disc']}` : ''}`
                 });
             }
 
