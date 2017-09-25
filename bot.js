@@ -6,6 +6,7 @@ const fetch = require('node-fetch');
 const fs = require('mz/fs');
 const moment = require('moment');
 const handleEQs = require('./eqs.js');
+const handleBumped = require('./bumped.js');
 
 if (!fs.existsSync('./config.json')) {
     fs.writeFileSync('./config.json', '{"token" : "", "prefix" : "!"}')
@@ -15,6 +16,10 @@ if (!fs.existsSync('./config.json')) {
 
 if (!fs.existsSync('./cache.json')) {
     fs.writeFileSync('./cache.json', '{ "time" : "02-19-2017 19:05:04 +0000" }')
+}
+
+if (!fs.existsSync('./bumped.json')) {
+    fs.writeFileSync('./bumped.json', '{ "isoDate" : "2017-09-22T05:58:27.000Z" }')
 }
 
 const config = require('./config.json')
@@ -56,7 +61,8 @@ client.setProvider(
     sqlite.open(path.join(__dirname, 'settings.sqlite3')).then(db => new Commando.SQLiteProvider(db))
 ).catch(console.error);
 
-// EQ alerts
+// EQ / Bumped alerts
 client.setInterval(handleEQs, 25000, client);
+client.setInterval(handleBumped, 25000, client);
 
 client.login(config.token);
