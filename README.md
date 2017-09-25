@@ -9,13 +9,9 @@ If you simply wish to have the bot on your server, just [click here](https://dis
 
 ## Dependencies
 
-If you want to re-host the bot, you'll need to edit the `config.json` file with your bot's token, and install the following dependencies:
+- [Node 8+](https://nodejs.org/en/download/current/)
 
-- (npm install) `request`
-- (npm install) `discord.js`
-- (npm install) `discord.js-commando`
-
-Alternatively, you can `cd` to the bot's directory and run `npm install` to let npm take care of that for you.
+If you want to re-host the bot, you'll need to edit the `config.json` file with your bot's token, navigate into the bot's directory and run `npm install`.
 
 ## Commands
 
@@ -31,10 +27,12 @@ Alternatively, you can `cd` to the bot's directory and run `npm install` to let 
 - `alerts`: Enables EQ alerts.
 - `dalerts`: Disables EQ alerts.
 - `builds`: Displays current meta builds.
+- `bumped`: Enables alerts for new articles on [Bumped](http://bumped.org/psublog);
 
-#### Shadowverse
+#### Card games
 
-- `card <cardname>`: Returns information about `<cardname>`
+- `sv <cardname>`: Returns information about `<cardname>`
+- `mtg <cardname>`: Returns information about `<cardname>`
 
 #### Settings 
 
