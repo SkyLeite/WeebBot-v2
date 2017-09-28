@@ -62,7 +62,7 @@ module.exports = class SVCommands extends Commando.Command {
                     },
                     fields: [{
                         name: "Info",
-                        value: `**Name:** ${card['card_name']}\n**Cost:** ${card['cost']} PP${card['atk'] !== 0 && card['life'] !== 0 ? `\n**Attack / Defense:** ${card['atk']}/${card['life']}` : ''}${card['evo_atk'] !== 0 && card['evo_life'] !== 0 ? `\n**Evo Attack / Defense:** ${card['evo_atk']}/${card['evo_life']}` : ''}\n**Craft:** ${this.getCraft(card['card_id'].toString()[4])}`
+                        value: `**Name:** ${card['card_name']}\n**Cost:** ${card['cost']} PP${card['atk'] !== 0 && card['life'] !== 0 ? `\n**Attack / Defense:** ${card['atk']}/${card['life']}` : ''}${card['evo_atk'] !== 0 && card['evo_life'] !== 0 ? `\n**Evo Attack / Defense:** ${card['evo_atk']}/${card['evo_life']}` : ''}\n**Craft:** ${this.getCraft(card['card_id'].toString()[3])}`
                     },
                     {
                         name: "Art",
