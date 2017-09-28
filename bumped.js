@@ -1,5 +1,4 @@
 const fetch = require('node-fetch');
-const Discord = require('discordjs');
 const parser = require('rss-parser');
 const fs = require('mz/fs');
 
@@ -28,6 +27,13 @@ const buildEmbed = (entry) => {
     return embed;
 }
 
+const isAvailable = (channel, guild) => {
+    return channel.type === "text" &&
+        channel.permissionsFor(client.user).has("SEND_MESSAGES") &&
+        channel.permissionsFor(client.user).has("READ_MESSAGES") &&
+        guild[1].available;
+}
+
 module.exports = async (client) => {
     const entry = await getEntry();
     const cache = JSON.parse(await fs.readFile('./bumped.json'));
@@ -40,7 +46,7 @@ module.exports = async (client) => {
             let settings = await client.provider.get(guild[1], "bumped");
             let channel = client.channels.get(settings);
 
-            if (channel.type == "text" && channel.permissionsFor(client.user).has("SEND_MESSAGES") && channel.permissionsFor(client.user).has("READ_MESSAGES") && guild[1].available) {
+            if (isAvailable(channel, guild)) {
                 channel.send(buildEmbed(entry));
             }
         }
