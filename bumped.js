@@ -1,5 +1,4 @@
 const fetch = require('node-fetch');
-const Discord = require('discordjs');
 const parser = require('rss-parser');
 const fs = require('mz/fs');
 
