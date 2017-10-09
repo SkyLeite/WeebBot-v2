@@ -27,7 +27,7 @@ const buildEmbed = (entry) => {
     return embed;
 }
 
-const isAvailable = (channel, guild) => {
+const isAvailable = (channel, guild, client) => {
     return channel.type === "text" &&
         channel.permissionsFor(client.user).has("SEND_MESSAGES") &&
         channel.permissionsFor(client.user).has("READ_MESSAGES") &&
@@ -46,7 +46,7 @@ module.exports = async (client) => {
             let settings = await client.provider.get(guild[1], "bumped");
             let channel = client.channels.get(settings);
 
-            if (isAvailable(channel, guild)) {
+            if (isAvailable(channel, guild, client)) {
                 channel.send(buildEmbed(entry));
             }
         }
