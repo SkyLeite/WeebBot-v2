@@ -1,3 +1,5 @@
+[![Gratipay](https://img.shields.io/gratipay/project/Weeb-Bot.svg)](https://gratipay.com/Weeb-Bot/) ![Travis](https://img.shields.io/travis/Kxze/WeebBot-v2.svg)
+
 # WeebBot-v2
 Discord bot used for alerting on Emergency Quests on Phantasy Star Online 2
 
