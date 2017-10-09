@@ -10,7 +10,9 @@
     "node-fetch": "^1.7.1",
     "node-pre-gyp": "^0.6.36",
     "nopt": "^4.0.1",
+    "rss-parser": "^2.10.6",
     "sqlite": "^2.3.0",
+    "sqlite3": "^3.1.9",
     "wide-align": "^1.1.2"
   }
 }
