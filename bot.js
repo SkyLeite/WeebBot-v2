@@ -1,7 +1,6 @@
 const Commando = require('discord.js-commando');
 const path = require('path');
 const sqlite = require('sqlite')
-const request = require('request');
 const fetch = require('node-fetch');
 const fs = require('mz/fs');
 const moment = require('moment');
@@ -63,6 +62,6 @@ client.setProvider(
 
 // EQ / Bumped alerts
 client.setInterval(handleEQs, 25000, client);
-client.setInterval(handleBumped, 25000, client);
+client.setInterval(handleBumped, 250, client);
 
 client.login(config.token);
