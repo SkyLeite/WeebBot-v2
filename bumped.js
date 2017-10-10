@@ -6,7 +6,11 @@ const getEntry = () => {
     return new Promise((resolve, reject) => {
         parser.parseURL('http://bumped.org/psublog/feed/', (err, res) => {
             if (err) reject(err);
-            resolve(res.feed.entries[0]);
+            if (res) {
+                resolve(res.feed.entries[0]);
+            } else {
+                reject();
+            }
         })
     })
 }
@@ -35,20 +39,24 @@ const isAvailable = (channel, guild, client) => {
 }
 
 module.exports = async (client) => {
-    const entry = await getEntry();
-    const cache = JSON.parse(await fs.readFile('./bumped.json'));
+    try {
+        const entry = await getEntry();
+        const cache = JSON.parse(await fs.readFile('./bumped.json'));
 
-    if (entry.isoDate !== cache.isoDate) {
-        await fs.writeFile("bumped.json", `{ "isoDate" : "${entry.isoDate}" }`);
-        const guilds = client.guilds.filter(guild => { return client.provider.get(guild, "bumped") });
+        if (entry.isoDate !== cache.isoDate) {
+            await fs.writeFile("bumped.json", `{ "isoDate" : "${entry.isoDate}" }`);
+            const guilds = client.guilds.filter(guild => { return client.provider.get(guild, "bumped") });
 
-        for (let guild of guilds) {
-            let settings = await client.provider.get(guild[1], "bumped");
-            let channel = client.channels.get(settings);
+            for (let guild of guilds) {
+                let settings = await client.provider.get(guild[1], "bumped");
+                let channel = client.channels.get(settings);
 
-            if (isAvailable(channel, guild, client)) {
-                channel.send(buildEmbed(entry));
+                if (isAvailable(channel, guild, client)) {
+                    channel.send(buildEmbed(entry));
+                }
             }
         }
+    } catch (err) {
+        console.error();
     }
 }
