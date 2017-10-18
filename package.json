@@ -1,11 +1,8 @@
 {
   "name": "weebbot",
   "description": "Discord bot for PSO2.",
-<<<<<<< HEAD
   "author": "Kaze <me@kaze.rip>",
   "repository": "https://github.com/Kxze/WeebBot-v2.git",
-=======
->>>>>>> 2c60414354d1ca081cf88fe7fa9c760561fbcaa9
   "scripts": {
     "test": "echo \"No tests yet :(\""
   },
