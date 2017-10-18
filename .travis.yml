@@ -3,7 +3,9 @@ node_js:
   - '8'
 
 addons:
-  - ssh_known_hosts: kaze.rip
+  - ssh_known_hosts:
+    - kaze.rip
+    - 5.230.139.69
 
 install:
   - npm install
