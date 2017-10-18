@@ -1,6 +1,6 @@
 {
   "name": "weebbot",
-  "description": "Discord bot for PSO2.",
+  "description": "Discord bot for PSO2",
   "author": "Kaze <me@kaze.rip>",
   "repository": "https://github.com/Kxze/WeebBot-v2.git",
   "scripts": {
