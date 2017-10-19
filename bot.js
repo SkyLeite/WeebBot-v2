@@ -62,6 +62,6 @@ client.setProvider(
 
 // EQ / Bumped alerts
 client.setInterval(handleEQs, 25000, client);
-client.setInterval(handleBumped, 250, client);
+client.setInterval(handleBumped, 25000, client);
 
 client.login(config.token);
