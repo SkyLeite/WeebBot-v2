@@ -10,7 +10,7 @@ script:
 
 after_success:
   - if [[ $TRAVIS_PULL_REQUEST == "false" && $TRAVIS_BRANCH == "js-rewrite" ]] ; then
-    openssl aes-256-cbc -K $encrypted_4dc456b33364_key -iv $encrypted_4dc456b33364_iv -in id_rsa.enc -out id_rsa -d; fi;
+    openssl aes-256-cbc -K $encrypted_4dc456b33364_key -iv $encrypted_4dc456b33364_iv -in id_rsa.enc -out /tmp/id_rsa -d; fi;
   - ssh-keyscan kaze.rip >> ~/.ssh/known_hosts
   - eval "$(ssh-agent -s)"
   - chmod 600 /tmp/id_rsa
