@@ -11,7 +11,7 @@ module.exports = async (client) => {
         const cache = JSON.parse(await fs.readFile("./cache.json"));
 
         if (data[0]["time"] !== cache["time"]) {
-            await fs.writeFile("cache.json", `{ "time" : "${data[0]["time"]}" }`);
+            await fs.writeFile("cache.json", `{ "time" : "${data[0]["time"]}", "i": ${cache["i"] <= 10 ? cache["i"] + 1 : 0} }`);
             const guilds = client.guilds.filter(guild => { return client.provider.get(guild, "alerts") });
             
             for (let guild of guilds) {
@@ -32,8 +32,9 @@ module.exports = async (client) => {
                     format.push(`\`ALL SHIPS:\` ${eqs[0]['name']} (${eqs[0]['jpName']})`);
                 }
 
+                let donationString = "\nSupport WeebBot on Gratipay! <https://gratipay.com/Weeb-Bot/>";
                 let time = moment(data[0]["when"]);
-                let string = `:watch:**IN 40 MINUTES:**\n${format.join('\n')}`;
+                let string = `:watch:**IN 40 MINUTES:**\n${format.join('\n')}${cache["i"] === 10 ? donationString : ''}`;
                 
                 if (channel.type == "text" && channel.permissionsFor(client.user).has("SEND_MESSAGES") && channel.permissionsFor(client.user).has("READ_MESSAGES") && guild[1].available) {
                     try {
