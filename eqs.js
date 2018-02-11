@@ -4,7 +4,7 @@ const moment = require('moment');
 
 module.exports = async (client) => {
     try {
-        const response = await fetch('http://pso2.kaze.rip/eq/');
+        const response = await fetch('http://pso2.rodrigo.li/eq/');
         if (response.status !== 200) return;
 
         const data = await response.json();
