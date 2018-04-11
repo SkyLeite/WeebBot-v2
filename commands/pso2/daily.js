@@ -14,7 +14,7 @@ module.exports = class PSO2Commands extends Commando.Command {
 
     async run(msg, args, client) {
         try {
-            const data = await (await fetch('http://pso2.kaze.rip/daily')).json();
+            const data = await (await fetch('http://pso2.rodrigo.li/daily')).json();
 
             return msg.reply("", {
                 embed: {
