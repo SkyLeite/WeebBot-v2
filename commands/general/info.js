@@ -16,7 +16,7 @@ module.exports = class GeneralCommands extends Commando.Command {
         return msg.reply("", {embed: {
             color: 3447003,
             title: `${this.client.user.username}#${this.client.user.discriminator}`,
-            url: "http://kaze.rip",
+            url: "http://rodrigo.li",
             thumbnail: {
                 url: this.client.user.avatarURL
             },

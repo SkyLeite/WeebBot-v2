@@ -33,7 +33,7 @@ module.exports = class PSO2Commands extends Commando.Command {
                         let embed = { embed: {
                             color: 3447003,
                             title: "Results",
-                            url: "http://kaze.rip",
+                            url: "http://rodrigo.li",
                             fields: []
                         }}
 

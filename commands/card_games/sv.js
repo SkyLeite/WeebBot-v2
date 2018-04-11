@@ -84,7 +84,7 @@ module.exports = class SVCommands extends Commando.Command {
     async run(msg, args, client) {
         let card = args.card;
 
-        let data = await (await fetch(`http://sv.kaze.rip/cards/${card}`)).json();
+        let data = await (await fetch(`http://sv.rodrigo.li/cards/${card}`)).json();
         if (data.length === 0) {
             return msg.reply("No matches found. Please try again with a different query.");
         }
