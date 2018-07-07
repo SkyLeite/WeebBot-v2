@@ -9,5 +9,12 @@
       "password": "",
       "database": "weebbot"
     }
+  },
+  "presence": {
+    "game": {
+      "name": "http://wb.rodrigo.li",
+      "url": "http://wb.rodrigo.li"
+    },
+    "status": "online"
   }
 }

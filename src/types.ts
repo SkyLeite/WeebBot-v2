@@ -6,6 +6,7 @@ export interface IConfig {
   token: string;
   apiUrl: string;
   database: Knex.Config;
+  presence: Discord.PresenceData;
 }
 
 export interface IModuleParams {

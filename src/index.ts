@@ -22,6 +22,7 @@ const logger = winston.createLogger({
 });
 
 client.on("ready", () => {
+  client.user.setPresence(config.presence);
   logger.info("Client ready");
 });
 
