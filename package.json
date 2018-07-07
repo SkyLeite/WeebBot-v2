@@ -1,16 +1,33 @@
 {
   "name": "weebbot",
-  "description": "Discord bot for PSO2.",
+  "version": "1.0.0",
+  "description": "[![Gratipay](https://img.shields.io/gratipay/project/Weeb-Bot.svg)](https://gratipay.com/Weeb-Bot/) ![Travis](https://img.shields.io/travis/Kxze/WeebBot-v2.svg)",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc && node dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kxze/WeebBot-v2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kxze/WeebBot-v2/issues"
+  },
+  "homepage": "https://github.com/Kxze/WeebBot-v2#readme",
   "dependencies": {
-    "async-request": "^1.2.0",
-    "discord.js": "^11.1.0",
-    "discord.js-commando": "^0.8.5",
-    "node-fetch": "^1.7.1",
-    "request": "^2.79.0",
-    "sqlite": "^2.3.0",
-    "sqlite3": "^3.1.8"
+    "discord.js": "^11.3.2",
+    "knex": "^0.15.0",
+    "mysql": "^2.15.0",
+    "node-fetch": "^2.1.2",
+    "typescript": "^2.9.2",
+    "winston": "github:winstonjs/winston#master"
   },
   "devDependencies": {
-    "nodemon": "^1.11.0"
+    "@types/knex": "^0.14.15",
+    "@types/node": "^10.5.2",
+    "@types/node-fetch": "^2.1.1",
+    "@types/winston": "^2.3.9"
   }
 }
