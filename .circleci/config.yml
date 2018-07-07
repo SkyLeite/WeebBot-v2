@@ -16,7 +16,7 @@ jobs:
       - run:
           name: Trigger build on server
           command: |
-            ssh -o StrictHostKeyChecking=no circleci@104.196.160.41 'export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && cd /apps/WeebBot-v2 && git pull && npm i && npm run build'
+            ssh -o StrictHostKeyChecking=no -vvv circleci@104.196.160.41 'export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && cd /apps/WeebBot-v2 && git pull && npm i && npm run build'
 workflows:
   version: 2
   build-and-deploy:
