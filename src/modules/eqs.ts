@@ -59,10 +59,14 @@ export default ({ client, config, db, logger }: IModuleParams) => {
     logger.info("New EQ!");
     await Promise.all(allChannels.map(async (channel) => {
       const ships = channel.ships.split(",").map(Number); // Oh god why
+      if (!ships) { return; }
+
       const guild = client.guilds.find(guild => guild.id === channel.guildId);
+      if (!guild) { return; }
+
       const alertChannel = guild.channels.find(guildChannel => guildChannel.id === channel.channelId) as Discord.TextChannel;
 
-      if (!guild || !alertChannel) { return; }
+      if (!alertChannel) { return; }
 
       const embed = buildMessage(lastEq.eqs, ships);
 
