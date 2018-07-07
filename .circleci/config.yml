@@ -33,7 +33,7 @@ jobs:
     steps:
       - add_ssh_keys:
           fingerprints:
-            - "40:9e:ee:20:69:ec:87:26:14:3e:6d:11:07:cc:b9:10"
+            - "13:bf:9b:94:92:e9:7b:e3:72:cc:ab:0d:4d:75:e8:1a"
       - run:
           name: Install rsync
           command: sudo apt install rsync -y
@@ -42,7 +42,7 @@ jobs:
       - run:
           name: Deploy bot to server
           command: |
-            rsync -avHr /tmp/dist/ -e ssh rodrigo@104.196.160.41:/apps/WeebBot-v2/dist
+            rsync -avHr /tmp/dist/ -e ssh circleci@104.196.160.41:/apps/WeebBot-v2/dist
 workflows:
   version: 2
   build-and-deploy:
