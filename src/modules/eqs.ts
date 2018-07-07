@@ -70,6 +70,7 @@ export default ({ client, config, db, logger }: IModuleParams) => {
         logger.info(`Sending alert to channel ${alertChannel.name} from guild ${guild.id} with ships ${ships}`);
         await alertChannel.send(undefined, embed);
       } catch (err) {
+        logger.error(err);
         // :D?
       }
     }));
