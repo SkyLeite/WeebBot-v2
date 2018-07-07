@@ -2,3 +2,5 @@ node_modules
 settings.sqlite3
 bumped.json
 dist
+config.json
+cache.json
