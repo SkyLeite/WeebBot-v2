@@ -78,5 +78,5 @@ export default ({ client, config, db, logger }: IModuleParams) => {
     await updateCache(lastEq);
   }
   
-  client.setInterval(eqModule, 3000);
+  client.setInterval(eqModule, 30000);
 }
