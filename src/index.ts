@@ -4,9 +4,9 @@ import * as path from "path";
 import knex from "knex";
 import * as winston from "winston";
 import { IConfig, IModuleParams } from "./types";
+import config from "./config";
 
 const client = new Discord.Client();
-const config: IConfig = JSON.parse(fs.readFileSync(path.join(__dirname, "../config.json"), "utf8"));
 const db = knex(config.database);
 const logger = winston.createLogger({
   format: winston.format.combine(
