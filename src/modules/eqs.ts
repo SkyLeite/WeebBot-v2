@@ -80,7 +80,7 @@ export default ({ client, config, db, logger }: IModuleParams) => {
 
   client.on("message", (message) => {
     if (message.isMentioned(client.user) && message.content.includes("help")) {
-      message.reply("Visit https://wb.rodrigo.li for help!");
+      message.reply("Visit http://wb.rodrigo.li for help!");
     }
   });
   
