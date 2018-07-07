@@ -77,6 +77,12 @@ export default ({ client, config, db, logger }: IModuleParams) => {
 
     await updateCache(lastEq);
   }
+
+  client.on("message", (message) => {
+    if (message.isMentioned(client.user) && message.content.includes("help")) {
+      message.reply("Visit https://wb.rodrigo.li for help!");
+    }
+  });
   
   client.setInterval(eqModule, 30000);
 }
