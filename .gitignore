@@ -1,5 +1,4 @@
-/node_modules
-config.json
-cache\.json
+node_modules
 settings.sqlite3
 bumped.json
+dist
