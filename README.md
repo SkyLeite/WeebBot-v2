@@ -52,3 +52,8 @@ If you have any questions or something went wrong, please contact me at `Kaze#21
 ## Donations
 
 If you wish to support the creation of this bot, just say thanks :p
+
+## Support on Beerpay
+Hey dude! Help me out for a couple of :beers:!
+
+[![Beerpay](https://beerpay.io/Kxze/WeebBot-v2/badge.svg?style=beer-square)](https://beerpay.io/Kxze/WeebBot-v2)  [![Beerpay](https://beerpay.io/Kxze/WeebBot-v2/make-wish.svg?style=flat-square)](https://beerpay.io/Kxze/WeebBot-v2?focus=wish)
