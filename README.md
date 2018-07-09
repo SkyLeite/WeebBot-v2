@@ -1,4 +1,4 @@
-[![Circle CI](https://img.shields.io/circleci/project/github/Kxze/WeebBot-v2.svg)] [![Discord](https://img.shields.io/discord/171412745302835201.svg)](https://discord.gg/0xMXCNAFbH032Ig1) ![Travis](https://img.shields.io/travis/Kxze/WeebBot-v2.svg)
+[![Circle CI](https://img.shields.io/circleci/project/github/Kxze/WeebBot-v2.svg)](https://github.com/Kxze/WeebBot-v2/) [![Discord](https://img.shields.io/discord/171412745302835201.svg)](https://discord.gg/0xMXCNAFbH032Ig1) ![Travis](https://img.shields.io/travis/Kxze/WeebBot-v2.svg)
 
 # WeebBot-v2
 Discord bot used for alerting on Emergency Quests on Phantasy Star Online 2
