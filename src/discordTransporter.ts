@@ -28,7 +28,8 @@ export default class DiscordTransporter extends Transport {
     if (!this.guild) {
       const guild: Guild | undefined = this.client.guilds.find(i => i.name === this.guildName);
       if (!guild) {
-        throw new Error("No guild found with name " + this.guildName);
+        console.error("No guild found with name " + this.guildName);
+        return;
       }
       this.guild = guild;
     }
@@ -40,7 +41,8 @@ export default class DiscordTransporter extends Transport {
         .filter(i => i.type === "text")
         .find(i => i.name === this.channelName) as TextChannel | undefined;
       if (!channel) {
-        throw new Error("No channel found with name " + this.channelName);
+        console.error("No channel found with name " + this.channelName);
+        return;
       }
       this.channel = channel;
     }

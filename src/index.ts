@@ -6,6 +6,7 @@ import * as winston from "winston";
 import { IConfig, IModuleParams } from "./types";
 import config from "./config";
 import DiscordTransporter from "./discordTransporter";
+import { EQWorker } from "./worker";
 
 const client = new Discord.Client();
 const db = knex(config.database);
