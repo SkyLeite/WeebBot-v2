@@ -3,10 +3,9 @@ import * as fs from "fs";
 import * as path from "path";
 import knex from "knex";
 import * as winston from "winston";
-import { IConfig, IModuleParams } from "./types";
+import { IModuleParams } from "./types";
 import config from "./config";
 import DiscordTransporter from "./discordTransporter";
-import { EQWorker } from "./worker";
 
 const client = new Discord.Client();
 const db = knex(config.database);
@@ -51,4 +50,23 @@ modules.forEach(module => {
   }
 });
 
-client.login(config.token);
+// Load workers
+const workersDir = path.join(__dirname, "workers");
+const workers = fs.readdirSync(workersDir)
+  .filter((file: string) => file.endsWith(".js"));
+
+const instanceWorkers = workers.map(async (workerFile) => {
+  try {
+    const workerClass = (await import(path.join(workersDir, workerFile))).default;
+    const worker = new workerClass(db, client, logger);
+
+    client.setInterval(() => worker.init(), 30000);
+    logger.info("Loaded worker " + workerFile);
+  } catch (err) {
+    logger.error(err);
+    logger.warn("Could not load worker " + workerFile);
+  }
+});
+
+Promise.all(instanceWorkers)
+  .then(() => client.login(config.token));
