@@ -6,11 +6,16 @@ export default ({ client, config, db, logger }: IModuleParams) => {
     if (message.content === "+cat") {
       const response = await fetch("http://edgecats.net/random");
       if (response.status !== 200) {
+        logger.warn("Cat API error. Status: " + response.status);
         return message.reply("Something went wrong. Please try again later.");
       }
 
-      const data = await response.text();
-      message.reply("Here's your :cat:! " + data);
+      try {
+        const data = await response.text();
+        return message.reply("Here's your :cat:! " + data);
+      } catch (err) {
+        logger.warn(err.message);
+      }
     }
   });
 }
