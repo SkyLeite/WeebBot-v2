@@ -5,6 +5,7 @@ import knex from "knex";
 import * as winston from "winston";
 import { IConfig, IModuleParams } from "./types";
 import config from "./config";
+import DiscordTransporter from "./discordTransporter";
 
 const client = new Discord.Client();
 const db = knex(config.database);
@@ -17,7 +18,8 @@ const logger = winston.createLogger({
   ),
   transports: [
     new winston.transports.Console(),
-    new winston.transports.File({ filename: "WeebBot.log" })
+    new winston.transports.File({ filename: "WeebBot.log" }),
+    new DiscordTransporter({ client, guildName: config.log.guild, channelName: config.log.channel }),
   ]
 });
 

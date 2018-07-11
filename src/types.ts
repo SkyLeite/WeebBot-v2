@@ -7,6 +7,12 @@ export interface IConfig {
   apiUrl: string;
   database: Knex.Config;
   presence: Discord.PresenceData;
+  log: ILogConfig;
+}
+
+export interface ILogConfig {
+  guild: string;
+  channel: string;
 }
 
 export interface IModuleParams {

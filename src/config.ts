@@ -18,5 +18,9 @@ export default {
       url: process.env.WB_GAME_URL || "http://wb.rodrigo.li"
     },
     status: "online"
+  },
+  log: {
+    guild: "",
+    channel: ""
   }
 } as IConfig

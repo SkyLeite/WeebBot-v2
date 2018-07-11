@@ -23,7 +23,8 @@
     "mysql": "^2.15.0",
     "node-fetch": "^2.1.2",
     "typescript": "^2.9.2",
-    "winston": "github:winstonjs/winston#master"
+    "winston": "github:winstonjs/winston#master",
+    "winston-transport": "^4.2.0"
   },
   "devDependencies": {
     "@types/knex": "^0.14.15",
