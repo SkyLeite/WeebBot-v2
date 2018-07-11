@@ -6,6 +6,7 @@ import * as winston from "winston";
 import { IConfig, IModuleParams } from "./types";
 import config from "./config";
 import DiscordTransporter from "./discordTransporter";
+import { EQWorker } from "./worker";
 
 const client = new Discord.Client();
 const db = knex(config.database);
@@ -41,13 +42,16 @@ const modulesDir = path.join(__dirname, "modules");
 const modules = fs.readdirSync(modulesDir)
   .filter((file: string) => file.endsWith(".js"));
 
-modules.forEach(module => {
-  try {
-    require(path.join(modulesDir, module)).default(moduleParameters);
-    logger.info("Loaded module " + module);
-  } catch (err) {
-    logger.error("Could not load module" + module);
-  }
-});
+// modules.forEach(module => {
+//   try {
+//     require(path.join(modulesDir, module)).default(moduleParameters);
+//     logger.info("Loaded module " + module);
+//   } catch (err) {
+//     logger.error("Could not load module" + module);
+//   }
+// });
+
+const eq = new EQWorker(db, client, logger);
+client.setInterval(() => eq.init(), 3000);
 
 client.login(config.token);
