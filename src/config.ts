@@ -20,7 +20,7 @@ export default {
     status: "online"
   },
   log: {
-    guild: "",
-    channel: ""
+    guild: process.env.WB_LOG_GUILD || "",
+    channel: process.env.WB_LOG_CHANNEL || ""
   }
 } as IConfig
