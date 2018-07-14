@@ -20,7 +20,7 @@ const logger = winston.createLogger({
   transports: [
     new winston.transports.Console(),
     new winston.transports.File({ filename: "WeebBot.log" }),
-    new DiscordTransporter({ client, guildName: config.log.guild, channelName: config.log.channel }),
+    // new DiscordTransporter({ client, guildName: config.log.guild, channelName: config.log.channel }),
   ]
 });
 
