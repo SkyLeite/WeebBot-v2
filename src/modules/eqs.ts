@@ -58,6 +58,8 @@ export default ({ client, config, db, logger }: IModuleParams) => {
 
     logger.info("New EQ!");
     await Promise.all(allChannels.map(async (channel) => {
+      if (channel.ships === "") { return; }
+
       const ships = channel.ships.split(",").map(Number); // Oh god why
       if (!ships || ships.length === 0) { return; }
 
