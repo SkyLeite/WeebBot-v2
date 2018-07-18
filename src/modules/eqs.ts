@@ -27,17 +27,21 @@ export default ({ client, config, db, logger }: IModuleParams) => {
   }
 
   const buildMessage = (eqs: IEQ[], ships: number[]) => {
+    let shipnumbers = [":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:", ":eight:", ":nine:", ":keycap_ten:"]
     const embed = new Discord.RichEmbed();
-    embed.setAuthor("PSO2 Emergency Quest Alert", "https://images.emojiterra.com/mozilla/512px/231a.png");
+    embed.setAuthor(":clock9: PSO2 Emergency Quest Alert");
     embed.setColor("GREEN");
-    embed.setFooter("Help: https://bit.ly/2KRb1De");
-
+    embed.setDescription('<:H_Line_Bold:386614101503246348>:Ships:<:H_Line_Bold:386614101503246348>:');
     eqs
       .filter(eq => ships.includes(eq.ship))
       .forEach(eq => {
-        embed.addField(`Ship ${eq.ship}`, eq.name, true);
+        embed.description += `\n •  ${shipnumbers[eq.ship - 1]}:V_Line:${eq.name}`;
       });
-
+    if (eq.length > 9) {
+    embed.setDescription('<:H_Line_Bold:386614101503246348>:All Ships:<:H_Line_Bold:386614101503246348>:');
+    embed.description += `\n •  ${eq[0].name}`;
+    }
+    embed.description += "\n\n`Help:\nhttps://bit.ly/2KRb1De`";
     return embed;
   }
 
