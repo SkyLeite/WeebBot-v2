@@ -7,10 +7,10 @@ export default ({ client, config, db, logger }: IModuleParams) => {
 	client.on("message", (message) => {
 	if (message.author.bot) return;
 	if (message.content.indexOf(" star") > -1) {
-	let match = regex.match(message.content);
+	let match = message.content.match(regex);
 	let starcount = '';
-    if (match) {
-      try {
+	if (match) {
+	try {
 		match = match[0].replace(" star", "");
 		match = parseInt(match);
 		if (match > 0 && match < 16) {
@@ -18,10 +18,10 @@ export default ({ client, config, db, logger }: IModuleParams) => {
 		starcount = starcount + stars[i];
 		}
         return message.reply(starcount);
-      } catch (err) {
+	} catch (err) {
         logger.warn(err.message);
-      }
-    }
+	}
+	}
 	}
   });
 }
