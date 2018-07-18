@@ -29,7 +29,7 @@ export default ({ client, config, db, logger }: IModuleParams) => {
   const buildMessage = (eqs: IEQ[], ships: number[]) => {
     let shipnumbers = [":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:", ":eight:", ":nine:", ":keycap_ten:"];
     const embed = new Discord.RichEmbed();
-    embed.setAuthor(":clock9: PSO2 Emergency Quest Alert");
+    embed.setAuthor("PSO2 Emergency Quest Alert", "https://images.emojiterra.com/mozilla/512px/231a.png");
     embed.setColor("GREEN");
     embed.setDescription('<:H_Line_Bold:386614101503246348>Ships<:H_Line_Bold:386614101503246348>');
     eqs
