@@ -41,7 +41,7 @@ export default ({ client, config, db, logger }: IModuleParams) => {
     embed.setDescription('<:H_Line_Bold:386614101503246348>All Ships<:H_Line_Bold:386614101503246348>');
     embed.description += `\n •  ${eqs[0].name}`;
     }
-    embed.description += "\n\n[Help?](https://bit.ly/2KRb1De)`";
+    embed.description += "\n\n[Help?](https://bit.ly/2KRb1De)";
     return embed;
   }
 
