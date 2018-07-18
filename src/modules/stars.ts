@@ -17,7 +17,7 @@ export default ({ client, config, db, logger }: IModuleParams) => {
 						for (let i = 0; i < starcount; i++)
 							startext = startext + stars[i];
 					}
-					return message.reply(starcount);
+					return message.reply(startext);
 				} catch (err) {
 					logger.warn(err.message);
 				}
