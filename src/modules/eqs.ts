@@ -27,18 +27,18 @@ export default ({ client, config, db, logger }: IModuleParams) => {
   }
 
   const buildMessage = (eqs: IEQ[], ships: number[]) => {
-    let shipnumbers = [":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:", ":eight:", ":nine:", ":keycap_ten:"]
+    let shipnumbers = [":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:", ":eight:", ":nine:", ":keycap_ten:"];
     const embed = new Discord.RichEmbed();
     embed.setAuthor(":clock9: PSO2 Emergency Quest Alert");
     embed.setColor("GREEN");
-    embed.setDescription('<:H_Line_Bold:386614101503246348>:Ships:<:H_Line_Bold:386614101503246348>:');
+    embed.setDescription('<:H_Line_Bold:386614101503246348>Ships<:H_Line_Bold:386614101503246348>');
     eqs
       .filter(eq => ships.includes(eq.ship))
       .forEach(eq => {
-        embed.description += `\n •  ${shipnumbers[eq.ship - 1]}:V_Line:${eq.name}`;
+        embed.description += `\n •  ${shipnumbers[eq.ship - 1]}<:V_Line:386619978994024458>${eq.name}`;
       });
     if (eq.length > 9) {
-    embed.setDescription('<:H_Line_Bold:386614101503246348>:All Ships:<:H_Line_Bold:386614101503246348>:');
+    embed.setDescription('<:H_Line_Bold:386614101503246348>All Ships<:H_Line_Bold:386614101503246348>');
     embed.description += `\n •  ${eq[0].name}`;
     }
     embed.description += "\n\n`Help:\nhttps://bit.ly/2KRb1De`";
