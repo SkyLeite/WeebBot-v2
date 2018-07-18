@@ -8,18 +8,18 @@ export default ({ client, config, db, logger }: IModuleParams) => {
 	if (message.author.bot) return;
 	if (message.content.indexOf(" star") > -1) {
 	let match = message.content.match(regex);
-	let starcount = '';
+	let startext = '';
 	if (match) {
 	try {
-		match = match[0].replace(" star", "");
-		match = parseInt(match);
-		if (match > 0 && match < 16) {
-		for (let i = 0; i < match; i++)
-		starcount = starcount + stars[i];
-		}
+	let starcount = match[0].replace(" star", "");
+	starcount = parseInt(starcount);
+	if (starcount > 0 && starcount < 16) {
+	for (let i = 0; i < starcount; i++)
+	startext = startext + stars[i];
+	}
         return message.reply(starcount);
 	} catch (err) {
-        logger.warn(err.message);
+        logger.warn(err.message); 
 	}
 	}
 	}
