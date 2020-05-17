@@ -15,7 +15,7 @@ If you simply wish to have the bot on your server, just [click here](https://wb.
 
 ## Support
 
-If you have any questions or something went wrong, please contact me at `Kaze#0001` or on [the bot's server](https://discord.gg/0xMXCNAFbH032Ig1).
+If you have any questions or something went wrong, please contact me at `Kaze#3067` or on [the bot's server](https://discord.gg/0xMXCNAFbH032Ig1).
 
 ## Donations
 
