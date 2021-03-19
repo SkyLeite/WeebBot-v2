@@ -1,0 +1,40 @@
+version: "3.5"
+
+services:
+    db:
+        container_name: weebbot_postgres_container
+        image: postgres
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_DB: weebbot_dev
+            PGDATA: /data/postgres
+        volumes:
+            - postgres:/data/postgres
+        ports:
+            - "1231:5432"
+        networks:
+            - postgres
+        restart: unless-stopped
+
+    pgadmin:
+        container_name: weebbot_pgadmin_container
+        image: dpage/pgadmin4
+        environment:
+            PGADMIN_DEFAULT_EMAIL: admin@admin.org
+            PGADMIN_DEFAULT_PASSWORD: admin
+        volumes:
+            - pgadmin:/root/.pgadmin
+        ports:
+            - "1232:80"
+        networks:
+            - postgres
+        restart: unless-stopped
+
+networks:
+    postgres:
+        driver: bridge
+
+volumes:
+    postgres:
+    pgadmin:
