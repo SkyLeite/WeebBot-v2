@@ -23,6 +23,13 @@ config :ueberauth, Ueberauth,
     discord: {Ueberauth.Strategy.Discord, [default_scope: "identify email guilds"]}
   ]
 
+config :admin, AdminWeb.Endpoint,
+  http: [
+    protocol_options: [
+      max_header_value_length: 8192
+    ]
+  ]
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

@@ -2,9 +2,15 @@ defmodule AdminWeb.PageLive do
   use AdminWeb, :live_view
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, query: "", results: %{})}
+  def mount(_params, %{"user_token" => user_token, "guilds" => guilds}, socket) do
+    user = Admin.Accounts.get_user_by_session_token(user_token)
+    {:ok, assign(socket, query: "", results: %{}, current_user: user, guilds: guilds)}
   end
+
+  # @impl true
+  # def mount(_params, _session, socket) do
+  #   {:ok, assign(socket, query: "", results: %{})}
+  # end
 
   @impl true
   def handle_event("suggest", %{"q" => query}, socket) do

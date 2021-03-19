@@ -6,16 +6,21 @@ defmodule AdminWeb.UserOauthController do
 
   plug Ueberauth
 
-  def callback(%{assigns: %{ueberauth_auth: %{info: user_info}}} = conn, %{
+  def callback(%{assigns: %{ueberauth_auth: user}} = conn, %{
         "provider" => "discord"
       }) do
-    user_params = %{email: user_info.email}
+    guilds =
+      user.extra.raw_info.guilds
+      |> Enum.filter(fn guild ->
+        true
+      end)
+      |> Enum.map(fn guild -> %{id: guild["id"], name: guild["name"], icon: guild["icon"]} end)
 
-    IO.inspect(user_info)
+    user_params = %{email: user.info.email}
 
     case Accounts.fetch_or_create_user(user_params) do
       {:ok, user} ->
-        UserAuth.log_in_user(conn, user)
+        UserAuth.log_in_user(conn, user, guilds)
 
       _ ->
         conn
