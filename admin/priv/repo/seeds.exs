@@ -12,8 +12,9 @@
 
 Admin.Repo.insert!(
   %Admin.Guilds.AvailableSetting{
-    key: "alerts_enabled",
-    type: "boolean"
+    key: "alert_channel_id",
+    label: "Alert Channel ID",
+    type: "string"
   },
   on_conflict: :nothing
 )

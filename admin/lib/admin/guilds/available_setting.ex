@@ -4,6 +4,7 @@ defmodule Admin.Guilds.AvailableSetting do
 
   schema "available_settings" do
     field(:key, :string)
+    field(:label, :string)
     field(:type, :string)
 
     has_many(:guild_setting, Admin.Guilds.Setting)
