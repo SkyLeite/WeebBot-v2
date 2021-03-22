@@ -18,7 +18,7 @@ defmodule Admin.Accounts.User do
   could lead to unpredictable or insecure behaviour. Long passwords may
   also be very expensive to hash for certain algorithms.
   """
-  def registration_changeset(user, attrs, opts \\ []) do
+  def registration_changeset(user, attrs) do
     user
     |> cast(attrs, [:email])
     |> validate_email()

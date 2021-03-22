@@ -6,19 +6,6 @@
       <p><%= @error_message %></p>
     </div>
   <% end %>
-
-  <%= label f, :email %>
-  <%= email_input f, :email, required: true %>
-
-  <%= label f, :password %>
-  <%= password_input f, :password, required: true %>
-
-  <%= label f, :remember_me, "Keep me logged in for 60 days" %>
-  <%= checkbox f, :remember_me %>
-
-  <div>
-    <%= submit "Log in" %>
-  </div>
 <% end %>
 
 <%= link "LOGIN WITH DISCORD", to: Routes.user_oauth_path(@conn, :request, "discord") %>
