@@ -17,7 +17,8 @@ defmodule Bot.MixProject do
   # Run "mix help deps" for examples and options.
   defp deps do
     [
-      {:ueberauth_discord, "~> 0.5.2"}
+      {:nostrum, "~> 0.4"},
+      {:cowlib, "~> 2.7", override: true}
     ]
   end
 end

@@ -5,12 +5,21 @@ defmodule AdminWeb.PageLive do
   def mount(_params, %{"user_token" => user_token, "guilds" => guilds}, socket) do
     user = Admin.Accounts.get_user_by_session_token(user_token)
 
+    admin_guilds =
+      guilds
+      |> Enum.filter(fn x ->
+        x
+        |> Map.fetch!(:permissions)
+        |> Nostrum.Permission.from_bitset()
+        |> Enum.member?(:manage_guild)
+      end)
+
     {:ok,
      assign(socket,
        query: "",
        results: %{},
        current_user: user,
-       guilds: guilds,
+       guilds: admin_guilds,
        current_guild: guilds |> List.first() |> Map.fetch!(:id)
      )}
   end

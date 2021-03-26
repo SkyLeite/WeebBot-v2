@@ -14,7 +14,14 @@ defmodule AdminWeb.UserOauthController do
       |> Enum.filter(fn guild ->
         true
       end)
-      |> Enum.map(fn guild -> %{id: guild["id"], name: guild["name"], icon: guild["icon"]} end)
+      |> Enum.map(fn guild ->
+        %{
+          id: guild["id"],
+          name: guild["name"],
+          icon: guild["icon"],
+          permissions: guild["permissions"]
+        }
+      end)
 
     user_params = %{email: user.info.email}
 
