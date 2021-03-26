@@ -14,7 +14,7 @@ defmodule AdminWeb.PageLive do
         |> Enum.member?(:manage_guild)
       end)
 
-    first_guild = guilds |> List.first()
+    first_guild = admin_guilds |> List.first()
 
     {:ok,
      assign(socket,

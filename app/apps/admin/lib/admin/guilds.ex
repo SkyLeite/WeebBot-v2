@@ -42,6 +42,8 @@ defmodule Admin.Guilds do
     Setting
     |> where([s], s.guild_id == ^guild_id)
     |> Repo.all()
+    |> Repo.preload(:available_setting)
+    |> Map.new(fn x -> {x.available_setting.key, x.value} end)
   end
 
   @doc """

@@ -1,4 +1,4 @@
-<section class="phx-hero">
+<section class="flex space-x-5">
   <div
       class="flex flex-col w-16 overflow-y-auto space-y-1"
       id="guild-selector"
@@ -13,5 +13,23 @@
         </a>
     <% end %>
   </div>
-</section>
+  <div>
+      <h1>Settings</h1>
+      <span>Selected guild: <%= @current_guild %></span>
 
+      <div class="my-5 space-x-3">
+          <%= for available_setting <- @available_settings do %>
+              <!-- <label for="setting_<%= available_setting.id %>"><%= available_setting.label %></label> -->
+            <input
+                id="setting_<%= available_setting.id %>"
+                placeholder="<%= available_setting.label %>"
+                class="border rounded p-2"
+                value="<%= @guild_settings[available_setting.key] %>"
+            />
+          <% end %>
+
+      </div>
+
+      <button class="rounded p-1 px-5 bg-green-500 text-white font-bold shadow">Save</button>
+  </div>
+</section>
