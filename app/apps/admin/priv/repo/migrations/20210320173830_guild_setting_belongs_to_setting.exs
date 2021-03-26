@@ -3,7 +3,7 @@ defmodule Admin.Repo.Migrations.GuildSettingBelongsToSetting do
 
   def change do
     alter table(:guild_settings) do
-      add :setting_id, references(:available_setting)
+      add(:available_setting_id, references(:available_settings))
     end
   end
 end
