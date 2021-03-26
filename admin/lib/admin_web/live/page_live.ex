@@ -4,7 +4,15 @@ defmodule AdminWeb.PageLive do
   @impl true
   def mount(_params, %{"user_token" => user_token, "guilds" => guilds}, socket) do
     user = Admin.Accounts.get_user_by_session_token(user_token)
-    {:ok, assign(socket, query: "", results: %{}, current_user: user, guilds: guilds)}
+
+    {:ok,
+     assign(socket,
+       query: "",
+       results: %{},
+       current_user: user,
+       guilds: guilds,
+       current_guild: guilds |> List.first() |> Map.fetch!(:id)
+     )}
   end
 
   # @impl true
@@ -29,6 +37,15 @@ defmodule AdminWeb.PageLive do
          |> put_flash(:error, "No dependencies found matching \"#{query}\"")
          |> assign(results: %{}, query: query)}
     end
+  end
+
+  @impl true
+  def handle_event("select_guild", values, socket) do
+    guild =
+      socket.assigns.guilds
+      |> Enum.find(fn guild -> guild.id == values["guild"] end)
+
+    {:noreply, socket |> assign(current_guild: guild.id)}
   end
 
   defp search(query) do
