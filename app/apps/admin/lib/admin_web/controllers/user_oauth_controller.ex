@@ -11,9 +11,6 @@ defmodule AdminWeb.UserOauthController do
       }) do
     guilds =
       user.extra.raw_info.guilds
-      |> Enum.filter(fn guild ->
-        true
-      end)
       |> Enum.map(fn guild ->
         %{
           id: guild["id"],
