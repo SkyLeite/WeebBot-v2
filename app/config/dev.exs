@@ -27,13 +27,13 @@ config :admin, AdminWeb.Endpoint,
       "--mode",
       "development",
       "--watch-stdin",
-      cd: Path.expand("../assets", __DIR__)
+      cd: Path.expand("../apps/admin/assets", __DIR__)
     ]
   ]
 
 config :ueberauth, Ueberauth.Strategy.Discord.OAuth,
   client_id: "198479757900251136",
-  client_secret: "WI6FLxb3L1DSGj644yMWXFxeNK04Ifrh"
+  client_secret: ""
 
 # ## SSL Support
 #
