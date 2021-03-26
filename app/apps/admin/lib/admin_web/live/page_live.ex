@@ -14,13 +14,17 @@ defmodule AdminWeb.PageLive do
         |> Enum.member?(:manage_guild)
       end)
 
+    first_guild = guilds |> List.first()
+
     {:ok,
      assign(socket,
        query: "",
        results: %{},
        current_user: user,
        guilds: admin_guilds,
-       current_guild: guilds |> List.first() |> Map.fetch!(:id)
+       current_guild: first_guild.id,
+       guild_settings: Admin.Guilds.get_guild_settings!(first_guild.id),
+       available_settings: Admin.Guilds.list_available_settings()
      )}
   end
 
@@ -30,7 +34,12 @@ defmodule AdminWeb.PageLive do
       socket.assigns.guilds
       |> Enum.find(fn guild -> guild.id == values["guild"] end)
 
-    {:noreply, socket |> assign(current_guild: guild.id)}
+    {:noreply,
+     socket
+     |> assign(
+       current_guild: guild.id,
+       guild_settings: Admin.Guilds.get_guild_settings!(guild.id)
+     )}
   end
 
   defp search(query) do
