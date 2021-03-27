@@ -70,7 +70,7 @@ defmodule Admin.Guilds do
   ## Examples
 
       iex> upsert_settings(%{"alert_channel_id": "12389109238"}, %{id: 1})
-      {:ok, [%Setting{}]}
+      {1, [%Setting{}]}
   """
   def upsert_settings(settings, guild) do
     timestamp =
@@ -101,6 +101,7 @@ defmodule Admin.Guilds do
     |> Repo.insert_all(new_settings,
       on_conflict: {:replace, [:value]},
       conflict_target: [:guild_id, :available_setting_id]
+      returning: true
     )
   end
 
