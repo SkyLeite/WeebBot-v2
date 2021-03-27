@@ -22,7 +22,7 @@ defmodule AdminWeb.PageLive do
        results: %{},
        current_user: user,
        guilds: admin_guilds,
-       current_guild: first_guild.id,
+       current_guild: first_guild,
        guild_settings: Admin.Guilds.get_guild_settings!(first_guild.id),
        available_settings: Admin.Guilds.list_available_settings()
      )}
@@ -37,9 +37,16 @@ defmodule AdminWeb.PageLive do
     {:noreply,
      socket
      |> assign(
-       current_guild: guild.id,
+       current_guild: guild,
        guild_settings: Admin.Guilds.get_guild_settings!(guild.id)
      )}
+  end
+
+  @impl true
+  def handle_event("save", values, socket) do
+    values |> Admin.Guilds.upsert_settings(socket.assigns.current_guild)
+
+    {:noreply, socket}
   end
 
   defp search(query) do

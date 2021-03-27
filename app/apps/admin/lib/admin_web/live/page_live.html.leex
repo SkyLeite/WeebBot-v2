@@ -7,7 +7,7 @@
     <%= for guild <- @guilds do %>
         <a phx-click="select_guild" phx-value-guild="<%= guild.id %>">
             <img
-                class="w-16 cursor-pointer <%= if guild.id == @current_guild do %> rounded-full <% else %> rounded-sm <% end %>"
+                class="w-16 cursor-pointer <%= if guild.id == @current_guild.id do %> rounded-full <% else %> rounded-sm <% end %>"
                 src="https://cdn.discordapp.com/icons/<%= guild.id %>/<%= guild.icon %>"
             />
         </a>
@@ -15,21 +15,30 @@
   </div>
   <div>
       <h1>Settings</h1>
-      <span>Selected guild: <%= @current_guild %></span>
+      <span>Selected guild: <%= @current_guild.name %></span>
 
-      <div class="my-5 space-x-3">
-          <%= for available_setting <- @available_settings do %>
-              <!-- <label for="setting_<%= available_setting.id %>"><%= available_setting.label %></label> -->
-            <input
-                id="setting_<%= available_setting.id %>"
-                placeholder="<%= available_setting.label %>"
-                class="border rounded p-2"
-                value="<%= @guild_settings[available_setting.key] %>"
-            />
-          <% end %>
+      <form phx-submit="save" class="flex flex-col my-5 space-y-3">
+          <div class="space-x-3">
+              <%= for available_setting <- @available_settings do %>
+                  <!-- <label for="setting_<%= available_setting.id %>"><%= available_setting.label %></label> -->
+                <input
+                    id="setting_<%= available_setting.id %>"
+                    name="<%= available_setting.key %>"
+                    placeholder="<%= available_setting.label %>"
+                    class="border rounded p-2"
+                    value="<%= @guild_settings[available_setting.key] %>"
+                />
+              <% end %>
+          </div>
 
-      </div>
+      <button
+          class="rounded p-1 px-5 m-0 bg-green-500 text-white font-bold shadow w-24"
+          type="submit"
+          phx-disable-with="Saving..."
+      >
+          Save
+      </button>
 
-      <button class="rounded p-1 px-5 bg-green-500 text-white font-bold shadow">Save</button>
+      </form>
   </div>
 </section>

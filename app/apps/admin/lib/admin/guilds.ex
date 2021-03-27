@@ -65,6 +65,46 @@ defmodule Admin.Guilds do
   end
 
   @doc """
+  Upserts a setting.
+
+  ## Examples
+
+      iex> upsert_settings(%{"alert_channel_id": "12389109238"}, %{id: 1})
+      {:ok, [%Setting{}]}
+  """
+  def upsert_settings(settings, guild) do
+    timestamp =
+      NaiveDateTime.utc_now()
+      |> NaiveDateTime.truncate(:second)
+
+    settings_keys = settings |> Map.keys()
+
+    available_settings =
+      AvailableSetting
+      |> where([a], a.key in ^settings_keys)
+      |> Repo.all()
+
+    new_settings =
+      settings
+      |> Enum.map(fn {k, v} ->
+        %{
+          guild_id: guild.id,
+          value: v,
+          available_setting_id:
+            available_settings |> Enum.find(fn a -> a.key == k end) |> Map.fetch!(:id),
+          inserted_at: timestamp,
+          updated_at: timestamp
+        }
+      end)
+
+    Setting
+    |> Repo.insert_all(new_settings,
+      on_conflict: {:replace, [:value]},
+      conflict_target: [:guild_id, :available_setting_id]
+    )
+  end
+
+  @doc """
   Updates a setting.
 
   ## Examples
