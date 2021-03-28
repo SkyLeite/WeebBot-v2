@@ -21,7 +21,7 @@
     "discord.js": "^12.5.1",
     "knex": "^0.15.0",
     "mysql": "^2.15.0",
-    "node-fetch": "^2.1.2",
+    "node-fetch": "^2.6.1",
     "typescript": "^2.9.2",
     "winston": "github:winstonjs/winston#master",
     "winston-transport": "^4.2.0"
