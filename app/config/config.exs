@@ -30,6 +30,17 @@ config :admin, AdminWeb.Endpoint,
     ]
   ]
 
+config :admin, Admin.Scheduler,
+  jobs: [
+    {{:extended, "*/5 * * * *"}, {Admin.Alerts, :check_twitter, []}}
+  ]
+
+config :extwitter, :oauth,
+  consumer_key: "",
+  consumer_secret: "",
+  access_token: "",
+  access_token_secret: ""
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

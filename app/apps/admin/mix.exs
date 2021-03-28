@@ -54,7 +54,11 @@ defmodule Admin.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:ueberauth_discord, "~> 0.5.2"},
-      {:phx_gen_auth, "~> 0.6", only: [:dev], runtime: false}
+      {:phx_gen_auth, "~> 0.6", only: [:dev], runtime: false},
+      {:quantum, "~> 3.0"},
+      {:extwitter, "~> 0.12.2"},
+      {:oauther, "~> 1.1"},
+      {:timex, "~> 3.7"}
     ]
   end
 

@@ -18,7 +18,8 @@ defmodule Bot.MixProject do
   defp deps do
     [
       {:nostrum, "~> 0.4"},
-      {:cowlib, "~> 2.7", override: true}
+      {:cowlib, "~> 2.7", override: true},
+      {:tz, "~> 0.12.0"}
     ]
   end
 end

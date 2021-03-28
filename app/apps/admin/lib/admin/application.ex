@@ -14,14 +14,16 @@ defmodule Admin.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Admin.PubSub},
       # Start the Endpoint (http/https)
-      AdminWeb.Endpoint
+      AdminWeb.Endpoint,
       # Start a worker by calling: Admin.Worker.start_link(arg)
       # {Admin.Worker, arg}
+      Admin.Scheduler
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     :ets.new(:session, [:named_table, :public, read_concurrency: true])
+    :ets.new(:alerts_cache, [:named_table, :public, read_concurrency: true])
 
     opts = [strategy: :one_for_one, name: Admin.Supervisor]
     Supervisor.start_link(children, opts)
