@@ -19,7 +19,7 @@
   "homepage": "https://github.com/Kxze/WeebBot-v2#readme",
   "dependencies": {
     "discord.js": "^12.5.1",
-    "knex": "^0.15.0",
+    "knex": "^0.19.5",
     "mysql": "^2.15.0",
     "node-fetch": "^2.1.2",
     "typescript": "^2.9.2",
