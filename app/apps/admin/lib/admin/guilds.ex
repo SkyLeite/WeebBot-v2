@@ -100,7 +100,7 @@ defmodule Admin.Guilds do
     Setting
     |> Repo.insert_all(new_settings,
       on_conflict: {:replace, [:value]},
-      conflict_target: [:guild_id, :available_setting_id]
+      conflict_target: [:guild_id, :available_setting_id],
       returning: true
     )
   end
