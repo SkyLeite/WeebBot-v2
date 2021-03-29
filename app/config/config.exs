@@ -36,10 +36,10 @@ config :admin, Admin.Scheduler,
   ]
 
 config :extwitter, :oauth,
-  consumer_key: "",
-  consumer_secret: "",
-  access_token: "",
-  access_token_secret: ""
+  consumer_key: "K9m4Cjhzd3r0kpx25RHUo5J6r",
+  consumer_secret: "BWLGW4hD219uBchshogvnMEhfXp5zKvmLyj9fEupXzIOzpNkOu",
+  access_token: "1251460537998852097-Q2JHXSwtGNfNSXyWloOUcsuzq9CtBm",
+  access_token_secret: "LPJ2OzdubN3lE4VPHmGQocHbbZkSq8HTPILYy2teShxGE"
 
 # Configures Elixir's Logger
 config :logger, :console,

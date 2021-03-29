@@ -51,16 +51,6 @@ defmodule Admin.Alerts do
     Phoenix.PubSub.broadcast(Admin.PubSub, "alerts", {:pso2_eq, content})
   end
 
-  def get_alert_guilds() do
-    Setting
-    |> select([s], %{channel_id: s.value, guild_id: s.guild_id})
-    |> join(:left, [s], a in Admin.Guilds.AvailableSetting, on: s.available_setting_id == a.id)
-    |> where([s, a], a.key == "alert_channel_id")
-    |> where([s], not is_nil(s.value))
-    |> where([s], s.value != "")
-    |> Admin.Repo.all()
-  end
-
   def check_twitter() do
     case :ets.lookup(:alerts_cache, @pso2_eq_alert_type) do
       [{"pso2_eq_alert_jp", id}] -> process_alert(id)

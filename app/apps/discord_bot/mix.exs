@@ -18,6 +18,7 @@ defmodule DiscordBot.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
+      mod: {DiscordBot.Application, []},
       extra_applications: [:logger]
     ]
   end
@@ -26,7 +27,8 @@ defmodule DiscordBot.MixProject do
   defp deps do
     [
       {:nostrum, "~> 0.4"},
-      {:cowlib, "~> 2.7", override: true}
+      {:cowlib, "~> 2.7", override: true},
+      {:admin, in_umbrella: true}
     ]
   end
 end

@@ -33,7 +33,7 @@ config :admin, AdminWeb.Endpoint,
 
 config :ueberauth, Ueberauth.Strategy.Discord.OAuth,
   client_id: "198479757900251136",
-  client_secret: ""
+  client_secret: "FCQ0EDdWnJ8cpfCCxTD3HIdC3t0T0B_7"
 
 # ## SSL Support
 #
