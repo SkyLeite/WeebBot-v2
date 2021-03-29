@@ -17,9 +17,7 @@ defmodule Bot.MixProject do
   # Run "mix help deps" for examples and options.
   defp deps do
     [
-      {:nostrum, "~> 0.4"},
-      {:cowlib, "~> 2.7", override: true},
-      {:tz, "~> 0.12.0"}
+      {:cowlib, "~> 2.7", override: true}
     ]
   end
 end

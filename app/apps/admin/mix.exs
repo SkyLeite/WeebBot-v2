@@ -58,7 +58,9 @@ defmodule Admin.MixProject do
       {:quantum, "~> 3.0"},
       {:extwitter, "~> 0.12.2"},
       {:oauther, "~> 1.1"},
-      {:timex, "~> 3.7"}
+      {:timex, "~> 3.7"},
+      {:nostrum, "~> 0.4"},
+      {:cowlib, "~> 2.7", override: true}
     ]
   end
 
