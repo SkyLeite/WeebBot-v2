@@ -1,4 +1,6 @@
 defmodule Admin.Alerts do
+  require Logger
+
   @moduledoc """
   The Alerts context.
   """
@@ -11,6 +13,8 @@ defmodule Admin.Alerts do
 
   @in_progress_pattern ~r/【開催中】(\d+)時\s(.+)/
   @upcoming_pattern ~r/^(\d+)時\s(.+)/
+
+  @pso2_eq_alert_type "pso2_eq_alert_jp"
 
   @doc """
   Returns the list of alerts.
@@ -37,10 +41,14 @@ defmodule Admin.Alerts do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_alert(attrs \\ %{}) do
+  def create_alert(content, id, type) do
     %Alert{}
-    |> Alert.changeset(attrs)
+    |> Alert.changeset(%{content: content, type: type})
     |> Repo.insert()
+
+    :ets.insert(:alerts_cache, {type, id})
+
+    Phoenix.PubSub.broadcast(Admin.PubSub, "alerts", {:pso2_eq, content})
   end
 
   def get_alert_guilds() do
@@ -54,18 +62,22 @@ defmodule Admin.Alerts do
   end
 
   def check_twitter() do
-    case :ets.lookup(:alerts_cache, "eq_tweet_id") do
-      [{"eq_tweet_id", id}] -> process_alert()
-      [] -> process_alert()
+    case :ets.lookup(:alerts_cache, @pso2_eq_alert_type) do
+      [{"pso2_eq_alert_jp", id}] -> process_alert(id)
+      [] -> process_alert(nil)
       _ -> :noop
     end
   end
 
-  defp process_alert do
-    ExTwitter.user_timeline(screen_name: "pso2_emg_hour", count: 1)
-    |> List.first()
-    |> format_eq_data()
-    |> IO.inspect()
+  defp process_alert(last_tweet_id) do
+    eq_tweet =
+      ExTwitter.user_timeline(screen_name: "pso2_emg_hour", count: 1)
+      |> List.first()
+
+    if is_nil(last_tweet_id) || eq_tweet.id != last_tweet_id do
+      Logger.info("New EQ posted. Processing...")
+      format_eq_data(eq_tweet)
+    end
   end
 
   defp format_eq_data(tweet) do
@@ -79,6 +91,7 @@ defmodule Admin.Alerts do
       |> handle_eq_line(tweet)
     end)
     |> Enum.reject(&is_nil/1)
+    |> create_alert(tweet.id, @pso2_eq_alert_type)
   end
 
   defp handle_eq_line(line, tweet) do
