@@ -115,7 +115,7 @@ defmodule Admin.Alerts do
 
     %{
       # Remove [Notice]
-      name: name |> String.replace("[予告\]", ""),
+      name: name |> String.replace("[予告\]", "") |> Admin.Alerts.EQTranslations.get_english_name(),
       inProgress: false,
       date: %{
         JP: eq_date |> Timex.to_unix(),
@@ -134,7 +134,7 @@ defmodule Admin.Alerts do
 
     %{
       # Remove [Notice]
-      name: name |> String.replace("[予告\]", ""),
+      name: name |> String.replace("[予告\]", "") |> Admin.Alerts.EQTranslations.get_english_name(),
       inProgress: true,
       date: %{
         JP:
