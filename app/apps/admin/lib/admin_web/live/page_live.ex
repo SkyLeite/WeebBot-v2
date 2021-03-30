@@ -15,6 +15,7 @@ defmodule AdminWeb.PageLive do
       end)
 
     first_guild = admin_guilds |> List.first()
+    guild_channels = get_guild_channels(first_guild.id)
 
     {:ok,
      assign(socket,
@@ -23,6 +24,7 @@ defmodule AdminWeb.PageLive do
        current_user: user,
        guilds: admin_guilds,
        current_guild: first_guild,
+       guild_channels: guild_channels,
        guild_settings: Admin.Guilds.get_guild_settings!(first_guild.id),
        available_settings: Admin.Guilds.list_available_settings()
      )}
@@ -38,6 +40,7 @@ defmodule AdminWeb.PageLive do
      socket
      |> assign(
        current_guild: guild,
+       guild_channels: get_guild_channels(guild.id),
        guild_settings: Admin.Guilds.get_guild_settings!(guild.id)
      )}
   end
@@ -59,5 +62,18 @@ defmodule AdminWeb.PageLive do
         String.starts_with?(app, query) and not List.starts_with?(desc, ~c"ERTS"),
         into: %{},
         do: {app, vsn}
+  end
+
+  def get_guild_channels(guild_id) do
+    headers = [Authorization: "Bot #{Application.get_env(:nostrum, :token)}"]
+
+    with {:ok, %HTTPoison.Response{status_code: 200, body: body}} <-
+           HTTPoison.get("https://discord.com/api/guilds/#{guild_id}/channels", headers),
+         guilds when is_list(guilds) <- Poison.decode!(body) do
+      guilds
+    else
+      {:ok, %HTTPoison.Response{}} -> nil
+      %{message: "Missing Access", code: 50001} -> nil
+    end
   end
 end

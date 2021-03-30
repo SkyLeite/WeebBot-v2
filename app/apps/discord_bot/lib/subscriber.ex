@@ -13,11 +13,6 @@ defmodule DiscordBot.Subscriber do
   end
 
   def handle_info({:pso2_eq, eq}, state) do
-    IO.inspect("#######################")
-    IO.inspect("New EQ - Received EQ:")
-    IO.inspect(eq)
-    IO.inspect("#######################")
-
     DiscordBot.Consumer.handle_eq(eq)
 
     {:noreply, state}

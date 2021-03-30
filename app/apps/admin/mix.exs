@@ -60,7 +60,8 @@ defmodule Admin.MixProject do
       {:oauther, "~> 1.1"},
       {:timex, "~> 3.7"},
       {:nostrum, "~> 0.4"},
-      {:cowlib, "~> 2.7", override: true}
+      {:cowlib, "~> 2.7", override: true},
+      {:httpoison, "~> 1.7"}
     ]
   end
 
