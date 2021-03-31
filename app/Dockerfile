@@ -7,7 +7,7 @@ RUN mix local.hex --force
 RUN mix local.rebar --force
 
 # install the latest Phoenix
-mix archive.install hex phx_new 1.5.8
+RUN mix archive.install hex phx_new 1.5.8
 
 # install NodeJS and NPM
 RUN curl -sL https://deb.nodesource.com/setup_10.x -o nodesource_setup.sh
