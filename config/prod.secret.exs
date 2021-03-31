@@ -38,7 +38,7 @@ config :extwitter, :oauth,
 
 config :nostrum,
   # The token of your bot as a string
-  token: System.get_env("DISCORD_TOKEN"),
+  token: System.get_env("DISCORD_TOKEN")
 
 # ## Using releases (Elixir v1.9+)
 #
