@@ -30,6 +30,25 @@ services:
         networks:
             - postgres
         restart: unless-stopped
+    elixir:
+        # build use a path to a Dockerfile
+        build: ./app
+        # we set multiple ports as each of our application (but database) will use a different port
+        ports:
+            - "4000:4000"
+        volumes:
+            - ".:/app"
+            - "/app/deps"
+            - "/app/apps/admin/assets/node_modules"
+        # the container will not start if the postgres container isn't running
+        depends_on:
+            - postgres
+        # set up environment variable for the phoenix instance
+        environment:
+            POSTGRES_USER: ${PSQL_USER}
+            POSTGRES_PASSWORD: ${PSQL_PWD}
+            POSTGRES_DB_DEV: ${PSQL_DB}
+            POSTGRES_HOST: ${PSQL_HOST}
 
 networks:
     postgres:
