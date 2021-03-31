@@ -1,7 +1,11 @@
-<ul class="ml-auto">
+<ul class="ml-auto space-y-2">
 <%= if @current_user do %>
   <li><%= @current_user.email %></li>
-  <li><%= link "Log out", to: Routes.user_session_path(@conn, :delete), method: :delete %></li>
+  <li>
+      <button class="rounded bg-red-400 text-white px-4 py-2 shadow-sm">
+          <%= link "Log out", to: Routes.user_session_path(@conn, :delete), method: :delete %>
+      </button>
+  </li>
 <% else %>
   <%= link to: Routes.user_oauth_path(@conn, :request, "discord") do %>
       <div class="flex justify-center">
