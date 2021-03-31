@@ -82,4 +82,4 @@ config :phoenix, :plug_init_mode, :runtime
 
 config :nostrum,
   # The token of your bot as a string
-  token: "",
+  token: ""
