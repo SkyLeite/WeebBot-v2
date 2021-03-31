@@ -22,7 +22,7 @@
             <%= if not is_nil(@guild_channels) do %>
               <%= for available_setting <- @available_settings do %>
                   <%= if available_setting.key == "alert_channel_id" do %>
-                      <select class="border rounded p-2">
+                      <select class="border rounded p-2" name="alert_channel_id">
                           <%= for channel <- @guild_channels do %>
                               <option
                                   value="<%= channel["id"] %>"
