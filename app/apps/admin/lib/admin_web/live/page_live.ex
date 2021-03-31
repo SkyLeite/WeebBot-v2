@@ -70,7 +70,7 @@ defmodule AdminWeb.PageLive do
     with {:ok, %HTTPoison.Response{status_code: 200, body: body}} <-
            HTTPoison.get("https://discord.com/api/guilds/#{guild_id}/channels", headers),
          guilds when is_list(guilds) <- Poison.decode!(body) do
-      guilds
+      guilds |> Enum.filter(fn guild -> guild["type"] == 0 end)
     else
       {:ok, %HTTPoison.Response{}} -> nil
       %{message: "Missing Access", code: 50001} -> nil
