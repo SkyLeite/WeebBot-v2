@@ -42,7 +42,7 @@ services:
             - "/app/apps/admin/assets/node_modules"
         # the container will not start if the postgres container isn't running
         depends_on:
-            - postgres
+            - db
         # set up environment variable for the phoenix instance
         environment:
             POSTGRES_USER: ${PSQL_USER}
