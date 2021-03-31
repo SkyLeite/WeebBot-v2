@@ -30,6 +30,16 @@ config :admin, AdminWeb.Endpoint,
   ],
   secret_key_base: secret_key_base
 
+config :extwitter, :oauth,
+  consumer_key: System.get_env("TWITTER_CONSUMER_KEY"),
+  consumer_secret: System.get_env("TWITTER_CONSUMER_SECRET"),
+  access_token: System.get_env("TWITTER_ACCESS_TOKEN"),
+  access_token_secret: System.get_env("TWITTER_ACCESS_TOKEN_SECRET")
+
+config :nostrum,
+  # The token of your bot as a string
+  token: System.get_env("DISCORD_TOKEN"),
+
 # ## Using releases (Elixir v1.9+)
 #
 # If you are doing OTP releases, you need to instruct Phoenix

@@ -83,5 +83,3 @@ config :phoenix, :plug_init_mode, :runtime
 config :nostrum,
   # The token of your bot as a string
   token: "",
-  # The number of shards you want to run your bot under, or :auto.
-  num_shards: :auto

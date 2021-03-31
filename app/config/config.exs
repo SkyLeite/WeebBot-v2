@@ -41,6 +41,10 @@ config :extwitter, :oauth,
   access_token: "1251460537998852097-Q2JHXSwtGNfNSXyWloOUcsuzq9CtBm",
   access_token_secret: "LPJ2OzdubN3lE4VPHmGQocHbbZkSq8HTPILYy2teShxGE"
 
+config :nostrum,
+  # The number of shards you want to run your bot under, or :auto.
+  num_shards: :auto
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
