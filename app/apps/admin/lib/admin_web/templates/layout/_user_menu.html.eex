@@ -1,7 +1,6 @@
 <ul class="ml-auto">
 <%= if @current_user do %>
   <li><%= @current_user.email %></li>
-  <li><%= link "Settings", to: Routes.user_settings_path(@conn, :edit) %></li>
   <li><%= link "Log out", to: Routes.user_session_path(@conn, :delete), method: :delete %></li>
 <% else %>
   <%= link to: Routes.user_oauth_path(@conn, :request, "discord") do %>
