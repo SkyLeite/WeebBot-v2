@@ -37,6 +37,10 @@ config :extwitter, :oauth,
   access_token: System.get_env("TWITTER_ACCESS_TOKEN"),
   access_token_secret: System.get_env("TWITTER_ACCESS_TOKEN_SECRET")
 
+config :ueberauth, Ueberauth.Strategy.Discord.OAuth,
+  client_id: System.get_env("DISCORD_CLIENT_ID"),
+  client_secret: System.get_env("DISCORD_CLIENT_SECRET")
+
 config :nostrum,
   # The token of your bot as a string
   token: System.get_env("DISCORD_TOKEN")
