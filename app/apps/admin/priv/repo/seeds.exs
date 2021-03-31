@@ -20,21 +20,12 @@ Admin.Repo.insert!(
   on_conflict: :nothing
 )
 
-Admin.Repo.insert!(
-  %Admin.Guilds.AvailableSetting{
-    id: 2,
-    key: "role_mention_id",
-    label: "Role Mention ID",
-    type: "string"
-  },
-  on_conflict: :nothing
-)
-
-Admin.Repo.insert!(
-  %Admin.Guilds.Setting{
-    guild_id: "171412745302835201",
-    value: "123123123123",
-    available_setting_id: 1
-  },
-  on_conflict: :nothing
-)
+# Admin.Repo.insert!(
+#   %Admin.Guilds.AvailableSetting{
+#     id: 2,
+#     key: "role_mention_id",
+#     label: "Role Mention ID",
+#     type: "string"
+#   },
+#   on_conflict: :nothing
+# )
