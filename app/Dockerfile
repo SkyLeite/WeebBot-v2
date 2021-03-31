@@ -10,7 +10,7 @@ RUN mix local.rebar --force
 RUN mix archive.install hex phx_new 1.5.8
 
 # install NodeJS and NPM
-RUN curl -sL https://deb.nodesource.com/setup_10.x -o nodesource_setup.sh
+RUN curl -sL https://deb.nodesource.com/setup_14.x -o nodesource_setup.sh
 RUN bash nodesource_setup.sh
 RUN apt-get install nodejs
 RUN apt-get install -y inotify-tools
@@ -26,7 +26,8 @@ RUN mix deps.compile
 
 # We can't separate the command as each command crate a temporary container
 # and each container as it own temporary variables
-RUN cd apps/admin/assets && npm install && npm run build && cd ../ && mix phx.digest
+RUN cd apps/admin/assets && npm install && npm run deploy && cd ../ && mix phx.digest
 
 # run phoenix server. The CMD is run each time the container is launched.
+RUN ls
 CMD mix phx.server
