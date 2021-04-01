@@ -1,0 +1,35 @@
+{
+  "name": "weebbot",
+  "version": "1.0.0",
+  "description": "[![Gratipay](https://img.shields.io/gratipay/project/Weeb-Bot.svg)](https://gratipay.com/Weeb-Bot/) ![Travis](https://img.shields.io/travis/Kxze/WeebBot-v2.svg)",
+  "main": "index.js",
+  "scripts": {
+    "start": "node dist",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kxze/WeebBot-v2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kxze/WeebBot-v2/issues"
+  },
+  "homepage": "https://github.com/Kxze/WeebBot-v2#readme",
+  "dependencies": {
+    "discord.js": "^12.5.1",
+    "knex": "^0.15.0",
+    "mysql": "^2.15.0",
+    "node-fetch": "^2.1.2",
+    "typescript": "^2.9.2",
+    "winston": "github:winstonjs/winston#master",
+    "winston-transport": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/knex": "^0.14.15",
+    "@types/node": "^10.5.2",
+    "@types/node-fetch": "^2.1.1",
+    "@types/winston": "^2.3.9"
+  }
+}
