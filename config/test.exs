@@ -25,4 +25,4 @@ config :admin, AdminWeb.Endpoint,
 config :logger, level: :warn
 
 config :nostrum,
-  token: ""
+  token: System.get_env("DISCORD_TOKEN")
