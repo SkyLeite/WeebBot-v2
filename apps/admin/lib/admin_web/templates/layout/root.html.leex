@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <%= csrf_meta_tag() %>
+    <%= live_title_tag assigns[:page_title] || "Admin", suffix: " · Phoenix Framework" %>
+    <link phx-track-static rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
+    <script defer phx-track-static type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+  </head>
+  <body class="flex flex-col justify-center items-center bg-gray-100">
+    <div class="w-3/4 min-h-screen shadow-md p-4 m-4 rounded bg-white">
+      <header class="">
+        <section class="w-full flex items-center flex-row mb-4 h-20">
+          <a href="/" class="mr-4">
+            <img
+                class="w-24"
+                src="https://cdn.discordapp.com/icons/171412745302835201/2c1e258b9e254999258b8dae7e587341" />
+          </a>
+          <%= render "_navigation_menu.html" %>
+          <nav role="navigation" class="w-full h-full flex">
+            <%= render "_user_menu.html", assigns %>
+          </nav>
+        </section>
+      </header>
+      <main>
+        <%= @inner_content %>
+      </main>
+    </div>
+  </body>
+</html>

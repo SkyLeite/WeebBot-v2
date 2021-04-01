@@ -1,0 +1,16 @@
+<%= form_for @conn, Routes.user_session_path(@conn, :create), [as: :user], fn f -> %>
+  <%= if @error_message do %>
+    <div class="alert alert-danger">
+      <p><%= @error_message %></p>
+    </div>
+  <% end %>
+<% end %>
+
+<%= link to: Routes.user_oauth_path(@conn, :request, "discord") do %>
+    <div class="flex w-full justify-center">
+    <img
+        class="w-64"
+        src="https://lmsassets.consolegamingleague.com/static/mvp/assets/media/signinwithdiscord.png"
+    />
+    </div>
+<% end %>
