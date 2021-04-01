@@ -18,49 +18,38 @@ defmodule Admin.AlertsTest do
 
       alert
     end
+  end
 
-    test "list_alerts/0 returns all alerts" do
-      alert = alert_fixture()
-      assert Alerts.list_alerts() == [alert]
+  describe "EQ processing" do
+    test "process_upcoming_eq/2 correctly translates an EQ" do
+      result =
+        Admin.Alerts.process_upcoming_eq("10時 [予告]アークスリーグ", "Sat Aug 04 11:48:27 +0000 2012")
+
+      assert result.name == "ARKS League"
     end
 
-    test "get_alert!/1 returns the alert with given id" do
-      alert = alert_fixture()
-      assert Alerts.get_alert!(alert.id) == alert
+    test "process_in_progress_eq/2 correctly reports an EQ as in progress" do
+      result =
+        Admin.Alerts.process_in_progress_eq(
+          "【開催中】07時 [予告]闇のゆりかご",
+          "Sat Aug 04 11:48:27 +0000 2012"
+        )
+
+      assert result.inProgress == true
     end
 
-    test "create_alert/1 with valid data creates a alert" do
-      assert {:ok, %Alert{} = alert} = Alerts.create_alert(@valid_attrs)
-      assert alert.content == "some content"
-      assert alert.type == "some type"
-    end
+    @tag :wip
+    test "process_upcoming_eq/2 correctly reports time differences" do
+      data = [
+        {"16時 [予告]アークスリーグ", "Sat Aug 04 05:00:00 +0000 2012", 2},
+        {"00時 [予告]アークスリーグ", "Sat Aug 04 13:00:00 +0000 2012", 2},
+        {"01時 [予告]アークスリーグ", "Sat Aug 04 13:00:00 +0000 2012", 3},
+        {"03時 [予告]アークスリーグ", "Sat Aug 04 13:00:00 +0000 2012", 5}
+      ]
 
-    test "create_alert/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Alerts.create_alert(@invalid_attrs)
-    end
-
-    test "update_alert/2 with valid data updates the alert" do
-      alert = alert_fixture()
-      assert {:ok, %Alert{} = alert} = Alerts.update_alert(alert, @update_attrs)
-      assert alert.content == "some updated content"
-      assert alert.type == "some updated type"
-    end
-
-    test "update_alert/2 with invalid data returns error changeset" do
-      alert = alert_fixture()
-      assert {:error, %Ecto.Changeset{}} = Alerts.update_alert(alert, @invalid_attrs)
-      assert alert == Alerts.get_alert!(alert.id)
-    end
-
-    test "delete_alert/1 deletes the alert" do
-      alert = alert_fixture()
-      assert {:ok, %Alert{}} = Alerts.delete_alert(alert)
-      assert_raise Ecto.NoResultsError, fn -> Alerts.get_alert!(alert.id) end
-    end
-
-    test "change_alert/1 returns a alert changeset" do
-      alert = alert_fixture()
-      assert %Ecto.Changeset{} = Alerts.change_alert(alert)
+      for {eq, date, expected} <- data do
+        assert Admin.Alerts.process_upcoming_eq(eq, date).date.difference == expected
+      end
     end
   end
 end
