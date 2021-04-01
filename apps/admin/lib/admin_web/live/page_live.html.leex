@@ -28,16 +28,16 @@
                   >
                     <%= available_setting.label %>
                   </label>
-                  <%= if available_setting.key == "alert_channel_id" do %>
+                  <%= if available_setting.key == "jp_alert_channel_id" || available_setting.key == "na_alert_channel_id" do %>
                     <select
                       id="<%= available_setting.key %>"
                       class="border rounded p-2 w-52"
-                      name="alert_channel_id"
+                      name="<%= available_setting.key %>"
                     >
                       <%= for channel <- @guild_channels do %>
                         <option
                           value="<%= channel["id"] %>"
-                          <%= if @guild_settings["alert_channel_id"] == channel["id"] do %>
+                          <%= if @guild_settings[available_setting.key] == channel["id"] do %>
                             selected
                           <% end %>
                         >#<%= channel["name"] %></option>

@@ -20,6 +20,28 @@ Admin.Repo.insert!(
   on_conflict: :nothing
 )
 
+Admin.Repo.insert!(
+  %Admin.Guilds.AvailableSetting{
+    id: 1,
+    key: "jp_alert_channel_id",
+    label: "PSO2 JP Alert Channel",
+    type: "string"
+  },
+  on_conflict: :replace_all,
+  conflict_target: :id
+)
+
+Admin.Repo.insert!(
+  %Admin.Guilds.AvailableSetting{
+    id: 2,
+    key: "na_alert_channel_id",
+    label: "PSO2 NA Alert Channel",
+    type: "string"
+  },
+  on_conflict: :replace_all,
+  conflict_target: :id
+)
+
 # Admin.Repo.insert!(
 #   %Admin.Guilds.AvailableSetting{
 #     id: 2,
