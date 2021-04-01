@@ -1,40 +1,26 @@
-name: CI
-
 on: push
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    postgres:
-      image: postgres:11
-      env:
-        POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: postgres
-        POSTGRES_DB: weebbot_test
-      ports:
-        - 5432:5432
-      options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-  env:
-    MIX_ENV: test
-    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-elixir@v1.0.0
-      with:
-        otp-version: 22.2.6
-        elixir-version: 1.10.1
-    - uses: actions/cache@v1
-      with:
-        path: deps
-        key: ${{ runner.os }}-mix-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
-        restore-keys: |
-          ${{ runner.os }}-mix-
-    - uses: actions/setup-node@v1
-      with:
-        node-version: "10.x"
-    - run: mix local.rebar --force
-    - run: mix local.hex --force
-    - run: mix deps.get
-    - run: npm install --prefix apps/admin/assets
-    - run: npm run deploy --prefix apps/admin/assets
-    - run: mix test
+
+    services:
+      db:
+        image: postgres:11
+        ports: ["5432:5432"]
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: "22.2"
+          elixir-version: "1.9.4"
+      - run: mix deps.get
+      - run: mix test
