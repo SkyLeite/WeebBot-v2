@@ -92,8 +92,15 @@ defmodule Admin.Alerts do
     end
   end
 
-  defp process_upcoming_eq(line, date) do
+  def process_upcoming_eq(line, date) do
     [full_line, hour, name] = @upcoming_pattern |> Regex.run(line)
+
+    hour =
+      if hour == "00" do
+        "24"
+      else
+        hour
+      end
 
     tweet_creation_time =
       date
@@ -109,9 +116,17 @@ defmodule Admin.Alerts do
       |> Kernel.-(String.to_integer(hour))
       |> Timex.Duration.from_hours()
 
+    is_next_day = String.to_integer(hour) < Map.fetch!(jp_date, :hour)
+
     eq_date =
-      jp_date
-      |> Timex.add(hours_to_add)
+      if is_next_day do
+        jp_date
+        |> Timex.add(Timex.Duration.from_days(1))
+        |> Timex.subtract(hours_to_add)
+      else
+        jp_date
+        |> Timex.add(hours_to_add)
+      end
 
     %{
       # Remove [Notice]
@@ -125,7 +140,7 @@ defmodule Admin.Alerts do
     }
   end
 
-  defp process_in_progress_eq(line, date) do
+  def process_in_progress_eq(line, date) do
     [full_line, hour, name] = @in_progress_pattern |> Regex.run(line)
 
     tweet_creation_time =
