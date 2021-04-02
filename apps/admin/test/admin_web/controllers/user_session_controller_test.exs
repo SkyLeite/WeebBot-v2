@@ -11,9 +11,7 @@ defmodule AdminWeb.UserSessionControllerTest do
     test "renders log in page", %{conn: conn} do
       conn = get(conn, Routes.user_session_path(conn, :new))
       response = html_response(conn, 200)
-      assert response =~ "<h1>Log in</h1>"
-      assert response =~ "Log in</a>"
-      assert response =~ "Register</a>"
+      assert response =~ "<a href=\"/auth/discord\">"
     end
 
     test "redirects if already logged in", %{conn: conn, user: user} do
@@ -40,19 +38,6 @@ defmodule AdminWeb.UserSessionControllerTest do
       assert response =~ "Log out</a>"
     end
 
-    test "logs the user in with remember me", %{conn: conn, user: user} do
-      conn =
-        post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{
-            "email" => user.email,
-            "remember_me" => "true"
-          }
-        })
-
-      assert conn.resp_cookies["_admin_web_user_remember_me"]
-      assert redirected_to(conn) =~ "/"
-    end
-
     test "logs the user in with return to", %{conn: conn, user: user} do
       conn =
         conn
@@ -72,8 +57,7 @@ defmodule AdminWeb.UserSessionControllerTest do
           "user" => %{"email" => user.email}
         })
 
-      response = html_response(conn, 200)
-      assert response =~ "<h1>Log in</h1>"
+      response = html_response(conn, 302)
     end
   end
 

@@ -42,7 +42,7 @@ defmodule Admin.AccountsTest do
       {:error, changeset} = Accounts.register_user(%{email: "not valid"})
 
       assert %{
-               email: ["must have the @ sign and no spaces"],
+               email: ["must have the @ sign and no spaces"]
              } = errors_on(changeset)
     end
 
@@ -61,7 +61,6 @@ defmodule Admin.AccountsTest do
       {:error, changeset} = Accounts.register_user(%{email: String.upcase(email)})
       assert "has already been taken" in errors_on(changeset).email
     end
-
   end
 
   describe "change_user_registration/2" do
@@ -73,8 +72,7 @@ defmodule Admin.AccountsTest do
     test "allows fields to be set" do
       email = unique_user_email()
 
-      changeset =
-        Accounts.change_user_registration(%User{}, %{"email" => email})
+      changeset = Accounts.change_user_registration(%User{}, %{"email" => email})
 
       assert changeset.valid?
       assert get_change(changeset, :email) == email
@@ -94,8 +92,7 @@ defmodule Admin.AccountsTest do
     end
 
     test "validates email", %{user: user} do
-      {:error, changeset} =
-        Accounts.apply_user_email(user, %{email: "not valid"})
+      {:error, changeset} = Accounts.apply_user_email(user, %{email: "not valid"})
 
       assert %{email: ["must have the @ sign and no spaces"]} = errors_on(changeset)
     end
@@ -103,8 +100,7 @@ defmodule Admin.AccountsTest do
     test "validates maximum value for email for security", %{user: user} do
       too_long = String.duplicate("db", 100)
 
-      {:error, changeset} =
-        Accounts.apply_user_email(user, %{email: too_long})
+      {:error, changeset} = Accounts.apply_user_email(user, %{email: too_long})
 
       assert "should be at most 160 character(s)" in errors_on(changeset).email
     end
@@ -112,8 +108,7 @@ defmodule Admin.AccountsTest do
     test "validates email uniqueness", %{user: user} do
       %{email: email} = user_fixture()
 
-      {:error, changeset} =
-        Accounts.apply_user_email(user, %{email: email})
+      {:error, changeset} = Accounts.apply_user_email(user, %{email: email})
 
       assert "has already been taken" in errors_on(changeset).email
     end
@@ -186,8 +181,6 @@ defmodule Admin.AccountsTest do
       assert Repo.get!(User, user.id).email == user.email
       assert Repo.get_by(UserToken, user_id: user.id)
     end
-  end
-
   end
 
   describe "generate_user_session_token/1" do
