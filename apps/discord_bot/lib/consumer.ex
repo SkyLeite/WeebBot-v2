@@ -43,7 +43,7 @@ defmodule DiscordBot.Consumer do
         "https://leite.dev",
         "https://images.emojiterra.com/mozilla/512px/231a.png"
       )
-      |> put_footer("https://leite.dev")
+      |> put_footer("https://weebbot.com")
       |> put_timestamp(Timex.now())
 
     embed =
@@ -76,7 +76,7 @@ defmodule DiscordBot.Consumer do
         "https://leite.dev",
         "https://images.emojiterra.com/mozilla/512px/231a.png"
       )
-      |> put_footer("https://leite.dev")
+      |> put_footer("https://weebbot.com")
       |> put_timestamp(now)
 
     embed =
