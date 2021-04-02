@@ -32,9 +32,9 @@ config :admin, AdminWeb.Endpoint,
 
 config :admin, Admin.Scheduler,
   jobs: [
-    {"*/5 * * * *"}, {Admin.Alerts, :check_twitter, []}},
-    {"0 */12 * * *"}, {Admin.AlertsNA, :update_na_schedule, []}},
-    {"*/5 * * * *"}, {Admin.AlertsNA, :alert_channels, []}}
+    {"*/5 * * * *", {Admin.Alerts, :check_twitter, []}},
+    {"0 */12 * * *", {Admin.AlertsNA, :update_na_schedule, []}},
+    {"*/5 * * * *", {Admin.AlertsNA, :alert_channels, []}}
   ]
 
 config :extwitter, :oauth,
