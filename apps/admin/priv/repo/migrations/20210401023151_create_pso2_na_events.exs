@@ -13,6 +13,6 @@ defmodule Admin.Repo.Migrations.CreatePso2NaEvents do
       timestamps()
     end
 
-    create(unique_index(:pso2_na_events, [:title, :start_date, :end_date]))
+    create(unique_index(:pso2_na_events, [:title, :start_date]))
   end
 end
