@@ -12,8 +12,14 @@ defmodule DiscordBot.Subscriber do
     {:ok, {pid, channel, ref}}
   end
 
-  def handle_info({:pso2_eq, eq}, state) do
+  def handle_info({"pso2_eq_alert_jp", eq}, state) do
     DiscordBot.Consumer.handle_eq(eq)
+
+    {:noreply, state}
+  end
+
+  def handle_info({"pso2_eq_alert_na", eq}, state) do
+    DiscordBot.Consumer.handle_na_eq(eq)
 
     {:noreply, state}
   end
