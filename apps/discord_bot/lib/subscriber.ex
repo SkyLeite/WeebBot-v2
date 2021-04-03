@@ -23,4 +23,10 @@ defmodule DiscordBot.Subscriber do
 
     {:noreply, state}
   end
+
+  def handle_info({"bumped_alert", entry}, state) do
+    DiscordBot.Consumer.handle_bumped_entry(entry)
+
+    {:noreply, state}
+  end
 end

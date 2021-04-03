@@ -28,7 +28,9 @@
                   >
                     <%= available_setting.label %>
                   </label>
-                  <%= if available_setting.key == "jp_alert_channel_id" || available_setting.key == "na_alert_channel_id" do %>
+                  <%= if available_setting.key == "jp_alert_channel_id" ||
+                         available_setting.key == "na_alert_channel_id" ||
+                         available_setting.key == "bumped_alert_channel_id" do %>
                     <select
                       id="<%= available_setting.key %>"
                       class="border rounded p-2 w-52"
