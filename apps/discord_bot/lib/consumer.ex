@@ -62,7 +62,7 @@ defmodule DiscordBot.Consumer do
 
     get_alert_guilds("jp_alert_channel_id")
     |> Enum.map(fn alert_guild ->
-      embed = Api.create_message(alert_guild.channel_id |> String.to_integer(), embed: embed)
+      Api.create_message(alert_guild.channel_id |> String.to_integer(), embed: embed)
     end)
   end
 
@@ -97,7 +97,7 @@ defmodule DiscordBot.Consumer do
 
     get_alert_guilds("na_alert_channel_id")
     |> Enum.map(fn alert_guild ->
-      embed = Api.create_message(alert_guild.channel_id |> String.to_integer(), embed: embed)
+      Api.create_message(alert_guild.channel_id |> String.to_integer(), embed: embed)
     end)
   end
 
