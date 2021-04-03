@@ -38,7 +38,6 @@ defmodule Admin.AlertsTest do
       assert result.inProgress == true
     end
 
-    @tag :wip
     test "process_upcoming_eq/2 correctly reports time differences" do
       data = [
         {"16時 [予告]アークスリーグ", "Sat Aug 04 05:00:00 +0000 2012", 2},
