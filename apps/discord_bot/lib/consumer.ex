@@ -1,4 +1,6 @@
 defmodule DiscordBot.Consumer do
+  require Logger
+
   use Nostrum.Consumer
 
   alias Nostrum.Api
@@ -62,6 +64,7 @@ defmodule DiscordBot.Consumer do
 
     get_alert_guilds("jp_alert_channel_id")
     |> Enum.map(fn alert_guild ->
+      Logger.info("Sending JP alert to channel #{alert_guild.channel_id}")
       Api.create_message(alert_guild.channel_id |> String.to_integer(), embed: embed)
     end)
   end
@@ -97,6 +100,7 @@ defmodule DiscordBot.Consumer do
 
     get_alert_guilds("na_alert_channel_id")
     |> Enum.map(fn alert_guild ->
+      Logger.info("Sending NA alert to channel #{alert_guild.channel_id}")
       Api.create_message(alert_guild.channel_id |> String.to_integer(), embed: embed)
     end)
   end
@@ -104,6 +108,8 @@ defmodule DiscordBot.Consumer do
   def handle_bumped_entry(entry) do
     get_alert_guilds("bumped_alert_channel_id")
     |> Enum.map(fn alert_guild ->
+      Logger.info("Sending Bumped alert to channel #{alert_guild.channel_id}")
+
       Api.create_message(
         alert_guild.channel_id |> String.to_integer(),
         "New Bumped article! #{entry.id}"
