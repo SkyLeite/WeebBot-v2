@@ -42,6 +42,8 @@ defmodule Admin.Alerts do
 
   """
   def create_alert(content, id, type) do
+    Logger.info("New alert of type #{type} created")
+
     %Alert{}
     |> Alert.changeset(%{content: content, type: type})
     |> Repo.insert()
@@ -65,7 +67,6 @@ defmodule Admin.Alerts do
       |> List.first()
 
     if is_nil(last_tweet_id) || eq_tweet.id != last_tweet_id do
-      Logger.info("New EQ posted. Processing...")
       format_eq_data(eq_tweet)
     end
   end
