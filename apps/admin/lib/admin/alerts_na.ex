@@ -59,7 +59,7 @@ defmodule Admin.AlertsNA do
 
   def should_alert(eqs) do
     with eq <- List.first(eqs),
-         true <- is_not_already_alerted(eq) |> IO.inspect(),
+         true <- is_not_already_alerted(eq),
          start_date <- Map.fetch!(eq, :start_date),
          difference <- Timex.diff(start_date, Timex.now(), :minutes),
          true <- is_in_one_hour(difference) do
