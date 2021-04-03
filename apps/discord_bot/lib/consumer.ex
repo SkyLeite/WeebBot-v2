@@ -101,6 +101,16 @@ defmodule DiscordBot.Consumer do
     end)
   end
 
+  def handle_bumped_entry(entry) do
+    get_alert_guilds("bumped_alert_channel_id")
+    |> Enum.map(fn alert_guild ->
+      Api.create_message(
+        alert_guild.channel_id |> String.to_integer(),
+        "New Bumped article! #{entry.id}"
+      )
+    end)
+  end
+
   defp get_alert_guilds(key) do
     Admin.Guilds.Setting
     |> select([s], %{channel_id: s.value, guild_id: s.guild_id})

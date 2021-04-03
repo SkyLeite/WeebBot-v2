@@ -42,6 +42,17 @@ Admin.Repo.insert!(
   conflict_target: :id
 )
 
+Admin.Repo.insert!(
+  %Admin.Guilds.AvailableSetting{
+    id: 3,
+    key: "bumped_alert_channel_id",
+    label: "Bumped.org Alert Channel",
+    type: "string"
+  },
+  on_conflict: :replace_all,
+  conflict_target: :id
+)
+
 # Admin.Repo.insert!(
 #   %Admin.Guilds.AvailableSetting{
 #     id: 2,

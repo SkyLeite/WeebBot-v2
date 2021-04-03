@@ -25,7 +25,7 @@ defmodule Admin.MixProject do
   def application do
     [
       mod: {Admin.Application, []},
-      extra_applications: [:logger, :runtime_tools, :ueberauth_discord]
+      extra_applications: [:logger, :runtime_tools, :ueberauth_discord, :elixir_feed_parser]
     ]
   end
 
@@ -61,7 +61,8 @@ defmodule Admin.MixProject do
       {:timex, "~> 3.7"},
       {:nostrum, "~> 0.4"},
       {:cowlib, "~> 2.7", override: true},
-      {:httpoison, "~> 1.7"}
+      {:httpoison, "~> 1.7"},
+      {:elixir_feed_parser, "~> 0.0.1"}
     ]
   end
 
