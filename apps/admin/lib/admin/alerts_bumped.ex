@@ -29,7 +29,7 @@ defmodule Admin.Alerts.Bumped do
     entries
     |> List.first()
     |> Map.fetch!(:id)
-    |> Kernel.!=(get_last_alerted_entry() |> IO.inspect())
+    |> Kernel.!=(get_last_alerted_entry())
   end
 
   def get_last_alerted_entry do
