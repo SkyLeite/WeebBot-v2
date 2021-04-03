@@ -22,7 +22,7 @@ defmodule Admin.AlertsNA do
     |> Enum.each(fn event -> insert_event(event, quest) end)
   end
 
-  defp insert_event(event, quest) do
+  def insert_event(event, quest) do
     %Admin.Alerts.PSO2NAEvent{}
     |> Admin.Alerts.PSO2NAEvent.changeset(%{
       title: quest["title"],
@@ -38,7 +38,7 @@ defmodule Admin.AlertsNA do
     )
   end
 
-  defp to_utc(date) do
+  def to_utc(date) do
     date
     |> Timex.parse!("%FT%T", :strftime)
     |> Timex.to_datetime("America/Phoenix")
@@ -59,7 +59,7 @@ defmodule Admin.AlertsNA do
 
   def should_alert(eqs) do
     with eq <- List.first(eqs),
-         true <- is_not_already_alerted(eq),
+         false <- is_already_alerted(eq),
          start_date <- Map.fetch!(eq, :start_date),
          difference <- Timex.diff(start_date, Timex.now(), :minutes),
          true <- is_in_one_hour(difference) do
@@ -69,10 +69,10 @@ defmodule Admin.AlertsNA do
     end
   end
 
-  def is_not_already_alerted(eq) do
+  def is_already_alerted(eq) do
     case :dets.lookup(:alerts_cache, "pso2_eq_alert_na") do
-      [{"pso2_eq_alert_na", id}] -> id != eq.id
-      [] -> true
+      [{"pso2_eq_alert_na", id}] -> id == eq.id
+      [] -> false
       _ -> :noop
     end
   end
