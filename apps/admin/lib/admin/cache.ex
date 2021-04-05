@@ -11,7 +11,7 @@ defmodule Admin.Cache do
     end
   end
 
-  def set(key, value) do
+  def set(key, value) when is_binary(key) and is_binary(value) do
     %Admin.Common.Cache{}
     |> Admin.Common.Cache.changeset(%{key: key, value: value})
     |> Admin.Repo.insert(
