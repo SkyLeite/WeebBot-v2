@@ -167,7 +167,7 @@ defmodule Admin.AlertsNATest do
 
       {:ok, eq} = Admin.AlertsNA.insert_event(event, quest)
 
-      Admin.Cache.set("pso2_eq_alert_na", eq.id + 1)
+      Admin.Cache.set("pso2_eq_alert_na", (eq.id + 1) |> Integer.to_string())
       assert Admin.AlertsNA.is_already_alerted(eq) == false
     end
 
