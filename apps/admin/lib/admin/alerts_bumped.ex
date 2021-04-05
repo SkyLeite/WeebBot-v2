@@ -33,9 +33,6 @@ defmodule Admin.Alerts.Bumped do
   end
 
   def get_last_alerted_entry do
-    case :dets.lookup(:alerts_cache, @alert_type) do
-      [{"bumped_alert", id}] -> id
-      _ -> nil
-    end
+    Admin.Cache.get(@alert_type)
   end
 end

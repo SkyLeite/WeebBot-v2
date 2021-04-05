@@ -48,17 +48,13 @@ defmodule Admin.Alerts do
     |> Alert.changeset(%{content: content, type: type})
     |> Repo.insert()
 
-    :dets.insert(:alerts_cache, {type, id})
+    Admin.Cache.set(type, id)
 
     Phoenix.PubSub.broadcast(Admin.PubSub, "alerts", {type, content})
   end
 
   def check_twitter() do
-    case :dets.lookup(:alerts_cache, @pso2_eq_alert_type) do
-      [{"pso2_eq_alert_jp", id}] -> process_alert(id)
-      [] -> process_alert(nil)
-      _ -> :noop
-    end
+    Admin.Cache.get(@pso2_eq_alert_type) |> process_alert()
   end
 
   defp process_alert(last_tweet_id) do

@@ -70,11 +70,7 @@ defmodule Admin.AlertsNA do
   end
 
   def is_already_alerted(eq) do
-    case :dets.lookup(:alerts_cache, "pso2_eq_alert_na") do
-      [{"pso2_eq_alert_na", id}] -> id == eq.id
-      [] -> false
-      _ -> :noop
-    end
+    Admin.Cache.get("pso2_eq_alert_na") == eq.id |> Integer.to_string()
   end
 
   def is_in_one_hour(minutes_difference) do

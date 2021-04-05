@@ -24,8 +24,6 @@ defmodule Admin.Application do
     # for other strategies and supported options
     :ets.new(:session, [:named_table, :public, read_concurrency: true])
 
-    :dets.open_file(:alerts_cache, type: :set)
-
     opts = [strategy: :one_for_one, name: Admin.Supervisor]
     Supervisor.start_link(children, opts)
   end

@@ -6,8 +6,6 @@ defmodule Admin.AlertsNATest do
   alias Admin.Alerts.Alert
 
   setup do
-    :dets.delete_all_objects(:alerts_cache)
-
     {:ok, %{}}
   end
 
@@ -169,10 +167,11 @@ defmodule Admin.AlertsNATest do
 
       {:ok, eq} = Admin.AlertsNA.insert_event(event, quest)
 
-      :dets.insert(:alerts_cache, {"pso2_eq_alert_na", eq.id + 1})
+      Admin.Cache.set("pso2_eq_alert_na", eq.id + 1)
       assert Admin.AlertsNA.is_already_alerted(eq) == false
     end
 
+    @tag :wip
     test "is_already_alerted/1 returns true for an event that's already been alerted" do
       quest = create_quest("Some quest xdakjsdhakjsh")
 
@@ -184,7 +183,7 @@ defmodule Admin.AlertsNATest do
 
       {:ok, eq} = Admin.AlertsNA.insert_event(event, quest)
 
-      :dets.insert(:alerts_cache, {"pso2_eq_alert_na", eq.id})
+      Admin.Cache.set("pso2_eq_alert_na", eq.id |> Integer.to_string())
       assert Admin.AlertsNA.is_already_alerted(eq) == true
     end
   end
