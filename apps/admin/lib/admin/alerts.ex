@@ -62,7 +62,7 @@ defmodule Admin.Alerts do
       ExTwitter.user_timeline(screen_name: "pso2_emg_hour", count: 1)
       |> List.first()
 
-    if is_nil(last_tweet_id) || eq_tweet.id != last_tweet_id do
+    if is_nil(last_tweet_id) || eq_tweet.id_str != last_tweet_id do
       format_eq_data(eq_tweet)
     end
   end
@@ -78,7 +78,7 @@ defmodule Admin.Alerts do
       |> handle_eq_line(tweet)
     end)
     |> Enum.reject(&is_nil/1)
-    |> create_alert(tweet.id, @pso2_eq_alert_type)
+    |> create_alert(tweet.id_str, @pso2_eq_alert_type)
   end
 
   defp handle_eq_line(line, tweet) do
