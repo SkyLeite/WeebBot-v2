@@ -51,7 +51,7 @@ defmodule Admin.AlertsNA do
     if should_alert(eqs) do
       Admin.Alerts.create_alert(
         eqs,
-        eqs |> List.first() |> Map.fetch!(:id),
+        eqs |> List.first() |> Map.fetch!(:id) |> Integer.to_string(),
         "pso2_eq_alert_na"
       )
     end
