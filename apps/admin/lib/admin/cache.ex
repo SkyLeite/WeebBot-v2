@@ -1,4 +1,5 @@
 defmodule Admin.Cache do
+  require Logger
   import Ecto.Query
 
   def get(key) do
@@ -12,6 +13,8 @@ defmodule Admin.Cache do
   end
 
   def set(key, value) when is_binary(key) and is_binary(value) do
+    Logger.info("Setting cache: #{key}: #{value}")
+
     %Admin.Common.Cache{}
     |> Admin.Common.Cache.changeset(%{key: key, value: value})
     |> Admin.Repo.insert(

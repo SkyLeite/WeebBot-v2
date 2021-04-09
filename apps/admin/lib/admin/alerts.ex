@@ -42,7 +42,7 @@ defmodule Admin.Alerts do
 
   """
   def create_alert(content, id, type) do
-    Logger.info("New alert of type #{type} created")
+    Logger.info("New alert of type #{type} and ID #{id} created")
 
     %Alert{}
     |> Alert.changeset(%{content: content, type: type})

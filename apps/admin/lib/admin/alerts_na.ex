@@ -1,4 +1,5 @@
 defmodule Admin.AlertsNA do
+  require Logger
   import Ecto.Query
 
   def update_na_schedule do
@@ -70,11 +71,24 @@ defmodule Admin.AlertsNA do
   end
 
   def is_already_alerted(eq) do
-    Admin.Cache.get("pso2_eq_alert_na") == eq.id |> Integer.to_string()
+    if Admin.Cache.get("pso2_eq_alert_na") == eq.id |> Integer.to_string() do
+      true
+    else
+      Logger.info(
+        "EQ of id #{eq.id} does not match cached ID of #{Admin.Cache.get("pso2_eq_alert_na")}"
+      )
+
+      false
+    end
   end
 
   def is_in_one_hour(minutes_difference) do
-    minutes_difference <= 60
+    if minutes_difference <= 60 do
+      Logger.info("EQ is in less than an hour")
+      true
+    else
+      false
+    end
   end
 
   def get_upcoming_eqs do
