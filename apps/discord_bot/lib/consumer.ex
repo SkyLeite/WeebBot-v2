@@ -14,21 +14,31 @@ defmodule DiscordBot.Consumer do
 
   def handle_event({:MESSAGE_CREATE, msg, _ws_state}) do
     case msg.content do
-      "!sleep" ->
-        Api.create_message(msg.channel_id, "Going to sleep...")
-        # This won't stop other events from being handled.
-        Process.sleep(3000)
+      ";help" ->
+        Api.create_message(msg.channel_id, embed: help_embed)
 
-      "!ping" ->
-        Api.create_message(msg.channel_id, "pyongyang!")
-
-      "!raise" ->
-        # This won't crash the entire Consumer.
-        raise "No problems here!"
+      ";ping" ->
+        Api.create_message(msg.channel_id, "Pong")
 
       _ ->
         :ignore
     end
+  end
+
+  def help_embed do
+    %Nostrum.Struct.Embed{}
+    |> put_author("Weeb Bot", "https://weebbot.com", "")
+    |> put_thumbnail(
+      "https://cdn.discordapp.com/avatars/198480001480392704/71fc96884bb642a74be0f4c0fd1ed226.png"
+    )
+    |> put_field("Settings", "[Click here](https://weebbot.com/user/settings)", true)
+    |> put_field("Github", "[Click here](https://github.com/RodrigoLeiteF/WeebBot-v2)", true)
+    |> put_field(
+      "Discord / Support",
+      "[Click here](https://discord.com/invite/0xMXCNAFbH032Ig1)",
+      true
+    )
+    |> put_field("Alive since", "May 26th, 2016", true)
   end
 
   # Default event handler, if you don't include this, your consumer WILL crash if
