@@ -148,6 +148,7 @@ defmodule DiscordBot.Consumer do
     |> where([s, a], a.key == ^key)
     |> where([s], not is_nil(s.value))
     |> where([s], s.value != "")
+    |> where([s], s.value != "nil")
     |> Admin.Repo.all()
   end
 end
