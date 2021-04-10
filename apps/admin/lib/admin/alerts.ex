@@ -12,7 +12,7 @@ defmodule Admin.Alerts do
   alias Admin.Guilds.Setting
 
   @in_progress_pattern ~r/【開催中】(\d+)時\s(.+)/
-  @upcoming_pattern ~r/^(\d+)時\s(.+)/
+  @upcoming_pattern ~r/^(\d+)時\s\[予告\](.+)\s*(?:#PSO2)*/m
 
   @pso2_eq_alert_type "pso2_eq_alert_jp"
 
@@ -90,7 +90,7 @@ defmodule Admin.Alerts do
   end
 
   def process_upcoming_eq(line, date) do
-    [full_line, hour, name] = @upcoming_pattern |> Regex.run(line)
+    [_, hour, name] = @upcoming_pattern |> Regex.run(line)
 
     hour =
       if hour == "00" do
