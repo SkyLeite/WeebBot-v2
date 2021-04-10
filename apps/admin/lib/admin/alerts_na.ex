@@ -34,7 +34,7 @@ defmodule Admin.AlertsNA do
       category_description: quest["category"]["description"]
     })
     |> Admin.Repo.insert(
-      on_conflict: {:replace_all_except, [:title]},
+      on_conflict: {:replace_all_except, [:id, :title]},
       conflict_target: [:title, :start_date]
     )
   end
