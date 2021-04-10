@@ -15,7 +15,7 @@ defmodule DiscordBot.Consumer do
   def handle_event({:MESSAGE_CREATE, msg, _ws_state}) do
     case msg.content do
       ";help" ->
-        Api.create_message(msg.channel_id, embed: help_embed)
+        Api.create_message(msg.channel_id, embed: help_embed())
 
       ";ping" ->
         Api.create_message(msg.channel_id, "Pong")
