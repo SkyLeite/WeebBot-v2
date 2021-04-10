@@ -62,7 +62,8 @@ defmodule Admin.MixProject do
       {:nostrum, "~> 0.4"},
       {:cowlib, "~> 2.7", override: true},
       {:httpoison, "~> 1.7"},
-      {:elixir_feed_parser, "~> 0.0.1"}
+      {:elixir_feed_parser, "~> 0.0.1"},
+      {:redirect, "~> 0.3.0"}
     ]
   end
 

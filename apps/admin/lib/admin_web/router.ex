@@ -2,6 +2,7 @@ defmodule AdminWeb.Router do
   use AdminWeb, :router
 
   import AdminWeb.UserAuth
+  import Redirect
 
   pipeline :browser do
     plug(:accepts, ["html"])
@@ -16,6 +17,12 @@ defmodule AdminWeb.Router do
   pipeline :api do
     plug(:accepts, ["json"])
   end
+
+  redirect(
+    "/invite",
+    "https://discord.com/oauth2/authorize?client_id=198479757900251136&scope=bot&permissions=412736",
+    :permanent
+  )
 
   scope "/", AdminWeb do
     pipe_through(:browser)

@@ -2,6 +2,7 @@
     <ul class="flex flex-row items-center space-x-6 h-full">
         <li><a href="/">Home</a></li>
         <li><a href="/user/settings">Settings</a></li>
+        <li><a href="/invite">Invite</a></li>
         <li><a href="/help">Help</a></li>
     </ul>
 </nav>
