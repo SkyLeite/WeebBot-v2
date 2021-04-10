@@ -35,7 +35,7 @@ defmodule AdminWeb.HelpLive do
         prompt: "How do I request a new feature for Weeb Bot?",
         answer: """
         <p>
-          Post your suggestion on Discord or open an Issue on <a href="https://github.com/RodrigoLeiteF/WeebBot-v2">Weeb Bot's Github repository</a>.
+          Post your suggestion on Discord or open an Issue on <a class="text-blue-700 underline" href="https://github.com/RodrigoLeiteF/WeebBot-v2">Weeb Bot's Github repository</a>.
         </p>
         """
       },
