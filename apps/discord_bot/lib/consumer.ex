@@ -94,7 +94,7 @@ defmodule DiscordBot.Consumer do
     base_embed =
       %Nostrum.Struct.Embed{}
       |> put_author(
-        "Emergency Quest Notice (NA)",
+        "Urgent Quest Notice (NA)",
         "https://leite.dev",
         "https://images.emojiterra.com/mozilla/512px/231a.png"
       )
