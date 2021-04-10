@@ -63,7 +63,7 @@ defmodule DiscordBot.Consumer do
         put_field(
           embed,
           if eq.date.difference > 0 do
-            "In about #{eq.date.difference} hours"
+            eq.date.difference
           else
             "In progress"
           end,
@@ -94,13 +94,18 @@ defmodule DiscordBot.Consumer do
 
     embed =
       Enum.reduce(eqs, base_embed, fn eq, embed ->
-        difference_in_hours = eq.start_date |> Timex.diff(Timex.now(), :hours)
+        now = Timex.now()
+        difference_in_hours = eq.start_date |> Timex.diff(now, :hours)
         in_progress? = eq.start_date |> Timex.diff(Timex.now(), :minutes) > 10
 
         put_field(
           embed,
           if in_progress? do
-            "In about #{difference_in_hours} hours"
+            if difference_in_hours != 0 do
+              "In about #{difference_in_hours} hours"
+            else
+              "In about #{eq.start_date |> Timex.diff(now, :minutes)} minutes"
+            end
           else
             "In progress"
           end,

@@ -125,6 +125,15 @@ defmodule Admin.Alerts do
         |> Timex.add(hours_to_add)
       end
 
+    difference_granularity =
+      if Timex.diff(eq_date, jp_date, :hours) != 0 do
+        :hours
+      else
+        :minutes
+      end
+
+    difference = Timex.diff(eq_date, jp_date, difference_granularity) |> abs()
+
     %{
       # Remove [Notice]
       name: name |> String.replace("[予告\]", "") |> Admin.Alerts.EQTranslations.get_english_name(),
@@ -132,7 +141,7 @@ defmodule Admin.Alerts do
       date: %{
         JP: eq_date |> Timex.to_unix(),
         UTC: eq_date |> Timex.Timezone.convert("Etc/UTC") |> Timex.to_unix(),
-        difference: eq_date |> Timex.diff(jp_date, :hours) |> abs()
+        difference: "In #{difference} #{difference_granularity |> Atom.to_string()}"
       }
     }
   end

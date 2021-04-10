@@ -40,10 +40,10 @@ defmodule Admin.AlertsTest do
 
     test "process_upcoming_eq/2 correctly reports time differences" do
       data = [
-        {"16時 [予告]アークスリーグ", "Sat Aug 04 05:00:00 +0000 2012", 2},
-        {"00時 [予告]アークスリーグ", "Sat Aug 04 13:00:00 +0000 2012", 2},
-        {"01時 [予告]アークスリーグ", "Sat Aug 04 13:00:00 +0000 2012", 3},
-        {"03時 [予告]アークスリーグ", "Sat Aug 04 13:00:00 +0000 2012", 5}
+        {"16時 [予告]アークスリーグ", "Sat Aug 04 05:00:00 +0000 2012", "In 2 hours"},
+        {"00時 [予告]アークスリーグ", "Sat Aug 04 13:00:00 +0000 2012", "In 2 hours"},
+        {"01時 [予告]アークスリーグ", "Sat Aug 04 13:00:00 +0000 2012", "In 3 hours"},
+        {"03時 [予告]アークスリーグ", "Sat Aug 04 13:00:00 +0000 2012", "In 5 hours"}
       ]
 
       for {eq, date, expected} <- data do
