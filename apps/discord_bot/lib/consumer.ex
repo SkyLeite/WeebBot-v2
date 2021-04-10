@@ -12,6 +12,10 @@ defmodule DiscordBot.Consumer do
     Consumer.start_link(__MODULE__)
   end
 
+  def handle_event({:READY, _msg, _ws}) do
+    Api.update_status(:online, ";help // weebbot.com")
+  end
+
   def handle_event({:MESSAGE_CREATE, msg, _ws_state}) do
     case msg.content do
       ";help" ->
@@ -43,6 +47,7 @@ defmodule DiscordBot.Consumer do
       "[Click here](https://discord.com/oauth2/authorize?client_id=198479757900251136&scope=bot&permissions=412736)"
     )
     |> put_field("Alive since", "May 26th, 2016", true)
+    |> put_footer("https://weebbot.com | Made by Kaze#3067")
   end
 
   # Default event handler, if you don't include this, your consumer WILL crash if
