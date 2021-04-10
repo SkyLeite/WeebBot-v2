@@ -1,0 +1,19 @@
+<section class="space-x-4">
+    Welcome to Weeb Bot's FAQ. If you still need help, feel free to reach me on <a href="https://discord.com/invite/0xMXCNAFbH032Ig1">Weeb Bot's Discord Server</a>.
+
+
+    <ul class="list-decimal">
+        <%= for question <- @questions do %>
+            <li>
+                <p class="mt-6">
+                    <h5 class="mb-2 text-lg font-bold">
+                        <%= question.prompt %>
+                    </h5>
+                    <p>
+                        <%= raw(question.answer) %>
+                    </p>
+                </p>
+            </li>
+        <% end %>
+    </ul>
+</section>

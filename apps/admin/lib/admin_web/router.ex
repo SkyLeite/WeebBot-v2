@@ -21,6 +21,7 @@ defmodule AdminWeb.Router do
     pipe_through(:browser)
 
     live("/", HomeLive, :index)
+    live("/help", HelpLive, :index)
   end
 
   scope "/user", AdminWeb do
