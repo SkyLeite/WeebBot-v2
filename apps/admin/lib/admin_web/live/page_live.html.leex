@@ -36,6 +36,9 @@
                       class="border rounded p-2 w-52"
                       name="<%= available_setting.key %>"
                     >
+                        <option value="nil">
+                            Disabled
+                        </option>
                       <%= for channel <- @guild_channels do %>
                         <option
                           value="<%= channel["id"] %>"
