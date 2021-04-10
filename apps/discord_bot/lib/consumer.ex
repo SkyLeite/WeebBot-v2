@@ -38,6 +38,10 @@ defmodule DiscordBot.Consumer do
       "[Click here](https://discord.com/invite/0xMXCNAFbH032Ig1)",
       true
     )
+    |> put_field(
+      "Add to your server",
+      "[Click here](https://discord.com/oauth2/authorize?client_id=198479757900251136&scope=bot&permissions=412736)"
+    )
     |> put_field("Alive since", "May 26th, 2016", true)
   end
 
